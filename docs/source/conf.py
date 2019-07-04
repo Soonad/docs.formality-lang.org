@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'Formality-Core'
-copyright = u'2019, Sunshine Cybernetics'
+copyright = u'2019, Ethereum Foundation'
 author = u'Sunshine Cybernetics'
 
 # The short X.Y version
@@ -86,7 +86,7 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     'collapse_navigation' : False,
     'sticky_navigation' : True,
-    'style_nav_header_background' : '#444053'
+    'style_nav_header_background' : '#444053',
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
