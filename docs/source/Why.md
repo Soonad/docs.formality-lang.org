@@ -8,4 +8,4 @@ Formality-Core is very similar to Rust. The main difference is that Rust mitigat
 
 Here is an brief illustration of the process of compiling a Formality-Core term to our interaction-net runtime, reducing it in parallel, and reading the result:
 
-![FM Interaction Net](https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif)
+![](https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif)

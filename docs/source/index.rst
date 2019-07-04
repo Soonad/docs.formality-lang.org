@@ -7,7 +7,7 @@ Formality-Core (FMC) is a minimal, efficient functional programming language des
    :caption: Table of Contents
    :numbered:
    
-   Why-Formality-Core?
+   Why
    language/Installation
    language/Hello,-world!
    language/Numbers-and-Operators
