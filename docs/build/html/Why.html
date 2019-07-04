@@ -177,7 +177,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/Why-Formality-Core?.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Why.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -196,7 +196,7 @@
 <p>In order for all that to be possible, FMC makes some fundamental changes to the memory model behind the λ-calculus, allowing it to be compatible with an optimal functional runtime as <a class="reference external" href="https://medium.com/&#64;maiavictor/solving-the-mystery-behind-abstract-algorithms-magical-optimizations-144225164b07">Lamping’s Abstract Algorithm</a>, which is based on a beautiful model of computation, <a class="reference external" href="https://pdfs.semanticscholar.org/1731/a6e49c6c2afda3e72256ba0afb34957377d3.pdf">Interaction-Nets</a>. The most important change is the fact its lambdas are affine: a lambda-bound variables can’t be used more than once. At first, this sounds like an extreme limitation, but this is mitigated by FMC’s boxed duplication system. It allows you to perform deep copy of arbitrary values, as long as you respect certain structural restrictions.</p>
 <p>Formality-Core is very similar to Rust. The main difference is that Rust mitigates the limitations of affine lambdas with a complex ownership system which includes borrows, lifetimes, mutable references. In FMC, you’re instead encouraged to simply <code class="docutils literal notranslate"><span class="pre">.clone()</span></code> structures whenever you need to. Due to the underlying interaction-net runtime, those copies are performed lazily, granularly and in parallel. They’re, thus, much less expensive than a Rust-like <code class="docutils literal notranslate"><span class="pre">.clone()</span></code> (and often free).</p>
 <p>Here is an brief illustration of the process of compiling a Formality-Core term to our interaction-net runtime, reducing it in parallel, and reading the result:</p>
-<p><img alt="https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif" src="https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif" />FM Interaction Net</p>
+<p><img alt="https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif" src="https://github.com/moonad/formality/raw/master/docs/images/inet-simulation.gif" /></p>
 </div>
 
 
