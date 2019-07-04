@@ -1,6 +1,5 @@
 # Datatypes
 
-[a link](licence)
 Most traditional functional languages of the Haskell/ML family feature algebraic datatypes or ADTs. Those are essentially the bread-and-butter of functional programming. From Lists to Trees to Monads, every data structure in those languages is an ADT. Formality-Core does not include native ADTs; instead, it provides the building blocks for the user to assemble their own datatypes. This is important when it comes to interaction net compilation because the same data structure could be represented in different ways, with different runtime characteristics, each one having benefits and drawbacks. Being explicit about them allows the programmer to have control over the runtime behavior of their programs.
 
 ## Scott-Encoding

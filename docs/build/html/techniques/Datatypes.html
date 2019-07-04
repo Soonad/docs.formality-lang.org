@@ -46,7 +46,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: #444053" >
           
 
           
@@ -80,24 +80,52 @@
               
             
             
-              <ul class="current">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Hello,-world!.html">3. Hello, World!</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Numbers-and-Operators.html">4. Numbers and Operators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Pairs.html">5. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Pairs.html">5. Pairs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/Pairs.html#creating-a-pair">5.1. Creating a pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Pairs.html#getting-its-elements">5.2. Getting its elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Pairs.html#nesting">5.3. Nesting</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Lets-and-Defs.html">6. Lets and Defs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html">7. If and Cpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html">8. Dups and Boxes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html">9. Lambdas and Affinity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html">10. Loops and Recursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html">7. If and Cpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/If-and-Cpy.html#if">7.1. If</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/If-and-Cpy.html#cpy">7.2. Cpy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html">8. Dups and Boxes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/Dups-and-Boxes.html#measuring-complexity">8.1. Measuring complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Dups-and-Boxes.html#boxes">8.2. Boxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Dups-and-Boxes.html#duplications">8.3. Duplications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Dups-and-Boxes.html#the-stratification-condition">8.4. The stratification condition</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html">9. Lambdas and Affinity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#currying">9.1. Currying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#affinity">9.2. Affinity</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html">10. Loops and Recursion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/Loops-and-Recursion.html#bounded-recursion">10.1. Bounded Recursion</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Undefined-Behavior.html">11. Undefined behavior</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">12. Datatypes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#scott-encoding">12.1. Scott-Encoding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#church-encoding">12.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -164,8 +192,7 @@
             
   <div class="section" id="datatypes">
 <h1>12. Datatypes<a class="headerlink" href="#datatypes" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="licence">a link</a>
-Most traditional functional languages of the Haskell/ML family feature algebraic datatypes or ADTs. Those are essentially the bread-and-butter of functional programming. From Lists to Trees to Monads, every data structure in those languages is an ADT. Formality-Core does not include native ADTs; instead, it provides the building blocks for the user to assemble their own datatypes. This is important when it comes to interaction net compilation because the same data structure could be represented in different ways, with different runtime characteristics, each one having benefits and drawbacks. Being explicit about them allows the programmer to have control over the runtime behavior of their programs.</p>
+<p>Most traditional functional languages of the Haskell/ML family feature algebraic datatypes or ADTs. Those are essentially the bread-and-butter of functional programming. From Lists to Trees to Monads, every data structure in those languages is an ADT. Formality-Core does not include native ADTs; instead, it provides the building blocks for the user to assemble their own datatypes. This is important when it comes to interaction net compilation because the same data structure could be represented in different ways, with different runtime characteristics, each one having benefits and drawbacks. Being explicit about them allows the programmer to have control over the runtime behavior of their programs.</p>
 <div class="section" id="scott-encoding">
 <h2>12.1. Scott-Encoding<a class="headerlink" href="#scott-encoding" title="Permalink to this headline">¶</a></h2>
 <p>The Scott-Encoding represents ADTs as a series of lambdas. It doesn’t involve boxes and behaves almost identically to traditional ADTs. The advantage of Scott-Encoded datatypes is that they have O(1) elimination, i.e., pattern-matching is a constant-time operation. The disadvantage is that, since Formality-Core is terminating, you can’t iterate/recurse over them directly; instead, you need to use Church-Encoded helpers. The best way to explain a λ-encoding is by example and comparison, so, here are bools, pairs, and trees, with their Haskell-equivalents:</p>

@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Pairs" href="Pairs.html" />
     <link rel="prev" title="3. Hello, World!" href="Hello,-world!.html" /> 
 </head>
 
@@ -45,7 +46,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: #444053" >
           
 
           
@@ -79,11 +80,52 @@
               
             
             
-              <ul class="current">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">3. Hello, World!</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">4. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">5. Pairs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Pairs.html#creating-a-pair">5.1. Creating a pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Pairs.html#getting-its-elements">5.2. Getting its elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Pairs.html#nesting">5.3. Nesting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">6. Lets and Defs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="If-and-Cpy.html">7. If and Cpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="If-and-Cpy.html#if">7.1. If</a></li>
+<li class="toctree-l2"><a class="reference internal" href="If-and-Cpy.html#cpy">7.2. Cpy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html">8. Dups and Boxes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Dups-and-Boxes.html#measuring-complexity">8.1. Measuring complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dups-and-Boxes.html#boxes">8.2. Boxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dups-and-Boxes.html#duplications">8.3. Duplications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dups-and-Boxes.html#the-stratification-condition">8.4. The stratification condition</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Lambdas-and-Affinity.html">9. Lambdas and Affinity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Lambdas-and-Affinity.html#currying">9.1. Currying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lambdas-and-Affinity.html#affinity">9.2. Affinity</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Loops-and-Recursion.html">10. Loops and Recursion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Loops-and-Recursion.html#bounded-recursion">10.1. Bounded Recursion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Undefined-Behavior.html">11. Undefined behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">12. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#scott-encoding">12.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -260,6 +302,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Pairs.html" class="btn btn-neutral float-right" title="5. Pairs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="Hello,-world!.html" class="btn btn-neutral float-left" title="3. Hello, World!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
