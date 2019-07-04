@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>} &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>8. Dups and Boxes &mdash; Formality-Core 0.0.1 documentation</title>
   
 
   
@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Lambdas and Affinity" href="Lambdas-and-Affinity.html" />
+    <link rel="prev" title="7. If and Cpy" href="If-and-Cpy.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,8 +80,22 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. fmc</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">3. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">4. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">5. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">6. Lets and Defs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="If-and-Cpy.html">7. If and Cpy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Dups and Boxes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#measuring-complexity">8.1. Measuring complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boxes">8.2. Boxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#duplications">8.3. Duplications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-stratification-condition">8.4. The stratification condition</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Lambdas-and-Affinity.html">9. Lambdas and Affinity</a></li>
 </ul>
 
             
@@ -125,7 +141,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>}</li>
+      <li>8. Dups and Boxes</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -144,118 +160,126 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>## Dups and Boxes</p>
+  <div class="section" id="dups-and-boxes">
+<h1>8. Dups and Boxes<a class="headerlink" href="#dups-and-boxes" title="Permalink to this headline">¶</a></h1>
 <p>Formality-Core includes 2 primitives for explicit, deep copying of arbitrary terms:</p>
-<p>syntax | effect
-— | —
-<cite># a</cite> | Puts <cite>a</cite> inside a box
-<cite>dup x = #a …</cite> | Unwraps <cite>a</cite> from a box, makes <cite>n</cite> copies of it as <cite>x</cite></p>
-<p>In order to explain how those work, let’s make a quick detour and explain about complexity.</p>
-<p>## Measuring complexity</p>
-<p>As mentioned, <a href="#id1"><span class="problematic" id="id2">`</span></a>let`s and <a href="#id3"><span class="problematic" id="id4">`</span></a>def`s are very useful for improving your code organization, but they have no computational effect, i.e., they disappear after parsing. This may cause your program to duplicate work. For example:</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>let num = ||1 + 2| + <a href="#id103"><span class="problematic" id="id104">|3 + 4||</span></a>
-[num, num]</div></blockquote>
-<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
-<p>The program above is equivalent to:</p>
-<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>[||1 + 2| + <a href="#id105"><span class="problematic" id="id106">|3 + 4||</span></a>, ||1 + 2| + <a href="#id107"><span class="problematic" id="id108">|3 + 4||</span></a>]</div></blockquote>
-<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a></p>
-<p>And, as such, wastefully evaluates <cite>||1 + 2| + |3 + 4||</cite> twice. One of the nice things about Formality-Core is that it has a very clear cost model, so we can precisely measure this problem. Save the program above and run it with <cite>fmc -ns main</cite>. The <cite>-ns</cite> flags ask <cite>fmc</cite> to run your program with interaction net system (instead of interpreter), and to output the number of “rewrites” needed to fully execute it. Rewrites are lightweight, constant-spacetime operations. In other words, this number is a very good measure of the complexity of the program. A program that takes <cite>400</cite> rewrites is roughly 2x slower than one that takes <cite>200</cite>, and so on. The program above needs <cite>12</cite> rewrites:</p>
-<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a>bash
-$ fmc -ns main
-[10,10]
-{</p>
-<blockquote>
-<div>“rewrites”: 12,
-“passes”: 6</div></blockquote>
-<div class="section" id="id25">
-<h1>}<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h1>
-<p>In order to avoid this waste and copy/clone values efficiently, Formality-Core includes a boxed duplication system, which we’ll explain now. The first thing to learn about is boxes.</p>
-<p>## Boxes</p>
-<p>Boxes are like containers with only one element. You can put any term inside a box using the <cite>#</cite> syntax. For example:</p>
-<p><a href="#id26"><span class="problematic" id="id27">``</span></a><a href="#id28"><span class="problematic" id="id29">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div># “I’m the man in the box”</div></blockquote>
-<p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a></p>
-<p>In the program above, the string literal is inside of a box. You can put boxes anywhere you want to. For example:</p>
-<p><a href="#id34"><span class="problematic" id="id35">``</span></a><a href="#id36"><span class="problematic" id="id37">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div># [##1, [2, #”a cat”]]</div></blockquote>
-<p><a href="#id38"><span class="problematic" id="id39">``</span></a><a href="#id40"><span class="problematic" id="id41">`</span></a></p>
-<p>The program above puts 4 boxes in different places. If we use the analogy that <em>“a box is like an array with one element”</em>, then it could be written in Python as:</p>
-<p><a href="#id42"><span class="problematic" id="id43">``</span></a><a href="#id44"><span class="problematic" id="id45">`</span></a>python
-# Python “equivalent”
-def main():</p>
-<blockquote>
-<div>print ([[1]], (2, [“a cat”]))</div></blockquote>
-<p><a href="#id46"><span class="problematic" id="id47">``</span></a><a href="#id48"><span class="problematic" id="id49">`</span></a></p>
-<p>## Duplications</p>
-<p>The reason boxes exist is to enable Formality-Core’s explicit duplications, which are essentially deep copies of arbitrary values. To perform those, you must use the <cite>dup</cite> syntax:</p>
-<p><a href="#id50"><span class="problematic" id="id51">``</span></a><a href="#id52"><span class="problematic" id="id53">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>dup num = #||1 + 2| + <a href="#id109"><span class="problematic" id="id110">|3 + 4||</span></a>
-# [num, num]</div></blockquote>
-<p><a href="#id54"><span class="problematic" id="id55">``</span></a><a href="#id56"><span class="problematic" id="id57">`</span></a></p>
-<p>As you can see, this is very similar to the first program presented, with two differences: the <cite>dup</cite> keyword is used instead of <cite>let</cite>, and there is a box (<cite>#</cite>) wrapping the duplicated value and the result. The effect of <cite>dup</cite> is that it takes a boxed value (in this case, <cite>#||1 + 2| + |3 + 4||</cite>), unboxes it (obtaining <cite>||1 + 2| + |3 + 4||</cite>) and replaces every occurrence of <cite>num</cite> by a copy. The result of this program is, ignoring the box, the same as:</p>
-<p><a href="#id58"><span class="problematic" id="id59">``</span></a><a href="#id60"><span class="problematic" id="id61">`</span></a>javascript
-# [10,10]
-{</p>
-<blockquote>
-<div>“rewrites”: 7,
-“passes”: 5</div></blockquote>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>syntax</th>
+<th>effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code># a</code></td>
+<td>Puts <code>a</code> inside a box</td>
+</tr>
+<tr>
+<td><code>dup x = #a ...</code></td>
+<td>Unwraps <code>a</code> from a box, makes <code>n</code> copies of it as <code>x</code></td>
+</tr>
+</tbody>
+</table><p>In order to explain how those work, let’s make a quick detour and explain about complexity.</p>
+<div class="section" id="measuring-complexity">
+<h2>8.1. Measuring complexity<a class="headerlink" href="#measuring-complexity" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned, <code class="docutils literal notranslate"><span class="pre">let</span></code>s and <code class="docutils literal notranslate"><span class="pre">def</span></code>s are very useful for improving your code organization, but they have no computational effect, i.e., they disappear after parsing. This may cause your program to duplicate work. For example:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="o">||</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">|</span> <span class="o">+</span> <span class="o">|</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">||</span>
+  <span class="p">[</span><span class="nx">num</span><span class="p">,</span> <span class="nx">num</span><span class="p">]</span>
+</pre></div>
 </div>
-<div class="section" id="id62">
-<h1>}<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h1>
-<p>Except that now it needed roughly half of the rewrites and, thus, it is twice as fast. This is because duplications are done optimally, so, in this case, the additions were performed before duplicating. This is, of course, a simple example, but in more complex, highly functional programs, clever usage of <cite>dup</cite> can amount to huge, asymptotical speedups.</p>
-<p>## The stratification condition</p>
-<p>Sadly, in order to use <cite>dup</cite>, there is an important condition that must be met:</p>
-<p>&gt; The number of boxes wrapping a term can never change through the program’s evaluation.</p>
+<p>The program above is equivalent to:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="p">[</span><span class="o">||</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">|</span> <span class="o">+</span> <span class="o">|</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">||</span><span class="p">,</span> <span class="o">||</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">|</span> <span class="o">+</span> <span class="o">|</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">||</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>And, as such, wastefully evaluates <code class="docutils literal notranslate"><span class="pre">||1</span> <span class="pre">+</span> <span class="pre">2|</span> <span class="pre">+</span> <span class="pre">|3</span> <span class="pre">+</span> <span class="pre">4||</span></code> twice. One of the nice things about Formality-Core is that it has a very clear cost model, so we can precisely measure this problem. Save the program above and run it with <code class="docutils literal notranslate"><span class="pre">fmc</span> <span class="pre">-ns</span> <span class="pre">main</span></code>. The <code class="docutils literal notranslate"><span class="pre">-ns</span></code> flags ask <code class="docutils literal notranslate"><span class="pre">fmc</span></code> to run your program with interaction net system (instead of interpreter), and to output the number of “rewrites” needed to fully execute it. Rewrites are lightweight, constant-spacetime operations. In other words, this number is a very good measure of the complexity of the program. A program that takes <code class="docutils literal notranslate"><span class="pre">400</span></code> rewrites is roughly 2x slower than one that takes <code class="docutils literal notranslate"><span class="pre">200</span></code>, and so on. The program above needs <code class="docutils literal notranslate"><span class="pre">12</span></code> rewrites:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ fmc -ns main
+<span class="o">[</span><span class="m">10</span>,10<span class="o">]</span>
+<span class="o">{</span>
+  <span class="s2">&quot;rewrites&quot;</span>: <span class="m">12</span>,
+  <span class="s2">&quot;passes&quot;</span>: <span class="m">6</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>In order to avoid this waste and copy/clone values efficiently, Formality-Core includes a boxed duplication system, which we’ll explain now. The first thing to learn about is boxes.</p>
+</div>
+<div class="section" id="boxes">
+<h2>8.2. Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">¶</a></h2>
+<p>Boxes are like containers with only one element. You can put any term inside a box using the <code class="docutils literal notranslate"><span class="pre">#</span></code> syntax. For example:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="p">#</span> <span class="s">&quot;I&#39;m the man in the box&quot;</span>
+</pre></div>
+</div>
+<p>In the program above, the string literal is inside of a box. You can put boxes anywhere you want to. For example:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="p">#</span> <span class="p">[##</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">#</span><span class="s">&quot;a cat&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>The program above puts 4 boxes in different places. If we use the analogy that <em>“a box is like an array with one element”</em>, then it could be written in Python as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Python &quot;equivalent&quot;</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span> <span class="p">([[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a cat&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="duplications">
+<h2>8.3. Duplications<a class="headerlink" href="#duplications" title="Permalink to this headline">¶</a></h2>
+<p>The reason boxes exist is to enable Formality-Core’s explicit duplications, which are essentially deep copies of arbitrary values. To perform those, you must use the <code class="docutils literal notranslate"><span class="pre">dup</span></code> syntax:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="n">dup</span> <span class="n">num</span> <span class="p">=</span> <span class="p">#</span><span class="o">||</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">|</span> <span class="o">+</span> <span class="o">|</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">||</span>
+  <span class="p">#</span> <span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>As you can see, this is very similar to the first program presented, with two differences: the <code class="docutils literal notranslate"><span class="pre">dup</span></code> keyword is used instead of <code class="docutils literal notranslate"><span class="pre">let</span></code>, and there is a box (<code class="docutils literal notranslate"><span class="pre">#</span></code>) wrapping the duplicated value and the result. The effect of <code class="docutils literal notranslate"><span class="pre">dup</span></code> is that it takes a boxed value (in this case, <code class="docutils literal notranslate"><span class="pre">#||1</span> <span class="pre">+</span> <span class="pre">2|</span> <span class="pre">+</span> <span class="pre">|3</span> <span class="pre">+</span> <span class="pre">4||</span></code>), unboxes it (obtaining <code class="docutils literal notranslate"><span class="pre">||1</span> <span class="pre">+</span> <span class="pre">2|</span> <span class="pre">+</span> <span class="pre">|3</span> <span class="pre">+</span> <span class="pre">4||</span></code>) and replaces every occurrence of <code class="docutils literal notranslate"><span class="pre">num</span></code> by a copy. The result of this program is, ignoring the box, the same as:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="p">#</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="s">&quot;rewrites&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+  <span class="s">&quot;passes&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Except that now it needed roughly half of the rewrites and, thus, it is twice as fast. This is because duplications are done optimally, so, in this case, the additions were performed before duplicating. This is, of course, a simple example, but in more complex, highly functional programs, clever usage of <code class="docutils literal notranslate"><span class="pre">dup</span></code> can amount to huge, asymptotical speedups.</p>
+</div>
+<div class="section" id="the-stratification-condition">
+<h2>8.4. The stratification condition<a class="headerlink" href="#the-stratification-condition" title="Permalink to this headline">¶</a></h2>
+<p>Sadly, in order to use <code class="docutils literal notranslate"><span class="pre">dup</span></code>, there is an important condition that must be met:</p>
+<blockquote>
+<div>The number of boxes wrapping a term can never change through the program’s evaluation.</div></blockquote>
 <p>This is the stratification condition and it essentially causes Formality-Core programs to be split into “layers”, based on how boxes are placed. To explain it, let’s present an example. Mind the code below:</p>
-<p><a href="#id63"><span class="problematic" id="id64">``</span></a><a href="#id65"><span class="problematic" id="id66">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>[0, [#1, #[#2, ##3]]]</div></blockquote>
-<p><a href="#id67"><span class="problematic" id="id68">``</span></a><a href="#id69"><span class="problematic" id="id70">`</span></a></p>
-<p>Here, the number <cite>0</cite> isn’t wrapped by any box. As such, it is on <cite>layer 0</cite>. The number <cite>1</cite> is wrapped by one box, so it is on <cite>layer 1</cite>. The entire <cite>[#2, ##3]</cite> pair is wrapped by one box, so, <cite>2</cite> is wrapped by 2 boxes in total and, thus, is on <cite>layer 2</cite>, while <cite>3</cite> is wrapped by 3 boxes in total and, thus, is on <cite>layer 3</cite>.</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">[#</span><span class="mi">1</span><span class="p">,</span> <span class="p">#[#</span><span class="mi">2</span><span class="p">,</span> <span class="p">##</span><span class="mi">3</span><span class="p">]]]</span>
+</pre></div>
+</div>
+<p>Here, the number <code class="docutils literal notranslate"><span class="pre">0</span></code> isn’t wrapped by any box. As such, it is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">0</span></code>. The number <code class="docutils literal notranslate"><span class="pre">1</span></code> is wrapped by one box, so it is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">1</span></code>. The entire <code class="docutils literal notranslate"><span class="pre">[#2,</span> <span class="pre">##3]</span></code> pair is wrapped by one box, so, <code class="docutils literal notranslate"><span class="pre">2</span></code> is wrapped by 2 boxes in total and, thus, is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">2</span></code>, while <code class="docutils literal notranslate"><span class="pre">3</span></code> is wrapped by 3 boxes in total and, thus, is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">3</span></code>.</p>
 <p>What the stratification condition says is that a term can never migrate from a layer to another. This means that the program below is not legal:</p>
-<p><a href="#id71"><span class="problematic" id="id72">``</span></a><a href="#id73"><span class="problematic" id="id74">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>dup num = # 42
-[num, num]</div></blockquote>
-<p><a href="#id75"><span class="problematic" id="id76">``</span></a><a href="#id77"><span class="problematic" id="id78">`</span></a></p>
-<p>Because, before reduction, <cite>42</cite> is on <cite>layer 1</cite>, but, after reduction, it would be on <cite>layer 0</cite>. This can’t happen. If you try to run the program above, it will present a compile-time error. Similarly, the program below is illegal too:</p>
-<p><a href="#id79"><span class="problematic" id="id80">``</span></a><a href="#id81"><span class="problematic" id="id82">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>dup num = # 42
-## [num, num]</div></blockquote>
-<p><a href="#id83"><span class="problematic" id="id84">``</span></a><a href="#id85"><span class="problematic" id="id86">`</span></a></p>
-<p>Because, if we evaluated it, <cite>42</cite> would migrate from <cite>layer 1</cite> to <cite>layer 2</cite>, which can’t happen. Trying to run it would result in a compile-time error too. This program is correct:</p>
-<p><a href="#id87"><span class="problematic" id="id88">``</span></a><a href="#id89"><span class="problematic" id="id90">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>dup num = # 42
-# [num, num]</div></blockquote>
-<p><a href="#id91"><span class="problematic" id="id92">``</span></a><a href="#id93"><span class="problematic" id="id94">`</span></a></p>
-<p>Because each occurrence of <cite>num</cite> is on <cite>layer 1</cite>, which is the same layer where <cite>42</cite> is from. This program is also correct:</p>
-<p><a href="#id95"><span class="problematic" id="id96">``</span></a><a href="#id97"><span class="problematic" id="id98">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>dup num = # 42
-[#num, #num]</div></blockquote>
-<p><a href="#id99"><span class="problematic" id="id100">``</span></a><a href="#id101"><span class="problematic" id="id102">`</span></a></p>
-<p>Because, once again, each occurrence of <cite>num</cite> is on <cite>layer 1</cite>. This means you’re able to place boxes as you wish, as long as it doesn’t break the stratification condition.</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="n">dup</span> <span class="n">num</span> <span class="p">=</span> <span class="p">#</span> <span class="mi">42</span>
+  <span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Because, before reduction, <code class="docutils literal notranslate"><span class="pre">42</span></code> is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">1</span></code>, but, after reduction, it would be on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">0</span></code>. This can’t happen. If you try to run the program above, it will present a compile-time error. Similarly, the program below is illegal too:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="n">dup</span> <span class="n">num</span> <span class="p">=</span> <span class="p">#</span> <span class="mi">42</span>
+  <span class="p">##</span> <span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Because, if we evaluated it, <code class="docutils literal notranslate"><span class="pre">42</span></code> would migrate from <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">2</span></code>, which can’t happen. Trying to run it would result in a compile-time error too. This program is correct:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="n">dup</span> <span class="n">num</span> <span class="p">=</span> <span class="p">#</span> <span class="mi">42</span>
+  <span class="p">#</span> <span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Because each occurrence of <code class="docutils literal notranslate"><span class="pre">num</span></code> is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">1</span></code>, which is the same layer where <code class="docutils literal notranslate"><span class="pre">42</span></code> is from. This program is also correct:</p>
+<div class="highlight-swift notranslate"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">main</span><span class="p">:</span>
+  <span class="n">dup</span> <span class="n">num</span> <span class="p">=</span> <span class="p">#</span> <span class="mi">42</span>
+  <span class="p">[#</span><span class="n">num</span><span class="p">,</span> <span class="p">#</span><span class="n">num</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Because, once again, each occurrence of <code class="docutils literal notranslate"><span class="pre">num</span></code> is on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">1</span></code>. This means you’re able to place boxes as you wish, as long as it doesn’t break the stratification condition.</p>
 <p>The stratification condition is what allows Formality-Core to be evaluated by the fastest interaction-net reduction algorithm known, dispensing the expensive “bookkeeping mechanism” used by other optimal evaluators.</p>
-<p>[&lt; If and Cpy](<a class="reference external" href="https://github.com/moonad/Formality/wiki/If-and-Cpy">https://github.com/moonad/Formality/wiki/If-and-Cpy</a>)  |  [Lambdas and Affinity &gt;](<a class="reference external" href="https://github.com/moonad/Formality/wiki/Lambdas-and-Affinity">https://github.com/moonad/Formality/wiki/Lambdas-and-Affinity</a>)</p>
+</div>
 </div>
 
 
@@ -263,6 +287,15 @@ def main:</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Lambdas-and-Affinity.html" class="btn btn-neutral float-right" title="9. Lambdas and Affinity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="If-and-Cpy.html" class="btn btn-neutral float-left" title="7. If and Cpy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

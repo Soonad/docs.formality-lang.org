@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>7. If and Cpy &mdash; Formality-Core 0.0.1 documentation</title>
   
 
   
@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="6. Lets and Defs" href="Lets-and-Defs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,8 +79,18 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. fmc</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">3. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">4. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">5. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">6. Lets and Defs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. If and Cpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#if">7.1. If</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cpy">7.2. Cpy</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -125,7 +136,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>7. If and Cpy</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -144,48 +155,78 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>## If and Cpy</p>
+  <div class="section" id="if-and-cpy">
+<h1>7. If and Cpy<a class="headerlink" href="#if-and-cpy" title="Permalink to this headline">¶</a></h1>
 <p>Formality-Core has 2 extra primitives to deal with numbers:</p>
-<p>syntax | effect
-— | —
-<cite>if n p</cite> | If <cite>n == 0</cite>, evaluates to <cite>snd p</cite>, else, evaluates to <cite>fst p</cite>
-<cite>dup x = n …</cite> | Makes multiple copies of the number <cite>n</cite> as <cite>x</cite></p>
-<p>It also has an alternative syntax for the creation of pairs:</p>
-<p>syntax | effect
-— | —
-<cite>then: a else: b</cite> | Equivalent to <cite>[a, b]</cite></p>
-<p>## If</p>
-<p>The reason for <cite>if</cite> is to allow you to branch based on the value of a number, otherwise, that wouldn’t be possible. Note that <cite>if</cite> is a binary operation that receives a number <cite>n</cite>, a pair <cite>p</cite>, and returns either <cite>fst p</cite> or <cite>snd p</cite>.  This allows you to branch based on the value of a number. Together with the <cite>then: a else: b</cite> syntax, it allows one to write <cite>if-then-else</cite> statement similar to traditional languages:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div><p>let age = 30</p>
-<p>if <a href="#id17"><span class="problematic" id="id18">|age &lt; 18|</span></a>
-then:</p>
-<blockquote>
-<div>“boring teenager”</div></blockquote>
-<dl class="docutils">
-<dt>else:</dt>
-<dd>“respect your elders!”</dd>
-</dl>
-</div></blockquote>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
-<p>## Cpy</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>syntax</th>
+<th>effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if n p</code></td>
+<td>If <code>n == 0</code>, evaluates to <code>snd p</code>, else, evaluates to <code>fst p</code></td>
+</tr>
+<tr>
+<td><code>dup x = n ...</code></td>
+<td>Makes multiple copies of the number <code>n</code> as <code>x</code></td>
+</tr>
+</tbody>
+</table><p>It also has an alternative syntax for the creation of pairs:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>syntax</th>
+<th>effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>then: a else: b</code></td>
+<td>Equivalent to <code>[a, b]</code></td>
+</tr>
+</tbody>
+</table><div class="section" id="if">
+<h2>7.1. If<a class="headerlink" href="#if" title="Permalink to this headline">¶</a></h2>
+<p>The reason for <code class="docutils literal notranslate"><span class="pre">if</span></code> is to allow you to branch based on the value of a number, otherwise, that wouldn’t be possible. Note that <code class="docutils literal notranslate"><span class="pre">if</span></code> is a binary operation that receives a number <code class="docutils literal notranslate"><span class="pre">n</span></code>, a pair <code class="docutils literal notranslate"><span class="pre">p</span></code>, and returns either <code class="docutils literal notranslate"><span class="pre">fst</span> <span class="pre">p</span></code> or <code class="docutils literal notranslate"><span class="pre">snd</span> <span class="pre">p</span></code>.  This allows you to branch based on the value of a number. Together with the <code class="docutils literal notranslate"><span class="pre">then:</span> <span class="pre">a</span> <span class="pre">else:</span> <span class="pre">b</span></code> syntax, it allows one to write <code class="docutils literal notranslate"><span class="pre">if-then-else</span></code> statement similar to traditional languages:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="kd">let</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">30</span>
+
+  <span class="k">if</span> <span class="o">|</span><span class="nx">age</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="o">|</span>
+  <span class="nx">then</span><span class="o">:</span>
+    <span class="s2">&quot;boring teenager&quot;</span>
+  <span class="k">else</span><span class="o">:</span>
+    <span class="s2">&quot;respect your elders!&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cpy">
+<h2>7.2. Cpy<a class="headerlink" href="#cpy" title="Permalink to this headline">¶</a></h2>
 <p>There is also a syntax to clone a number, creating multiple copies of it:</p>
-<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>javascript
-def main:</p>
-<blockquote>
-<div>cpy x = 42
-[x, <a href="#id19"><span class="problematic" id="id20">|x + x|</span></a>]</div></blockquote>
-<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
-<p>The program above outputs <cite>[42, 84]</cite>. This primitive is necessary because, in Formality-Core, any fixed-size data structure can be natively copied without “boxes” (which will be explained next), with the only exception being native numbers. This primitive fixes this, allowing numbers to be copied without boxes.</p>
-<p>[&lt; Lets and Defs](<a class="reference external" href="https://github.com/moonad/Formality/wiki/Lets-and-Defs">https://github.com/moonad/Formality/wiki/Lets-and-Defs</a>)  |  [Dups and Boxes &gt;](<a class="reference external" href="https://github.com/moonad/Formality/wiki/Dups-and-Boxes">https://github.com/moonad/Formality/wiki/Dups-and-Boxes</a>)</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="nx">cpy</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">42</span>
+  <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="o">|</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">x</span><span class="o">|</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The program above outputs <code class="docutils literal notranslate"><span class="pre">[42,</span> <span class="pre">84]</span></code>. This primitive is necessary because, in Formality-Core, any fixed-size data structure can be natively copied without “boxes” (which will be explained next), with the only exception being native numbers. This primitive fixes this, allowing numbers to be copied without boxes.</p>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Lets-and-Defs.html" class="btn btn-neutral float-left" title="6. Lets and Defs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
