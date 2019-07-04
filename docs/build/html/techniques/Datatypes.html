@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>18. Datatypes &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>&lt;no title&gt; &mdash; Formality-Core 0.0.1 documentation</title>
   
 
   
@@ -34,9 +34,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="19. Formality Net" href="../runtime/Formality-Net.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../language/Undefined-Behavior.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,30 +78,8 @@
               
             
             
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Numbers-and-Operators.html">2. Numbers and Operators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Pairs.html">3. Pairs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Lets-and-Defs.html">4. Lets and Defs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html">5. If and Cpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html#if">6. If</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html#cpy">7. Cpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html">8. Dups and Boxes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#measuring-complexity">9. Measuring complexity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#boxes">10. Boxes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#duplications">11. Duplications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#the-stratification-condition">12. The stratification condition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html">13. Lambdas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#currying">14. Currying</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#affinity">15. Affinity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html">16. Loops and Recursion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html#bounded-recursion">17. Bounded Recursion</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">18. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#scott-encoding">18.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#church-encoding">18.2. Church-Encoding</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">19. Formality Net</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../language/Installation.html">1. fmc</a></li>
 </ul>
 
             
@@ -149,7 +125,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>18. Datatypes</li>
+      <li>&lt;no title&gt;</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,162 +144,142 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="datatypes">
-<h1>18. Datatypes<a class="headerlink" href="#datatypes" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="licence">a link</a>
+  <p># Datatypes</p>
+<p>[a link](licence)
 Most traditional functional languages of the Haskell/ML family feature algebraic datatypes or ADTs. Those are essentially the bread-and-butter of functional programming. From Lists to Trees to Monads, every data structure in those languages is an ADT. Formality-Core does not include native ADTs; instead, it provides the building blocks for the user to assemble their own datatypes. This is important when it comes to interaction net compilation because the same data structure could be represented in different ways, with different runtime characteristics, each one having benefits and drawbacks. Being explicit about them allows the programmer to have control over the runtime behavior of their programs.</p>
-<div class="section" id="scott-encoding">
-<h2>18.1. Scott-Encoding<a class="headerlink" href="#scott-encoding" title="Permalink to this headline">¶</a></h2>
+<p>## Scott-Encoding</p>
 <p>The Scott-Encoding represents ADTs as a series of lambdas. It doesn’t involve boxes and behaves almost identically to traditional ADTs. The advantage of Scott-Encoded datatypes is that they have O(1) elimination, i.e., pattern-matching is a constant-time operation. The disadvantage is that, since Formality-Core is terminating, you can’t iterate/recurse over them directly; instead, you need to use Church-Encoded helpers. The best way to explain a λ-encoding is by example and comparison, so, here are bools, pairs, and trees, with their Haskell-equivalents:</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ::::::::::</span>
-<span class="c1">// :: Bool ::</span>
-<span class="c1">// ::::::::::</span>
-
-<span class="c1">// data Bool = True | False</span>
-<span class="c1">// bool_match x true false = case x of { True =&gt; true; False =&gt; false }</span>
-
-<span class="nx">def</span> <span class="nx">True</span>       <span class="o">:</span> <span class="p">{</span><span class="kc">true</span> <span class="kc">false</span><span class="p">}</span> <span class="kc">true</span>
-<span class="nx">def</span> <span class="nx">False</span>      <span class="o">:</span> <span class="p">{</span><span class="kc">true</span> <span class="kc">false</span><span class="p">}</span> <span class="kc">false</span>
-<span class="nx">def</span> <span class="nx">bool_match</span> <span class="o">:</span> <span class="p">{</span><span class="nx">x</span> <span class="kc">true</span> <span class="kc">false</span><span class="p">}</span> <span class="p">(</span><span class="nx">x</span> <span class="kc">true</span> <span class="kc">false</span><span class="p">)</span>
-
-<span class="c1">// ::::::::::</span>
-<span class="c1">// :: Pair ::</span>
-<span class="c1">// ::::::::::</span>
-
-<span class="c1">// data Pair a b = Pair a b</span>
-<span class="c1">// pair_match x pair = case x of { Pair a b =&gt; pair a b }</span>
-
-<span class="nx">def</span> <span class="nx">Pair</span>       <span class="o">:</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span> <span class="nx">pair</span><span class="p">}</span> <span class="p">(</span><span class="nx">pair</span> <span class="nx">a</span> <span class="nx">b</span><span class="p">)</span>
-<span class="nx">def</span> <span class="nx">pair_match</span> <span class="o">:</span> <span class="p">{</span><span class="nx">x</span> <span class="nx">pair</span><span class="p">}</span> <span class="p">(</span><span class="nx">x</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span><span class="p">}</span> <span class="p">(</span><span class="nx">pair</span> <span class="nx">a</span> <span class="nx">b</span><span class="p">))</span>
-
-<span class="c1">// ::::::::::</span>
-<span class="c1">// :: Tree ::</span>
-<span class="c1">// ::::::::::</span>
-
-<span class="c1">// data Tree a = Node (Tree a) (Tree a) | Leaf a</span>
-<span class="c1">// tree_match x node leaf = case x of { Node a b =&gt; node a b; Leaf val =&gt; leaf val }</span>
-
-<span class="nx">def</span> <span class="nx">Node</span>       <span class="o">:</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span> <span class="nx">node</span> <span class="nx">leaf</span><span class="p">}</span> <span class="p">(</span><span class="nx">node</span> <span class="nx">a</span> <span class="nx">b</span><span class="p">)</span>
-<span class="nx">def</span> <span class="nx">Leaf</span>       <span class="o">:</span> <span class="p">{</span><span class="nx">val</span> <span class="nx">node</span> <span class="nx">leaf</span><span class="p">}</span> <span class="p">(</span><span class="nx">leaf</span> <span class="nx">val</span><span class="p">)</span>
-<span class="nx">def</span> <span class="nx">tree_match</span> <span class="o">:</span> <span class="p">{</span><span class="nx">x</span> <span class="nx">node</span> <span class="nx">leaf</span><span class="p">}</span> <span class="p">(</span><span class="nx">x</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span><span class="p">}</span> <span class="p">(</span><span class="nx">node</span> <span class="nx">a</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span><span class="nx">val</span><span class="p">}</span> <span class="p">(</span><span class="nx">leaf</span> <span class="nx">val</span><span class="p">))</span>
-
-<span class="c1">// ::::::::::::::</span>
-<span class="c1">// :: Examples ::</span>
-<span class="c1">// ::::::::::::::</span>
-
-<span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
-
-  <span class="kd">let</span> <span class="nx">bool_ex</span> <span class="o">=</span>
-    <span class="kd">let</span> <span class="nx">bool</span>       <span class="o">=</span> <span class="nx">True</span>
-    <span class="kd">let</span> <span class="nx">true_case</span>  <span class="o">=</span> <span class="s2">&quot;Bool is true&quot;</span> 
-    <span class="kd">let</span> <span class="nx">false_case</span> <span class="o">=</span> <span class="s2">&quot;Bool is false&quot;</span>
-    <span class="p">(</span><span class="nx">bool_match</span> <span class="nx">bool</span> <span class="nx">true_case</span> <span class="nx">false_case</span><span class="p">)</span>
-
-  <span class="kd">let</span> <span class="nx">pair_ex</span> <span class="o">=</span>
-    <span class="kd">let</span> <span class="nx">pair</span>      <span class="o">=</span> <span class="p">(</span><span class="nx">Pair</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nx">pair_case</span> <span class="o">=</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span><span class="p">}</span> <span class="p">[</span><span class="s2">&quot;Pair sum is:&quot;</span><span class="p">,</span> <span class="o">|</span><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="o">|</span><span class="p">]</span> 
-    <span class="p">(</span><span class="nx">pair_match</span> <span class="nx">pair</span> <span class="nx">pair_case</span><span class="p">)</span>
-
-  <span class="kd">let</span> <span class="nx">tree_ex</span> <span class="o">=</span>
-    <span class="kd">let</span> <span class="nx">tree</span>      <span class="o">=</span> <span class="p">(</span><span class="nx">Node</span> <span class="p">(</span><span class="nx">Leaf</span> <span class="mi">42</span><span class="p">)</span> <span class="p">(</span><span class="nx">Leaf</span> <span class="mi">64</span><span class="p">))</span>
-    <span class="kd">let</span> <span class="nx">node_case</span> <span class="o">=</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span><span class="p">}</span> <span class="s2">&quot;Tree is a Node&quot;</span>
-    <span class="kd">let</span> <span class="nx">leaf_case</span> <span class="o">=</span> <span class="p">{</span><span class="nx">val</span><span class="p">}</span> <span class="s2">&quot;Tree is a Leaf&quot;</span>
-    <span class="p">(</span><span class="nx">tree_match</span> <span class="p">(</span><span class="nx">Node</span> <span class="p">(</span><span class="nx">Leaf</span> <span class="mi">42</span><span class="p">)</span> <span class="p">(</span><span class="nx">Leaf</span> <span class="mi">64</span><span class="p">))</span> <span class="nx">node_case</span> <span class="nx">leaf_case</span><span class="p">)</span>
-
-  <span class="p">[</span><span class="nx">bool_ex</span><span class="p">,</span>
-  <span class="p">[</span><span class="nx">pair_ex</span><span class="p">,</span>
-    <span class="nx">tree_ex</span><span class="p">]]</span>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>javascript
+// ::::::::::
+// :: Bool ::
+// :::::::::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">data</span> <span class="n">Bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span>
+<span class="o">//</span> <span class="n">bool_match</span> <span class="n">x</span> <span class="n">true</span> <span class="n">false</span> <span class="o">=</span> <span class="n">case</span> <span class="n">x</span> <span class="n">of</span> <span class="p">{</span> <span class="kc">True</span> <span class="o">=&gt;</span> <span class="n">true</span><span class="p">;</span> <span class="kc">False</span> <span class="o">=&gt;</span> <span class="n">false</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>Thanks to the Scott-Encoding, any Haskell or Agda program that doesn’t involve duplications or recursion can be translated directly to Formality-Core without changes. For iteration and recursion, we need the Church-Encoding.</p>
+<p>def True       : {true false} true
+def False      : {true false} false
+def bool_match : {x true false} (x true false)</p>
+<p>// ::::::::::
+// :: Pair ::
+// :::::::::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">data</span> <span class="n">Pair</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Pair</span> <span class="n">a</span> <span class="n">b</span>
+<span class="o">//</span> <span class="n">pair_match</span> <span class="n">x</span> <span class="n">pair</span> <span class="o">=</span> <span class="n">case</span> <span class="n">x</span> <span class="n">of</span> <span class="p">{</span> <span class="n">Pair</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=&gt;</span> <span class="n">pair</span> <span class="n">a</span> <span class="n">b</span> <span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="church-encoding">
-<h2>18.2. Church-Encoding<a class="headerlink" href="#church-encoding" title="Permalink to this headline">¶</a></h2>
-<p>The Church-Encoding is like a materialization of a Haskell fold. It involves boxes, and is used for bounded iteration and recursion. Without Church-Encodings, Formality-Core would be a boring language where all its programs could do is move/permutate stuff around and stop in linear time. They’re only required for variable-size (i.e., recursive) datatypes, since, on the fixed-size case, Church and Scott are identical. Once again, they’re better explained through examples:</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>// ::::::::::
-// :: List ::
-// ::::::::::
-
-// data List a = Cons a (List a) | Nil
-// list_fold x cons nil = case x of { Cons x xs =&gt; cons x (list_fold xs succ zero); Nil =&gt; nil }
-
-def Nil: {cons nil}
-  dup cons = cons
-  dup nil  = nil
-  # nil
-
-def Cons: {x xs cons nil}
-  dup cons = cons
-  dup nil  = nil
-  dup x    = x
-  dup xs   = (xs #cons #nil)
-  # (cons x xs)
-
-def fold_list: {x cons nil}
-  (x cons nil)
-
-// ::::::::::
+<p>def Pair       : {a b pair} (pair a b)
+def pair_match : {x pair} (x {a b} (pair a b))</p>
+<p>// ::::::::::
 // :: Tree ::
-// ::::::::::
-
-// data Tree a = Node (Tree a) (Tree a) | Leaf a
-// tree_fold x node leaf = case x of { Node a b =&gt; node (tree_fold a node leaf) (tree_fold b node leaf); Leaf val =&gt; leaf val }
-
-def Node: {a b node leaf}
-  dup node = node
-  dup leaf = leaf
-  dup a    = (a #node #leaf)
-  dup b    = (b #node #leaf)
-  # (node a b)
-
-def Leaf: {val node leaf}
-  dup node = node
-  dup leaf = leaf
-  dup val  = val
-  # (leaf val)
-
-def fold_tree: {x node leaf}
-  (x node leaf)
-
-// ::::::::::::::
-// :: Examples ::
-// ::::::::::::::
-
-def main:
-
-  let list_ex =
-    let list      = (Cons #1 (Cons #2 (Cons #3 (Cons #4 Nil))))
-    let fold_cons = # {x xs} |x + xs|
-    let fold_nil  = # 0
-    (fold_list list fold_cons fold_nil)
-
-  let tree_ex =
-    let tree      = (Node (Node (Leaf #1) (Leaf #2)) (Node (Leaf #3) (Leaf #4)))
-    let fold_node = # {a b} |a + b|
-    let fold_leaf = # {val} val
-    (fold_tree tree fold_node fold_leaf)
-
-  [list_ex, tree_ex]
+// :::::::::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">data</span> <span class="n">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Node</span> <span class="p">(</span><span class="n">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="n">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="o">|</span> <span class="n">Leaf</span> <span class="n">a</span>
+<span class="o">//</span> <span class="n">tree_match</span> <span class="n">x</span> <span class="n">node</span> <span class="n">leaf</span> <span class="o">=</span> <span class="n">case</span> <span class="n">x</span> <span class="n">of</span> <span class="p">{</span> <span class="n">Node</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=&gt;</span> <span class="n">node</span> <span class="n">a</span> <span class="n">b</span><span class="p">;</span> <span class="n">Leaf</span> <span class="n">val</span> <span class="o">=&gt;</span> <span class="n">leaf</span> <span class="n">val</span> <span class="p">}</span>
 </pre></div>
 </div>
+<p>def Node       : {a b node leaf} (node a b)
+def Leaf       : {val node leaf} (leaf val)
+def tree_match : {x node leaf} (x {a b} (node a b) {val} (leaf val))</p>
+<p>// ::::::::::::::
+// :: Examples ::
+// :::::::::::::</p>
+<p>def main:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>let bool_ex =</dt>
+<dd>let bool       = True
+let true_case  = “Bool is true”
+let false_case = “Bool is false”
+(bool_match bool true_case false_case)</dd>
+<dt>let pair_ex =</dt>
+<dd>let pair      = (Pair 4 5)
+let pair_case = {a b} [“Pair sum is:”, <a href="#id17"><span class="problematic" id="id18">|a + b|</span></a>]
+(pair_match pair pair_case)</dd>
+<dt>let tree_ex =</dt>
+<dd>let tree      = (Node (Leaf 42) (Leaf 64))
+let node_case = {a b} “Tree is a Node”
+let leaf_case = {val} “Tree is a Leaf”
+(tree_match (Node (Leaf 42) (Leaf 64)) node_case leaf_case)</dd>
+</dl>
+<p>[bool_ex,
+[pair_ex,</p>
+<blockquote>
+<div>tree_ex]]</div></blockquote>
+</div></blockquote>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>Thanks to the Scott-Encoding, any Haskell or Agda program that doesn’t involve duplications or recursion can be translated directly to Formality-Core without changes. For iteration and recursion, we need the Church-Encoding.</p>
+<p>## Church-Encoding</p>
+<p>The Church-Encoding is like a materialization of a Haskell fold. It involves boxes, and is used for bounded iteration and recursion. Without Church-Encodings, Formality-Core would be a boring language where all its programs could do is move/permutate stuff around and stop in linear time. They’re only required for variable-size (i.e., recursive) datatypes, since, on the fixed-size case, Church and Scott are identical. Once again, they’re better explained through examples:</p>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>javascript
+// ::::::::::
+// :: List ::
+// :::::::::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">data</span> <span class="n">List</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Cons</span> <span class="n">a</span> <span class="p">(</span><span class="n">List</span> <span class="n">a</span><span class="p">)</span> <span class="o">|</span> <span class="n">Nil</span>
+<span class="o">//</span> <span class="n">list_fold</span> <span class="n">x</span> <span class="n">cons</span> <span class="n">nil</span> <span class="o">=</span> <span class="n">case</span> <span class="n">x</span> <span class="n">of</span> <span class="p">{</span> <span class="n">Cons</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="p">(</span><span class="n">list_fold</span> <span class="n">xs</span> <span class="n">succ</span> <span class="n">zero</span><span class="p">);</span> <span class="n">Nil</span> <span class="o">=&gt;</span> <span class="n">nil</span> <span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>def Nil: {cons nil}</dt>
+<dd>dup cons = cons
+dup nil  = nil
+# nil</dd>
+<dt>def Cons: {x xs cons nil}</dt>
+<dd>dup cons = cons
+dup nil  = nil
+dup x    = x
+dup xs   = (xs #cons #nil)
+# (cons x xs)</dd>
+<dt>def fold_list: {x cons nil}</dt>
+<dd>(x cons nil)</dd>
+</dl>
+<p>// ::::::::::
+// :: Tree ::
+// :::::::::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">data</span> <span class="n">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Node</span> <span class="p">(</span><span class="n">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="n">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="o">|</span> <span class="n">Leaf</span> <span class="n">a</span>
+<span class="o">//</span> <span class="n">tree_fold</span> <span class="n">x</span> <span class="n">node</span> <span class="n">leaf</span> <span class="o">=</span> <span class="n">case</span> <span class="n">x</span> <span class="n">of</span> <span class="p">{</span> <span class="n">Node</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=&gt;</span> <span class="n">node</span> <span class="p">(</span><span class="n">tree_fold</span> <span class="n">a</span> <span class="n">node</span> <span class="n">leaf</span><span class="p">)</span> <span class="p">(</span><span class="n">tree_fold</span> <span class="n">b</span> <span class="n">node</span> <span class="n">leaf</span><span class="p">);</span> <span class="n">Leaf</span> <span class="n">val</span> <span class="o">=&gt;</span> <span class="n">leaf</span> <span class="n">val</span> <span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>def Node: {a b node leaf}</dt>
+<dd>dup node = node
+dup leaf = leaf
+dup a    = (a #node #leaf)
+dup b    = (b #node #leaf)
+# (node a b)</dd>
+<dt>def Leaf: {val node leaf}</dt>
+<dd>dup node = node
+dup leaf = leaf
+dup val  = val
+# (leaf val)</dd>
+<dt>def fold_tree: {x node leaf}</dt>
+<dd>(x node leaf)</dd>
+</dl>
+<p>// ::::::::::::::
+// :: Examples ::
+// :::::::::::::</p>
+<p>def main:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>let list_ex =</dt>
+<dd>let list      = (Cons #1 (Cons #2 (Cons #3 (Cons #4 Nil))))
+let fold_cons = # {x xs} <a href="#id19"><span class="problematic" id="id20">|x + xs|</span></a>
+let fold_nil  = # 0
+(fold_list list fold_cons fold_nil)</dd>
+<dt>let tree_ex =</dt>
+<dd>let tree      = (Node (Node (Leaf #1) (Leaf #2)) (Node (Leaf #3) (Leaf #4)))
+let fold_node = # {a b} <a href="#id21"><span class="problematic" id="id22">|a + b|</span></a>
+let fold_leaf = # {val} val
+(fold_tree tree fold_node fold_leaf)</dd>
+</dl>
+<p>[list_ex, tree_ex]</p>
+</div></blockquote>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
 <p>Notice how, unlike on the Scott-Encoded versions, here we are able to fold over the structures, summing all their contained values. Moreover, due to the use of boxes, elements contained by a Church-Encoded structure must always be one layer above than them, which, by consequence, means that results of folds are one layer above too.</p>
-</div>
-</div>
 
 
            </div>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../runtime/Formality-Net.html" class="btn btn-neutral float-right" title="19. Formality Net" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../language/Undefined-Behavior.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

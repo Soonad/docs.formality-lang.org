@@ -35,8 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Pairs" href="Pairs.html" />
-    <link rel="prev" title="2. Hello, World!" href="Hello,-world!.html" /> 
+    <link rel="prev" title="2. Installation" href="Installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,11 +80,9 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">2. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Numbers and Operators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pairs.html">4. Pairs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">5. Lets and Defs</a></li>
 </ul>
 
             
@@ -168,24 +165,92 @@
 </pre></div>
 </div>
 <p>While slightly inconvenient, this allows Formality-Core’s parser to avoid backtracking, so is a welcome feature given that aesthetics isn’t its main goal. Here is a list of all numeric operations available:</p>
-<p>name | syntax | JavaScript equivalent
-— | — | —
-|addition | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">+</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">+</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code>
-|subtraction | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">-</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">-</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code>
-|multiplication | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">*</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">*</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code>
-|division | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">/</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">/</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code>
-|modulus | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">%</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">%</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code></p>
-<p>exponentiation | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">**</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">**</span> <span class="pre">y)</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">0</span></code>
-bitwise-and | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">&amp;</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&amp;</span> <span class="pre">y</span></code>
-bitwise-or | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">\|</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">\|</span> <span class="pre">y</span></code>
-bitwise-xor | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">^</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">^</span> <span class="pre">y</span></code>
-bitwise-not | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">~</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">~y</span></code>
-bitwise-right-shift | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">&gt;&gt;</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">y</span></code>
-bitwise-left-shift | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">&lt;&lt;</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;&lt;</span> <span class="pre">y</span></code>
-greater-than | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">&gt;</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span> <span class="pre">?</span> <span class="pre">1</span> <span class="pre">:</span> <span class="pre">0</span></code>
-less-than | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">&lt;</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">y</span> <span class="pre">?</span> <span class="pre">1</span> <span class="pre">:</span> <span class="pre">0</span></code>
-equals | <code class="docutils literal notranslate"><span class="pre">\|x</span> <span class="pre">==</span> <span class="pre">y\|</span></code> | <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">===</span> <span class="pre">y</span> <span class="pre">?</span> <span class="pre">1</span> <span class="pre">:</span> <span class="pre">0</span></code></p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>name</th>
+<th>syntax</th>
+<th>JavaScript equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>addition</td>
+<td><code>\|x + y\|</code></td>
+<td><code>(x + y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>subtraction</td>
+<td><code>\|x - y\|</code></td>
+<td><code>(x - y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>multiplication</td>
+<td><code>\|x * y\|</code></td>
+<td><code>(x * y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>division</td>
+<td><code>\|x / y\|</code></td>
+<td><code>(x / y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>modulus</td>
+<td><code>\|x % y\|</code></td>
+<td><code>(x % y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>exponentiation</td>
+<td><code>\|x ** y\|</code></td>
+<td><code>(x ** y) &gt;&gt;&gt; 0</code></td>
+</tr>
+<tr>
+<td>bitwise-and</td>
+<td><code>\|x &amp; y\|</code></td>
+<td><code>x &amp; y</code></td>
+</tr>
+<tr>
+<td>bitwise-or</td>
+<td><code>\|x \| y\|</code></td>
+<td><code>x \| y</code></td>
+</tr>
+<tr>
+<td>bitwise-xor</td>
+<td><code>\|x ^ y\|</code></td>
+<td><code>x ^ y</code></td>
+</tr>
+<tr>
+<td>bitwise-not</td>
+<td><code>\|x ~ y\|</code></td>
+<td><code>~y</code></td>
+</tr>
+<tr>
+<td>bitwise-right-shift</td>
+<td><code>\|x &gt;&gt; y\|</code></td>
+<td><code>x &gt;&gt;&gt; y</code></td>
+</tr>
+<tr>
+<td>bitwise-left-shift</td>
+<td><code>\|x &lt;&lt; y\|</code></td>
+<td><code>x &lt;&lt; y</code></td>
+</tr>
+<tr>
+<td>greater-than</td>
+<td><code>\|x &gt; y\|</code></td>
+<td><code>x &gt; y ? 1 : 0</code></td>
+</tr>
+<tr>
+<td>less-than</td>
+<td><code>\|x &lt; y\|</code></td>
+<td><code>x &lt; y ? 1 : 0</code></td>
+</tr>
+<tr>
+<td>equals</td>
+<td><code>\|x == y\|</code></td>
+<td><code>x === y ? 1 : 0</code></td>
+</tr>
+</tbody>
+</table></div>
 
 
            </div>
@@ -195,10 +260,8 @@ equals | <code class="docutils literal notranslate"><span class="pre">\|x</span>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Pairs.html" class="btn btn-neutral float-right" title="4. Pairs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="Hello,-world!.html" class="btn btn-neutral float-left" title="2. Hello, World!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Installation.html" class="btn btn-neutral float-left" title="2. Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

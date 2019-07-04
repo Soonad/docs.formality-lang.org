@@ -25,13 +25,11 @@ While slightly inconvenient, this allows Formality-Core's parser to avoid backtr
 
 name | syntax | JavaScript equivalent
 --- | --- | ---
-|addition | `\|x + y\|` | `(x + y) >>> 0`
-|subtraction | `\|x - y\|` | `(x - y) >>> 0`
-|multiplication | `\|x * y\|` | `(x * y) >>> 0`
-|division | `\|x / y\|` | `(x / y) >>> 0`
-|modulus | `\|x % y\|` | `(x % y) >>> 0`
-
-
+addition | `\|x + y\|` | `(x + y) >>> 0`
+subtraction | `\|x - y\|` | `(x - y) >>> 0`
+multiplication | `\|x * y\|` | `(x * y) >>> 0`
+division | `\|x / y\|` | `(x / y) >>> 0`
+modulus | `\|x % y\|` | `(x % y) >>> 0`
 exponentiation | `\|x ** y\|` | `(x ** y) >>> 0`
 bitwise-and | `\|x & y\|` | `x & y`
 bitwise-or | `\|x \| y\|` | `x \| y`
