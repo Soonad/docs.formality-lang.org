@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>13. Lambdas &mdash; Formality-Core 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="16. Loops and Recursion" href="Loops-and-Recursion.html" />
+    <link rel="prev" title="8. Dups and Boxes" href="Dups-and-Boxes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Formality-Core
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">2. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">3. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">4. Lets and Defs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="If-and-Cpy.html">5. If and Cpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="If-and-Cpy.html#if">6. If</a></li>
+<li class="toctree-l1"><a class="reference internal" href="If-and-Cpy.html#cpy">7. Cpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html">8. Dups and Boxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html#measuring-complexity">9. Measuring complexity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html#boxes">10. Boxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html#duplications">11. Duplications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dups-and-Boxes.html#the-stratification-condition">12. The stratification condition</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">13. Lambdas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#currying">14. Currying</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#affinity">15. Affinity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Loops-and-Recursion.html">16. Loops and Recursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Loops-and-Recursion.html#bounded-recursion">17. Bounded Recursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">18. Datatypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">19. Formality Net</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality-Core</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>13. Lambdas</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/language/Lambdas-and-Affinity.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lambdas">
+<h1>13. Lambdas<a class="headerlink" href="#lambdas" title="Permalink to this headline">¶</a></h1>
+<p>Formality includes 2 primitives for creating and applying functions:</p>
+<p>syntax | effect
+— | —
+<code class="docutils literal notranslate"><span class="pre">{x</span> <span class="pre">y</span> <span class="pre">z}</span> <span class="pre">body</span></code> | Creates lambdas that receive the arguments <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">y</span> <span class="pre">z</span></code> and return <code class="docutils literal notranslate"><span class="pre">body</span></code>
+<code class="docutils literal notranslate"><span class="pre">(f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z)</span></code> | Applies the lambda <code class="docutils literal notranslate"><span class="pre">f</span></code> to the arguments <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code> (curried)</p>
+</div>
+<div class="section" id="currying">
+<h1>14. Currying<a class="headerlink" href="#currying" title="Permalink to this headline">¶</a></h1>
+<p>Lambdas are powerful because they allow us to create modular, reusable blocks of code. In Formality-Core, functions are called with the <code class="docutils literal notranslate"><span class="pre">(f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z)</span></code> syntax rather than <code class="docutils literal notranslate"><span class="pre">f(x,y,z)</span></code>. To create them, you use the <code class="docutils literal notranslate"><span class="pre">{x</span> <span class="pre">y</span> <span class="pre">z}</span> <span class="pre">body</span></code> syntax, which is equivalent to JavaScript’s <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=&gt;</span> <span class="pre">y</span> <span class="pre">=&gt;</span> <span class="pre">z</span> <span class="pre">=&gt;</span> <span class="pre">body</span></code>, or Python’s <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">lambda</span> <span class="pre">y:</span> <span class="pre">lambda</span> <span class="pre">z:</span> <span class="pre">body</span></code>. Formality doesn’t have multi-argument lambdas, but you can emulate them with a sequence of lambdas:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">sqr_dist</span><span class="o">:</span> <span class="p">{</span><span class="nx">a</span> <span class="nx">b</span><span class="p">}</span>
+  <span class="nx">get</span> <span class="p">[</span><span class="nx">ax</span><span class="p">,</span> <span class="nx">ay</span><span class="p">]</span> <span class="o">=</span> <span class="nx">a</span>
+  <span class="nx">get</span> <span class="p">[</span><span class="nx">bx</span><span class="p">,</span> <span class="nx">by</span><span class="p">]</span> <span class="o">=</span> <span class="nx">b</span>
+  <span class="o">|||</span><span class="nx">bx</span> <span class="o">-</span> <span class="nx">ax</span><span class="o">|</span> <span class="o">**</span> <span class="mi">2</span><span class="o">|</span> <span class="o">+</span> <span class="o">||</span><span class="nx">by</span> <span class="o">-</span> <span class="nx">ay</span><span class="o">|</span> <span class="o">**</span> <span class="mi">2</span><span class="o">||</span>
+
+<span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+  <span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+  <span class="p">[</span><span class="s2">&quot;Squared dist is: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">sqr_dist</span> <span class="nx">a</span> <span class="nx">b</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Here, a function of two arguments, <code class="docutils literal notranslate"><span class="pre">sqr_dist</span></code>, was emulated by using two lambdas of one argument, <code class="docutils literal notranslate"><span class="pre">{a}</span></code> and <code class="docutils literal notranslate"><span class="pre">{b}</span></code>. This means you can create partially applied functions, like in languages like Haskell. Unlike those, though, you can <strong>not</strong> dispense the parenthesis. For example, this is not correct:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">func</span><span class="o">:</span> <span class="p">{</span><span class="nx">x</span> <span class="nx">y</span><span class="p">}</span>
+  <span class="o">|</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="o">|</span>
+
+<span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">func</span> <span class="mi">1</span> <span class="mi">2</span>
+  <span class="nx">num</span>
+</pre></div>
+</div>
+<p>Because you need a parenthesis to call <code class="docutils literal notranslate"><span class="pre">func</span></code> on <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>, i.e., you must write it as <code class="docutils literal notranslate"><span class="pre">(func</span> <span class="pre">1</span> <span class="pre">2)</span></code>.</p>
+</div>
+<div class="section" id="affinity">
+<h1>15. Affinity<a class="headerlink" href="#affinity" title="Permalink to this headline">¶</a></h1>
+<p>A more notable difference is the fact that Formality’s lambdas are affine, which means variables bound by lambdas can only be used, at most, once. For example, this is illegal:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">square</span><span class="o">:</span> <span class="p">{</span><span class="nx">x</span><span class="p">}</span>
+  <span class="o">|</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span><span class="o">|</span>
+
+<span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="p">(</span><span class="nx">square</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After all, if this was allowed, the boxed duplication system would be redundant, as you could copy values with functions. This is a very important restriction, and perhaps the most important skill when writing Formality code is to figure out clever ways to circumvent this limitation. Here are 3 different ways to implement the program above:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>def square: {x}
+  |x ** 2|
+
+def square: {x}
+  cpy x = x
+  |x * x|
+
+def square: {x}
+  dup n = x
+  # |n * n|
+</pre></div>
+</div>
+<p>The first two are preferable because they avoid using boxes. A general rule is: <em>if you know statically the size of the input and the output of your function, you can implement it without boxes</em>. In the cases this is not possible such as when you deal with variable length structures (such as lists), boxed duplication is there to save the day.</p>
+<p>Despite affine lambdas being somewhat hard to work with, they’re part of the reason Formality has so great computational characteristics. Moreover, they’re not as restrictive as they seem. In fact, almost any non-terminating program that you’d use in practice can be written in Formality-Core with clever use of boxes (technically, any one that terminates in <code class="docutils literal notranslate"><span class="pre">2^(2^(2^...n))</span></code> steps, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the program size and the number of <code class="docutils literal notranslate"><span class="pre">2</span></code>s is equal to its depth).</p>
+<p><a class="reference external" href="https://github.com/moonad/Formality/wiki/Dups-and-Boxes">&lt; Dups and Boxes</a> | <a class="reference external" href="https://github.com/moonad/Formality/wiki/Loops-and-Recursion">Loop and Recursion &gt;</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Loops-and-Recursion.html" class="btn btn-neutral float-right" title="16. Loops and Recursion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Dups-and-Boxes.html" class="btn btn-neutral float-left" title="8. Dups and Boxes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

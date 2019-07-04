@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>19. Formality Net &mdash; Formality-Core 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="18. Datatypes" href="../techniques/Datatypes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Formality-Core
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Why-Formality-Core?.html">1. Why Formality-Core?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Numbers-and-Operators.html">2. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Pairs.html">3. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Lets-and-Defs.html">4. Lets and Defs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html">5. If and Cpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html#if">6. If</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/If-and-Cpy.html#cpy">7. Cpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html">8. Dups and Boxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#measuring-complexity">9. Measuring complexity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#boxes">10. Boxes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#duplications">11. Duplications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Dups-and-Boxes.html#the-stratification-condition">12. The stratification condition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html">13. Lambdas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#currying">14. Currying</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Lambdas-and-Affinity.html#affinity">15. Affinity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html">16. Loops and Recursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/Loops-and-Recursion.html#bounded-recursion">17. Bounded Recursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">18. Datatypes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">19. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#node-types">19.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rewrite-rules">19.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation">19.3. Compilation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality-Core</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>19. Formality Net</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/runtime/Formality-Net.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="formality-net">
+<h1>19. Formality Net<a class="headerlink" href="#formality-net" title="Permalink to this headline">¶</a></h1>
+<p>Formality terms are compiled to a memory-efficient interaction net system. Interaction nets are just graphs where nodes have labelled ports, one being the main one, plus a list of “rewrite rules” that are activated whenever two nodes are connected by their main ports. Our system includes 6 types of node:</p>
+<p>In our implementation, <code class="docutils literal notranslate"><span class="pre">CON</span></code>, <code class="docutils literal notranslate"><span class="pre">OP1</span></code>, <code class="docutils literal notranslate"><span class="pre">OP2</span></code> and <code class="docutils literal notranslate"><span class="pre">ITE</span></code> require 128 bits, while <code class="docutils literal notranslate"><span class="pre">NUM</span></code> and <code class="docutils literal notranslate"><span class="pre">ERA</span></code> are unboxed, i.e., they’re stored inside other nodes and use no extra space. Notice our system doesn’t include a costly book-keeping machinery to keep track of Bruijn indices; instead, it can be seen as a practical extension to <a class="reference external" href="https://pdfs.semanticscholar.org/1731/a6e49c6c2afda3e72256ba0afb34957377d3.pdf">symmetric interaction-combinators</a>, in order to add numeric primitives.</p>
+<div class="section" id="node-types">
+<h2>19.1. Node types<a class="headerlink" href="#node-types" title="Permalink to this headline">¶</a></h2>
+<p><img alt="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-node-types.png" src="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-node-types.png" />node_types</p>
+</div>
+<div class="section" id="rewrite-rules">
+<h2>19.2. Rewrite rules<a class="headerlink" href="#rewrite-rules" title="Permalink to this headline">¶</a></h2>
+<p><img alt="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-rewrite-rules.png" src="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-rewrite-rules.png" />rewrite_rules</p>
+</div>
+<div class="section" id="compilation">
+<h2>19.3. Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p><img alt="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-compilation.png" src="https://github.com/moonad/Formality/blob/master/docs/images/fm-net-compilation.png" />compilation</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../techniques/Datatypes.html" class="btn btn-neutral float-left" title="18. Datatypes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

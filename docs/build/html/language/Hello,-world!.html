@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Hello, World! &mdash; Formality-Core 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Numbers and Operators" href="Numbers-and-Operators.html" />
+    <link rel="prev" title="1. Installation" href="Installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Formality-Core
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">3. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">4. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">5. Lets and Defs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality-Core</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Hello, World!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/language/Hello,-world!.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hello-world">
+<h1>2. Hello, World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
+<p>From now on, we will explain each of Formality-Core’s features. After we’re done, we’ll explain how they relate with optimal reductions, interaction nets, and functional compilers. To get started, let’s print a <code class="docutils literal notranslate"><span class="pre">&quot;Hello,</span> <span class="pre">world&quot;</span></code>. Differently from traditional languages, Formality-Core is a pure expression language. It has no statements, which means no <code class="docutils literal notranslate"><span class="pre">&quot;print&quot;</span></code>. So, how do we get an output to the console? Simple: we ask <code class="docutils literal notranslate"><span class="pre">fmc</span></code> to evaluate a single expression, and consider its result as the output. As such, this is how a hello world looks like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="s2">&quot;Hello, world!&quot;</span>
+</pre></div>
+</div>
+<p>Save this as <code class="docutils literal notranslate"><span class="pre">main.fmc</span></code> and using the terminal, go to the directory where you saved the file, then run it with <code class="docutils literal notranslate"><span class="pre">fmc</span> <span class="pre">main</span></code>. If you see <code class="docutils literal notranslate"><span class="pre">&quot;Hello,</span> <span class="pre">world!&quot;</span></code> in your terminal, then it worked. You can also enter just <code class="docutils literal notranslate"><span class="pre">fmc</span></code> for a list of options. We support multiple evaluators, including an interpreter, lazy/strict interaction-nets and even native JS closures, all with different characteristics.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Numbers-and-Operators.html" class="btn btn-neutral float-right" title="3. Numbers and Operators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Installation.html" class="btn btn-neutral float-left" title="1. Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

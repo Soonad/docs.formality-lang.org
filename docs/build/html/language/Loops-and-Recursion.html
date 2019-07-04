@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loops and Recursion &mdash; Formality-Core 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Formality-Core
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">2. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">3. Numbers and Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pairs.html">4. Pairs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">5. Lets and Defs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality-Core</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Loops and Recursion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/language/Loops-and-Recursion.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="loops-and-recursion">
+<h1>Loops and Recursion<a class="headerlink" href="#loops-and-recursion" title="Permalink to this headline">¶</a></h1>
+<p>Formality-Core uses Church-Encodings to implement bounded loops and recursion. Church-Encodings are beyond the scope of this tutorial, but, for now, you can use this helper <code class="docutils literal notranslate"><span class="pre">for</span></code> function to perform loops, as illustrated below:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>def for: {numb init loop stop}
+  dup init = init
+  dup exec = (numb loop)
+  dup stop = stop
+  # (stop (exec init))
+
+def main:
+  let init = # 1
+  let loop = # {x} |x * 2|
+  let stop = # {x} [&quot;2**10 is:&quot;, x]
+  (for ~10 init loop stop)
+</pre></div>
+</div>
+<p>Notice the <code class="docutils literal notranslate"><span class="pre">~10</span></code> above. This built-in syntax desugars to Church-Encoded Nat <code class="docutils literal notranslate"><span class="pre">10</span></code>, which is used by <code class="docutils literal notranslate"><span class="pre">for</span></code> to “fuel” the iterations of the loop. Just for the sake of illustration, <code class="docutils literal notranslate"><span class="pre">~3</span></code> becomes:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>{succ}
+  dup succ = succ
+  # {zero} (succ (succ (succ zero)))
+</pre></div>
+</div>
+<div class="section" id="bounded-recursion">
+<h2>Bounded Recursion<a class="headerlink" href="#bounded-recursion" title="Permalink to this headline">¶</a></h2>
+<p>The same idea above can be used to implement bounded recursion. This program, for example, converts a Scott-Encoded Tree to a Church-Encoded Tree:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>def tree_fold: {size}
+  let func = {go tree}
+    let case_node = {a b go}
+      get [go, a] = (go a)
+      get [go, b] = (go b)
+      [go, (FNode a b)]
+    let case_leaf = {val go}
+      [go, (FLeaf val)]
+    (tree case_node case_leaf go)
+  dup fold = (size #func)
+  # {tree} (snd (fold {tree}[{x}x,tree] tree))
+
+def main:
+  let tree = (Node (Node (Leaf #1) (Leaf #2)) (Node (Leaf #3) (Leaf #4)))
+  let size = ~7
+  dup fold = (tree_fold size)
+  # (fold tree)
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">Node</span></code> and <code class="docutils literal notranslate"><span class="pre">Leaf</span></code> are Scott-Encoded constructors, and <code class="docutils literal notranslate"><span class="pre">FNode</span></code> and <code class="docutils literal notranslate"><span class="pre">FLeaf</span></code> are Church-Encoded constructors, as defined on the last section. Notice how <code class="docutils literal notranslate"><span class="pre">tree_fold</span></code> needed to know the size of the input tree (<code class="docutils literal notranslate"><span class="pre">7</span></code>). This is because the Church-Encoded Nat <code class="docutils literal notranslate"><span class="pre">7</span></code> is used to unroll <code class="docutils literal notranslate"><span class="pre">func</span></code> up to a depth of <code class="docutils literal notranslate"><span class="pre">7</span></code>, essentially emulating a recursive function with a bounded number of iterations. With this technique, arbitrary recursive functions can be defined, as long as you put a “gas limit” on how much work they can perform. Again, an in-depth explanation of how those work is outside the scope of this reference for now, but we’ll be complementing it soon.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

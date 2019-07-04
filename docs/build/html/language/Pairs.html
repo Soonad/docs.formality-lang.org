@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Pairs &mdash; Formality-Core 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Lets and Defs" href="Lets-and-Defs.html" />
+    <link rel="prev" title="3. Numbers and Operators" href="Numbers-and-Operators.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Formality-Core
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hello,-world!.html">2. Hello, World!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Numbers-and-Operators.html">3. Numbers and Operators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Pairs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-pair">4.1. Creating a pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-its-elements">4.2. Getting its elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nesting">4.3. Nesting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Lets-and-Defs.html">5. Lets and Defs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality-Core</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>4. Pairs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/language/Pairs.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pairs">
+<h1>4. Pairs<a class="headerlink" href="#pairs" title="Permalink to this headline">¶</a></h1>
+<p>Formality-Core comes with native pairs. It includes 4 primitives:</p>
+<p>syntax | effect
+— | —
+<code class="docutils literal notranslate"><span class="pre">[a,b]</span></code> | Creates a pair with elements <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>
+<code class="docutils literal notranslate"><span class="pre">fst</span> <span class="pre">p</span></code> | Extracts the first element of a pair
+<code class="docutils literal notranslate"><span class="pre">snd</span> <span class="pre">p</span></code> | Extracts the second element of a pair
+<code class="docutils literal notranslate"><span class="pre">get</span> <span class="pre">[a,b]</span> <span class="pre">=</span> <span class="pre">p</span> <span class="pre">...</span></code> | Extracts both elements of a pair as <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> in <code class="docutils literal notranslate"><span class="pre">...</span></code></p>
+<div class="section" id="creating-a-pair">
+<h2>4.1. Creating a pair<a class="headerlink" href="#creating-a-pair" title="Permalink to this headline">¶</a></h2>
+<p>They can be created with the <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b]</span></code> syntax. For example, to create a pair with the numbers <code class="docutils literal notranslate"><span class="pre">3</span></code> and <code class="docutils literal notranslate"><span class="pre">4</span></code>, this is what you write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Since we don’t have <code class="docutils literal notranslate"><span class="pre">print</span></code> yet, pairs can be temporarily used when we want to output multiple results on the console. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="p">[</span><span class="s2">&quot;Formality-Core was developed in:&quot;</span><span class="p">,</span> <span class="mi">2019</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-its-elements">
+<h2>4.2. Getting its elements<a class="headerlink" href="#getting-its-elements" title="Permalink to this headline">¶</a></h2>
+<p>You can access the first element of a pair with <code class="docutils literal notranslate"><span class="pre">fst</span></code>, and the second one with <code class="docutils literal notranslate"><span class="pre">snd</span></code>. For example, the program below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="n">fst</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Evaluates to <code class="docutils literal notranslate"><span class="pre">3</span></code>. Since Formality programs are just expressions (terms), you can mix numeric operators and pairs as you’d expect:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="p">[</span><span class="o">|</span><span class="n">fst</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">|</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The term above evaluates to <code class="docutils literal notranslate"><span class="pre">[13,</span> <span class="pre">14]</span></code>. You can also extract both elements of a pair simultaneously with a projection, using the <code class="docutils literal notranslate"><span class="pre">get</span></code> syntax:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="n">get</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="o">|</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">|</span>
+</pre></div>
+</div>
+<p>The program above extracts the elements of <code class="docutils literal notranslate"><span class="pre">[a,b]</span></code>, defining the variables <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">=</span> <span class="pre">4</span></code>, and then adds them, resulting in <code class="docutils literal notranslate"><span class="pre">7</span></code>.</p>
+</div>
+<div class="section" id="nesting">
+<h2>4.3. Nesting<a class="headerlink" href="#nesting" title="Permalink to this headline">¶</a></h2>
+<p>You can also have infinitely nested pairs. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="n">get</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+  <span class="n">a</span>
+</pre></div>
+</div>
+<p>The program above outputs <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code>. You can <strong>not</strong> have nested <code class="docutils literal notranslate"><span class="pre">get</span></code>s, though. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="n">get</span> <span class="p">[[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+  <span class="n">a</span>
+</pre></div>
+</div>
+<p>The program above is a syntax error. In order to extract all 4 elements, you must perform a series of <code class="docutils literal notranslate"><span class="pre">get</span></code>s:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="n">get</span> <span class="p">[</span><span class="n">ab</span><span class="p">,</span> <span class="n">cd</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+  <span class="n">get</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">ab</span>
+  <span class="n">get</span> <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">cd</span>
+  <span class="n">a</span>
+</pre></div>
+</div>
+<p>The program above outputs <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Lets-and-Defs.html" class="btn btn-neutral float-right" title="5. Lets and Defs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Numbers-and-Operators.html" class="btn btn-neutral float-left" title="3. Numbers and Operators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
