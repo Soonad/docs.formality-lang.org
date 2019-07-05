@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>12. Datatypes &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>1. Datatypes &mdash; Formality-Core 0.0.2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="13. Formality Net" href="../runtime/Formality-Net.html" />
+    <link rel="next" title="1. Formality Net" href="../runtime/Formality-Net.html" />
     <link rel="prev" title="11. Undefined behavior" href="../language/Undefined-Behavior.html" /> 
 </head>
 
@@ -50,9 +50,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Formality-Core
+            <a href="../index.html">
           
 
+          
+            
+            <img src="../_static/fmc-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -80,8 +83,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
+              <p class="caption"><span class="caption-text">Language</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../Why.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Hello,-world!.html">3. Hello, World!</a></li>
@@ -115,15 +118,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../language/Undefined-Behavior.html">11. Undefined behavior</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">12. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#scott-encoding">12.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Techniques</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scott-encoding">1.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#church-encoding">1.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">1.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">1.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">1.3. Compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -171,7 +180,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>12. Datatypes</li>
+      <li>1. Datatypes</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -191,10 +200,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="datatypes">
-<h1>12. Datatypes<a class="headerlink" href="#datatypes" title="Permalink to this headline">¶</a></h1>
+<h1>1. Datatypes<a class="headerlink" href="#datatypes" title="Permalink to this headline">¶</a></h1>
 <p>Most traditional functional languages of the Haskell/ML family feature algebraic datatypes or ADTs. Those are essentially the bread-and-butter of functional programming. From Lists to Trees to Monads, every data structure in those languages is an ADT. Formality-Core does not include native ADTs; instead, it provides the building blocks for the user to assemble their own datatypes. This is important when it comes to interaction net compilation because the same data structure could be represented in different ways, with different runtime characteristics, each one having benefits and drawbacks. Being explicit about them allows the programmer to have control over the runtime behavior of their programs.</p>
 <div class="section" id="scott-encoding">
-<h2>12.1. Scott-Encoding<a class="headerlink" href="#scott-encoding" title="Permalink to this headline">¶</a></h2>
+<h2>1.1. Scott-Encoding<a class="headerlink" href="#scott-encoding" title="Permalink to this headline">¶</a></h2>
 <p>The Scott-Encoding represents ADTs as a series of lambdas. It doesn’t involve boxes and behaves almost identically to traditional ADTs. The advantage of Scott-Encoded datatypes is that they have O(1) elimination, i.e., pattern-matching is a constant-time operation. The disadvantage is that, since Formality-Core is terminating, you can’t iterate/recurse over them directly; instead, you need to use Church-Encoded helpers. The best way to explain a λ-encoding is by example and comparison, so, here are bools, pairs, and trees, with their Haskell-equivalents:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ::::::::::</span>
 <span class="c1">// :: Bool ::</span>
@@ -259,7 +268,7 @@
 <p>Thanks to the Scott-Encoding, any Haskell or Agda program that doesn’t involve duplications or recursion can be translated directly to Formality-Core without changes. For iteration and recursion, we need the Church-Encoding.</p>
 </div>
 <div class="section" id="church-encoding">
-<h2>12.2. Church-Encoding<a class="headerlink" href="#church-encoding" title="Permalink to this headline">¶</a></h2>
+<h2>1.2. Church-Encoding<a class="headerlink" href="#church-encoding" title="Permalink to this headline">¶</a></h2>
 <p>The Church-Encoding is like a materialization of a Haskell fold. It involves boxes, and is used for bounded iteration and recursion. Without Church-Encodings, Formality-Core would be a boring language where all its programs could do is move/permutate stuff around and stop in linear time. They’re only required for variable-size (i.e., recursive) datatypes, since, on the fixed-size case, Church and Scott are identical. Once again, they’re better explained through examples:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span>// ::::::::::
 // :: List ::
@@ -339,7 +348,7 @@ def main:
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../runtime/Formality-Net.html" class="btn btn-neutral float-right" title="13. Formality Net" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../runtime/Formality-Net.html" class="btn btn-neutral float-right" title="1. Formality Net" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../language/Undefined-Behavior.html" class="btn btn-neutral float-left" title="11. Undefined behavior" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -351,7 +360,7 @@ def main:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ethereum Foundation
+        &copy; Copyright 2019, Ethereum Foundation and Sunshine Cybernetics
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>6. Lets and Defs &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>6. Lets and Defs &mdash; Formality-Core 0.0.2 documentation</title>
   
 
   
@@ -50,9 +50,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Formality-Core
+            <a href="../index.html">
           
 
+          
+            
+            <img src="../_static/fmc-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -80,7 +83,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+              <p class="caption"><span class="caption-text">Language</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Why.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
@@ -115,15 +118,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Undefined-Behavior.html">11. Undefined behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">12. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#scott-encoding">12.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">1. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#scott-encoding">1.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#church-encoding">1.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">1.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">1.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">1.3. Compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -193,29 +202,29 @@
   <div class="section" id="lets-and-defs">
 <h1>6. Lets and Defs<a class="headerlink" href="#lets-and-defs" title="Permalink to this headline">¶</a></h1>
 <p>Formality-Core allows you to create top-level definitions with <code class="docutils literal notranslate"><span class="pre">def</span></code>, and local definitions with <code class="docutils literal notranslate"><span class="pre">let</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">year</span><span class="p">:</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">year</span><span class="o">:</span>
   <span class="mi">2019</span>
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
-  <span class="n">let</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span>
-  <span class="n">let</span> <span class="n">born</span> <span class="o">=</span> <span class="o">|</span><span class="n">year</span> <span class="o">-</span> <span class="n">age</span><span class="o">|</span>
-  <span class="p">[</span><span class="s2">&quot;I was born in:&quot;</span><span class="p">,</span> <span class="n">born</span><span class="p">]</span>
+<span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
+  <span class="kd">let</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">20</span>
+  <span class="kd">let</span> <span class="nx">born</span> <span class="o">=</span> <span class="o">|</span><span class="nx">year</span> <span class="o">-</span> <span class="nx">age</span><span class="o">|</span>
+  <span class="p">[</span><span class="s2">&quot;I was born in:&quot;</span><span class="p">,</span> <span class="nx">born</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Those are very useful to organize code, but have no effect on the resulting compiled nets. For example, after compilation, the program above is identical to:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
   <span class="p">[</span><span class="s2">&quot;I was born in:&quot;</span><span class="p">,</span> <span class="o">|</span><span class="mi">2019</span> <span class="o">-</span> <span class="mi">20</span><span class="o">|</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The main difference between <code class="docutils literal notranslate"><span class="pre">let</span></code> and <code class="docutils literal notranslate"><span class="pre">def</span></code> is that <code class="docutils literal notranslate"><span class="pre">def</span></code> generate global references that can be used before their declarations, i.e., you could write <code class="docutils literal notranslate"><span class="pre">main</span></code> before <code class="docutils literal notranslate"><span class="pre">year</span></code> on the program above and it would still work. Also, since Formality-Core aims to be used as a library inside other languages (like JSON), <code class="docutils literal notranslate"><span class="pre">def</span></code> is used to generate a list of “exports” for those languages when they parse a Formality-Core program. On the other hands, <code class="docutils literal notranslate"><span class="pre">let</span></code> is just an expression and, thus, can be nested and combined with other expressions, and even inside another <code class="docutils literal notranslate"><span class="pre">let</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">def</span> <span class="nx">main</span><span class="o">:</span>
   <span class="p">[</span><span class="s2">&quot;I was born in:&quot;</span><span class="p">,</span>
-    <span class="n">let</span> <span class="n">year</span> <span class="o">=</span> <span class="mi">2019</span>
-    <span class="n">let</span> <span class="n">age</span> <span class="o">=</span>
-      <span class="n">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
-      <span class="n">let</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
-      <span class="o">|</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">|</span>
-    <span class="o">|</span><span class="n">year</span> <span class="o">-</span> <span class="n">age</span><span class="o">|</span><span class="p">]</span>
+    <span class="kd">let</span> <span class="nx">year</span> <span class="o">=</span> <span class="mi">2019</span>
+    <span class="kd">let</span> <span class="nx">age</span> <span class="o">=</span>
+      <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span>
+      <span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span>
+      <span class="o">|</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="o">|</span>
+    <span class="o">|</span><span class="nx">year</span> <span class="o">-</span> <span class="nx">age</span><span class="o">|</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -240,7 +249,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ethereum Foundation
+        &copy; Copyright 2019, Ethereum Foundation and Sunshine Cybernetics
 
     </p>
   </div>

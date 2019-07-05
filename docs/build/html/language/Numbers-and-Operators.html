@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. Numbers and Operators &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>4. Numbers and Operators &mdash; Formality-Core 0.0.2 documentation</title>
   
 
   
@@ -50,9 +50,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Formality-Core
+            <a href="../index.html">
           
 
+          
+            
+            <img src="../_static/fmc-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -80,7 +83,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+              <p class="caption"><span class="caption-text">Language</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Why.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
@@ -115,15 +118,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Undefined-Behavior.html">11. Undefined behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">12. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#scott-encoding">12.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../techniques/Datatypes.html">1. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#scott-encoding">1.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../techniques/Datatypes.html#church-encoding">1.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">13. Formality Net</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../runtime/Formality-Net.html">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#node-types">1.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#rewrite-rules">1.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime/Formality-Net.html#compilation">1.3. Compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -219,77 +228,77 @@
 <tbody>
 <tr>
 <td>addition</td>
-<td><code>\|x + y\|</code></td>
+<td><code>|x + y|</code></td>
 <td><code>(x + y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>subtraction</td>
-<td><code>\|x - y\|</code></td>
+<td><code>|x - y|</code></td>
 <td><code>(x - y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>multiplication</td>
-<td><code>\|x * y\|</code></td>
+<td><code>|x * y|</code></td>
 <td><code>(x * y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>division</td>
-<td><code>\|x / y\|</code></td>
+<td><code>|x / y|</code></td>
 <td><code>(x / y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>modulus</td>
-<td><code>\|x % y\|</code></td>
+<td><code>|x % y|</code></td>
 <td><code>(x % y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>exponentiation</td>
-<td><code>\|x ** y\|</code></td>
+<td><code>|x ** y|</code></td>
 <td><code>(x ** y) &gt;&gt;&gt; 0</code></td>
 </tr>
 <tr>
 <td>bitwise-and</td>
-<td><code>\|x &amp; y\|</code></td>
+<td><code>|x &amp; y|</code></td>
 <td><code>x &amp; y</code></td>
 </tr>
 <tr>
 <td>bitwise-or</td>
-<td><code>\|x \| y\|</code></td>
-<td><code>x \| y</code></td>
+<td><code>|x | y|</code></td>
+<td><code>x | y</code></td>
 </tr>
 <tr>
 <td>bitwise-xor</td>
-<td><code>\|x ^ y\|</code></td>
+<td><code>|x ^ y|</code></td>
 <td><code>x ^ y</code></td>
 </tr>
 <tr>
 <td>bitwise-not</td>
-<td><code>\|x ~ y\|</code></td>
+<td><code>|x ~ y|</code></td>
 <td><code>~y</code></td>
 </tr>
 <tr>
 <td>bitwise-right-shift</td>
-<td><code>\|x &gt;&gt; y\|</code></td>
+<td><code>|x &gt;&gt; y|</code></td>
 <td><code>x &gt;&gt;&gt; y</code></td>
 </tr>
 <tr>
 <td>bitwise-left-shift</td>
-<td><code>\|x &lt;&lt; y\|</code></td>
+<td><code>|x &lt;&lt; y|</code></td>
 <td><code>x &lt;&lt; y</code></td>
 </tr>
 <tr>
 <td>greater-than</td>
-<td><code>\|x &gt; y\|</code></td>
+<td><code>|x &gt; y|</code></td>
 <td><code>x &gt; y ? 1 : 0</code></td>
 </tr>
 <tr>
 <td>less-than</td>
-<td><code>\|x &lt; y\|</code></td>
+<td><code>|x &lt; y|</code></td>
 <td><code>x &lt; y ? 1 : 0</code></td>
 </tr>
 <tr>
 <td>equals</td>
-<td><code>\|x == y\|</code></td>
+<td><code>|x == y|</code></td>
 <td><code>x === y ? 1 : 0</code></td>
 </tr>
 </tbody>
@@ -315,7 +324,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ethereum Foundation
+        &copy; Copyright 2019, Ethereum Foundation and Sunshine Cybernetics
 
     </p>
   </div>

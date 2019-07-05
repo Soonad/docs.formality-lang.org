@@ -13,14 +13,14 @@ syntax | effect
 
 They can be created with the `[a, b]` syntax. For example, to create a pair with the numbers `3` and `4`, this is what you write:
 
-```python
+```javascript
 def main:
   [3, 4]
 ```
 
 Since we don't have `print` yet, pairs can be temporarily used when we want to output multiple results on the console. For example,
 
-```python
+```javascript
 def main:
   ["Formality-Core was developed in:", 2019]
 ```
@@ -29,21 +29,21 @@ def main:
 
 You can access the first element of a pair with `fst`, and the second one with `snd`. For example, the program below:
 
-```python
+```javascript
 def main:
   fst [3, 4]
 ```
 
 Evaluates to `3`. Since Formality programs are just expressions (terms), you can mix numeric operators and pairs as you'd expect:
 
-```python
+```javascript
 def main:
   [|fst [3, 4] + 10|, 14]
 ```
 
 The term above evaluates to `[13, 14]`. You can also extract both elements of a pair simultaneously with a projection, using the `get` syntax:
 
-```python
+```javascript
 def main:
   get [a, b] = [3, 4]
   |a + b|
@@ -55,7 +55,7 @@ The program above extracts the elements of `[a,b]`, defining the variables `a = 
 
 You can also have infinitely nested pairs. For example:
 
-```python
+```javascript
 def main:
   get [a, b] = [[1, 2], [3, 4]]
   a
@@ -63,7 +63,7 @@ def main:
 
 The program above outputs `[1, 2]`. You can **not** have nested `get`s, though. For example:
 
-```python
+```javascript
 def main:
   get [[a,b], [c,d]] = [[1, 2], [3, 4]]
   a
@@ -71,7 +71,7 @@ def main:
 
 The program above is a syntax error. In order to extract all 4 elements, you must perform a series of `get`s:
 
-```python
+```javascript
 def main:
   get [ab, cd] = [[1, 2], [3, 4]]
   get [a, b] = ab

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Formality-Core’s documentation! &mdash; Formality-Core 0.0.1 documentation</title>
+  <title>Welcome to Formality-Core’s documentation! &mdash; Formality-Core 0.0.2 documentation</title>
   
 
   
@@ -49,9 +49,12 @@
           
 
           
-            <a href="#" class="icon icon-home"> Formality-Core
+            <a href="#">
           
 
+          
+            
+            <img src="_static/fmc-logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -79,7 +82,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+              <p class="caption"><span class="caption-text">Language</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Why.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="language/Installation.html">2. Installation</a></li>
@@ -114,15 +117,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="language/Undefined-Behavior.html">11. Undefined behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="techniques/Datatypes.html">12. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#scott-encoding">12.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="techniques/Datatypes.html">1. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#scott-encoding">1.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#church-encoding">1.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="runtime/Formality-Net.html">13. Formality Net</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="runtime/Formality-Net.html">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#node-types">1.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#rewrite-rules">1.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#compilation">1.3. Compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -193,7 +202,7 @@
 <h1>Welcome to Formality-Core’s documentation!<a class="headerlink" href="#welcome-to-formality-core-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Formality-Core (FMC) is a minimal, efficient functional programming language designed to be a “low-level” compile-target for more feature-rich functional languages. Differently from most functional languages, FMC has amazing computational characteristics such as not requiring a garbage-collector, beta-reduction being a constant-time operation, being able to perform dynamic fusion, being strongly normalizing and massively parallelizable. In other words, FMC is really, really fast, and aims to be the ultimate assembly of resource-aware functional languages.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Table of Contents</span></p>
+<p class="caption"><span class="caption-text">Language</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Why.html">1. Why Formality-Core?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="language/Installation.html">2. Installation</a></li>
@@ -228,15 +237,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="language/Undefined-Behavior.html">11. Undefined behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="techniques/Datatypes.html">12. Datatypes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#scott-encoding">12.1. Scott-Encoding</a></li>
-<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#church-encoding">12.2. Church-Encoding</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Techniques</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="techniques/Datatypes.html">1. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#scott-encoding">1.1. Scott-Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="techniques/Datatypes.html#church-encoding">1.2. Church-Encoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="runtime/Formality-Net.html">13. Formality Net</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#node-types">13.1. Node types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#rewrite-rules">13.2. Rewrite rules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#compilation">13.3. Compilation</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="runtime/Formality-Net.html">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#node-types">1.1. Node types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#rewrite-rules">1.2. Rewrite rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime/Formality-Net.html#compilation">1.3. Compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -261,7 +280,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ethereum Foundation
+        &copy; Copyright 2019, Ethereum Foundation and Sunshine Cybernetics
 
     </p>
   </div>
