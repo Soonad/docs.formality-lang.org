@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = u'Formality-Core'
-copyright = u'2019, Ethereum Foundation'
+copyright = u'2019, Ethereum Foundation and Sunshine Cybernetics'
 author = u'Sunshine Cybernetics'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'0.0.1'
+release = u'0.0.2'
 
 
 # -- General configuration ---------------------------------------------------
@@ -87,12 +87,15 @@ html_theme_options = {
     'collapse_navigation' : False,
     'sticky_navigation' : True,
     'style_nav_header_background' : '#444053',
+    'logo_only' : True
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+html_logo = 'fmc-logo.png'
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -136,7 +139,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Formality-Core.tex', u'Formality-Core Documentation',
-     u'Croni', 'manual'),
+     u'Sunshine Cybernetics', 'manual'),
 ]
 
 
@@ -157,7 +160,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'Formality-Core', u'Formality-Core Documentation',
-     author, 'Formality-Core', 'One line description of project.',
+     author, 'Formality-Core', 'An optimal compilation target for functional programming languages',
      'Miscellaneous'),
 ]
 

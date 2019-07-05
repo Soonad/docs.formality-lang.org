@@ -21,20 +21,17 @@ def main:
 
 The program above is equivalent to:
 
-``` javascript
+```javascript
 def main:
   [||1 + 2| + |3 + 4||, ||1 + 2| + |3 + 4||]
 ```
 
 And, as such, wastefully evaluates `||1 + 2| + |3 + 4||` twice. One of the nice things about Formality-Core is that it has a very clear cost model, so we can precisely measure this problem. Save the program above and run it with `fmc -ns main`. The `-ns` flags ask `fmc` to run your program with interaction net system (instead of interpreter), and to output the number of "rewrites" needed to fully execute it. Rewrites are lightweight, constant-spacetime operations. In other words, this number is a very good measure of the complexity of the program. A program that takes `400` rewrites is roughly 2x slower than one that takes `200`, and so on. The program above needs `12` rewrites:
 
-```bash
+```javascript
 $ fmc -ns main
 [10,10]
-{
-  "rewrites": 12,
-  "passes": 6
-}
+{"rewrites":12,"loops":6,"max_len":8}
 ```
 
 In order to avoid this waste and copy/clone values efficiently, Formality-Core includes a boxed duplication system, which we'll explain now. The first thing to learn about is boxes. 
@@ -43,14 +40,14 @@ In order to avoid this waste and copy/clone values efficiently, Formality-Core i
 
 Boxes are like containers with only one element. You can put any term inside a box using the `#` syntax. For example:
 
-```swift
+```javascript
 def main:
   # "I'm the man in the box"
 ```
 
 In the program above, the string literal is inside of a box. You can put boxes anywhere you want to. For example:
 
-```swift
+```javascript
 def main:
   # [##1, [2, #"a cat"]]
 ```
@@ -67,7 +64,7 @@ def main():
 
 The reason boxes exist is to enable Formality-Core's explicit duplications, which are essentially deep copies of arbitrary values. To perform those, you must use the `dup` syntax:
 
-```swift
+```javascript
 def main:
   dup num = #||1 + 2| + |3 + 4||
   # [num, num]
@@ -75,12 +72,10 @@ def main:
 
 As you can see, this is very similar to the first program presented, with two differences: the `dup` keyword is used instead of `let`, and there is a box (`#`) wrapping the duplicated value and the result. The effect of `dup` is that it takes a boxed value (in this case, `#||1 + 2| + |3 + 4||`), unboxes it (obtaining `||1 + 2| + |3 + 4||`) and replaces every occurrence of `num` by a copy. The result of this program is, ignoring the box, the same as:
 
-```swift
+```javascript
+$ fmc -ns main
 # [10,10]
-{
-  "rewrites": 7,
-  "passes": 5
-}
+{"rewrites":7,"loops":5,"max_len":6}
 ```
 
 Except that now it needed roughly half of the rewrites and, thus, it is twice as fast. This is because duplications are done optimally, so, in this case, the additions were performed before duplicating. This is, of course, a simple example, but in more complex, highly functional programs, clever usage of `dup` can amount to huge, asymptotical speedups. 
@@ -93,7 +88,7 @@ Sadly, in order to use `dup`, there is an important condition that must be met:
 
 This is the stratification condition and it essentially causes Formality-Core programs to be split into "layers", based on how boxes are placed. To explain it, let's present an example. Mind the code below:
 
-```swift
+```javascript
 def main:
   [0, [#1, #[#2, ##3]]]
 ```
@@ -102,7 +97,7 @@ Here, the number `0` isn't wrapped by any box. As such, it is on `layer 0`. The 
 
 What the stratification condition says is that a term can never migrate from a layer to another. This means that the program below is not legal:
 
-```swift
+```javascript
 def main:
   dup num = # 42
   [num, num]
@@ -110,7 +105,7 @@ def main:
 
 Because, before reduction, `42` is on `layer 1`, but, after reduction, it would be on `layer 0`. This can't happen. If you try to run the program above, it will present a compile-time error. Similarly, the program below is illegal too:
 
-```swift
+```javascript
 def main:
   dup num = # 42
   ## [num, num]
@@ -118,7 +113,7 @@ def main:
 
 Because, if we evaluated it, `42` would migrate from `layer 1` to `layer 2`, which can't happen. Trying to run it would result in a compile-time error too. This program is correct:
 
-```swift
+```javascript
 def main:
   dup num = # 42
   # [num, num]
@@ -126,7 +121,7 @@ def main:
 
 Because each occurrence of `num` is on `layer 1`, which is the same layer where `42` is from. This program is also correct:
 
-```swift
+```javascript
 def main:
   dup num = # 42
   [#num, #num]
