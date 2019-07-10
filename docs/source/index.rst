@@ -34,4 +34,9 @@ Formality-Core (FMC) is a minimal, efficient functional programming language des
 
     runtime/Formality-Net
 
+.. toctree::
+    :maxdepth: 2
+    :caption: Tutorial
+
+    tutorial/FMC-Tutorial
 
