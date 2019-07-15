@@ -76,6 +76,10 @@ In our implementation, we use a buffer of 32-bit unsigned integers to represent 
 
 - `NUM`: is stored inside other nodes and do not use any extra space. A `NUM` node is represented by a numeric port. In order to know if a port is a number or a pointer, each node reserves 3 bits of its last uint to store that information.
 
+### Rewrites
+
+TODO: explain how `rewrite` works, how `link_ports` is used, and why `unlink_ports` is necessary to avoid invalid states.
+
 ### Strict evaluation
 
 The strict evaluation algorithm is very simple. First, we must keep a set of redexes, i.e., nodes connected by their main ports. In order to do that, whenever we link two main ports, we must add the address of the smallest nodes to that set. We then perform a loop to rewrite all redexes. This will give us a new set of redexes, which must then be reduced again, over and over, until there are no redexes left. This is the pseudocode:
