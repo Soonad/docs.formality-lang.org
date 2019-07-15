@@ -2,7 +2,7 @@
 
 Formality terms are compiled to a memory-efficient interaction net system. Interaction nets are just graphs where nodes have labeled ports, one being the main one, plus a list of "rewrite rules" that are activated whenever two nodes are connected by their main ports. Our system includes 6 types of nodes, ERA, CON, OP1, OP2, ITE, NUM.
 
-![](images/fm-net-node-types.png)
+![](https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-node-types.png)
 
 - `CON` has 3 ports and an integer label. It is used to represent lambdas, applications, boxes (implicitly) and duplications. Since FM-Core is based on EAL, there is no book-keeping machinery to keep track of Bruijn indices, just `CON` is enough for beta-reduction.
 
@@ -20,7 +20,7 @@ Note that the position of the port matters. The port on top is called the `main`
 
 In order to perform computations, FM-Net has a set of rewrite rules that are triggered whenever two nodes are connected by their main ports. This is an extensive list of those rules:
 
-![](images/fm-net-rewrite-rules.png)
+![](https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-rewrite-rules.png)
 
 Note that, while there are many rules (since we need to know what to do on each combination of a node), most of those have the same "shape" (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only a 5 actually relevant rules:
 
@@ -50,7 +50,7 @@ When `OP2` collides with a `NUM`, it becomes an `OP1` node and stores the number
 
 The process of compiling FM-Core to FM-Net can be defined by the following function `k_b(net)`:
 
-![](images/fm-net-compilation.png)
+![](https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-compilation.png)
 
 This function recursively walks through a term, creating nodes and "temporary variables" (`x_b`) in the process. It also keeps track of the number of boxes it passed through, `b`. For example, on the lambda (`{x}f`) case, the procedure creates a `CON` node with a label `0`, creates a "temporary variable" `x_b` on the `aux0` port, recurses towards the body of the function, `f` on the `aux1` port, and then returns the `main` port (because there is a black ball on it). Notice that there isn't a case for `VAR`. That's what those "temporary variables" are for. On the `VAR` case, two things can happen:
 
