@@ -1,6 +1,6 @@
 # Formality Net
 
-Formality terms are compiled to a memory-efficient interaction net system. Interaction nets are just graphs where nodes have labelled ports, one being the main one, plus a list of "rewrite rules" that are activated whenever two nodes are connected by their main ports. Our system includes 6 types of nodes, ERA, CON, OP1, OP2, ITE, NUM.
+Formality terms are compiled to a memory-efficient interaction net system. Interaction nets are just graphs where nodes have labeled ports, one being the main one, plus a list of "rewrite rules" that are activated whenever two nodes are connected by their main ports. Our system includes 6 types of nodes, ERA, CON, OP1, OP2, ITE, NUM.
 
 ![](images/fm-net-node-types.png)
 
@@ -8,7 +8,7 @@ Formality terms are compiled to a memory-efficient interaction net system. Inter
 
 - `ERA` has 1 port and is used to free empty memory, which happens when a function that doesn't use its bound variable is applied to an argument.
 
-- `NUM` has 1 port and stores an integer, and is used to represent native numbers.
+- `NUM` has 1 port and stores an integer and is used to represent native numbers.
 
 - `OP1` has 2 ports and stores one integer and an operation id. `OP2` has 3 ports and an operation id. They are used for numeric operations such as addition and multiplication.
 
@@ -22,7 +22,7 @@ In order to perform computations, FM-Net has a set of rewrite rules that are tri
 
 ![](images/fm-net-rewrite-rules.png)
 
-Note that, while there are many rules (since we need to know what to do on each combination of node), most of those have the same "shape" (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only a 5 actually relevant rules:
+Note that, while there are many rules (since we need to know what to do on each combination of a node), most of those have the same "shape" (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only a 5 actually relevant rules:
 
 ### Erasure
 
@@ -30,13 +30,13 @@ When an `ERA` or a `NUM` node collides with anything, it "destroys" the other no
 
 ### Substitution
 
-When two `CON` nodes of equal label collide, and also on the `OP2-OP2` / `ITE-ITE` cases, both nodes are destroyed, and their neighbors are connected. That's the rule that performs beta-reduction, because it allows connecting the body of a lambda (which is represented with `CON`) to the argument of an application (which is, too, represented with `CON`). Note that on the OP2-OP2 and ITE-ITE cases, that's just a default rule that doesn't matter, since those cases can't happen on valid FM-Core programs.
+When two `CON` nodes of equal label collide, and also on the `OP2-OP2` / `ITE-ITE` cases, both nodes are destroyed, and their neighbors are connected. That's the rule that performs beta-reduction because it allows connecting the body of a lambda (which is represented with `CON`) to the argument of an application (which is, too, represented with `CON`). Note that on the OP2-OP2 and ITE-ITE cases, that's just a default rule that doesn't matter, since those cases can't happen on valid FM-Core programs.
 
 ### Duplication
 
 When different nodes collide, they "pass through" each other, duplicating themselves in the process. This allows, for example, `CON` nodes with a label `>1` to be used to perform deep copies of any term, with `dup x = val; ...`. It can copy lambdas and applications because they are represented with `CON` nodes with a label `0`, pairs and pair-accessors, because they are represented with `CON` nodes with a label `1`, and `ITE`, `OP1`, `OP2`, because they are different nodes.
 
-It also allows duplications to duplicate terms that are partially duplicated (i.e., which must duplicate, say, a λ-bound variable), as long as the `CON` labels are different, otherwise, the `CON` nodes would instead fall in the substitution case, destroying each-other and connecting neighbors, which isn't correct. That's why FMC's box system is necessary: to prevent concurrent duplication processes to interfere with each-other by ensuring that, whenever you duplicate a term with `dup x = val; ...`, all the duplication `CON` nodes of `val` will have a labels higher than the one used by that `dup`.
+It also allows duplications to duplicate terms that are partially duplicated (i.e., which must duplicate, say, a λ-bound variable), as long as the `CON` labels are different, otherwise, the `CON` nodes would instead fall in the substitution case, destroying each other and connecting neighbors, which isn't correct. That's why FMC's box system is necessary: to prevent concurrent duplication processes to interfere with each-other by ensuring that, whenever you duplicate a term with `dup x = val; ...`, all the duplication `CON` nodes of `val` will have a labels higher than the one used by that `dup`.
 
 ### If-Then-Else
 
@@ -52,7 +52,7 @@ The process of compiling FM-Core to FM-Net can be defined by the following funct
 
 ![](images/fm-net-compilation.png)
 
-this function recursively walks through a term, creating nodes and "temporary variables" (`x_b`) in the process. It also keeps track of the number of boxes it passed through, `b`. For example, on the lambda (`{x}f`) case, the procedure creates a `CON` node with a label `0`, creates a "temporary variable" `x_b` on the `aux0` port, recurses towards the body of the function, `f` on the `aux1` port, and then returns the `main` port (because there is a black ball on it). Notice that there isn't a case for `VAR`. That's what those "temporary variables" are for. On the `VAR` case, two things can happen:
+This function recursively walks through a term, creating nodes and "temporary variables" (`x_b`) in the process. It also keeps track of the number of boxes it passed through, `b`. For example, on the lambda (`{x}f`) case, the procedure creates a `CON` node with a label `0`, creates a "temporary variable" `x_b` on the `aux0` port, recurses towards the body of the function, `f` on the `aux1` port, and then returns the `main` port (because there is a black ball on it). Notice that there isn't a case for `VAR`. That's what those "temporary variables" are for. On the `VAR` case, two things can happen:
 
 1. If the corresponding "temporary variable" `x_b` was never used, simply return a pointer to it.
 
@@ -86,17 +86,17 @@ while (len(net.redexes) > 0):
     net.rewrite(redex)
 ```
 
-The strict reduction is interesting because it doesn't require graph walking nor garbage collection passes, and because the inner `for`-loop can be perform in parallel. That is, every `redex` in `net.redexes` can be rewritten at the same time.
+The strict reduction is interesting because it doesn't require graph walking nor garbage collection passes, and because the inner `for`-loop can be performed in parallel. That is, every `redex` in `net.redexes` can be rewritten at the same time.
 
-In order to do that, though, one must be cautious with intersection areas. For example, on the graph below, B-C and D-E are redexes. If we reduce them in parallel, both threads will attempt to read/write from C's and D's `aux0` and `aux1` ports, potentially causing synchronization errors.
+In order to do that, though, one must be cautious with intersection areas. For example, in the graph below, B-C and D-E are redexes. If we reduce them in parallel, both threads will attempt to read/write from C's and D's `aux0` and `aux1` ports, potentially causing synchronization errors.
 
 ![](https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_problem_2x.png)
 
-This can be avoided through locks, or by performing rewrites in two steps. On the first step, each thread reads/writes the ports of its own active pair as usual, except that, when it would need connect a neighbor, it instead turns its own node into a "redirector" which points to where the neighbor was supposed to point. For example, substitution and duplication would be performed as follows:
+This can be avoided through locks, or by performing rewrites in two steps. On the first step, each thread reads/writes the ports of its own active pair as usual, except that, when it would need to connect a neighbor, it instead turns its own node into a "redirector" which points to where the neighbor was supposed to point. For example, substitution and duplication would be performed as follows:
 
 ![](https://github.com/MaiaVictor/absal-ex/blob/master/img/sk_local_rewrites_2x.png?raw=true)
 
-Notice that `P`, `Q`, `R` and `S` (neighbor ports) weren't touched: they keep pointing to the same ports, but now those ports point to where they should point to. Then, a second parallel step is performed. This time, we spawn a thread for each neighbor port, and walk through the graph until we find a non-redirector node. We then point that neighbor to it. Here is a full example:
+Notice that `P`, `Q`, `R` and `S` (neighbor ports) weren't touched: they keep pointing to the same ports, but now those ports point to where they should point to. Then, a second parallel step is performed. This time, we spawn a thread for each neighbor port and walk through the graph until we find a non-redirector node. We then point that neighbor to it. Here is a full example:
 
 ![](https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_local_rewrites_ex_2x.png)
 
@@ -104,9 +104,9 @@ Notice, for example, the port `C` of the node `A`. It is on the neighborhoods of
 
 ### Lazy evaluation
 
-The lazy evaluation algorithm is very different from the strict one. It works by traversing the graph, exploring it to find redexes that are "visible" on the normal form of the term, skipping unecessary branches. It is interesting because it allows avoiding wasting work; for example, `({a b}b (F 42) 7)` would quickly evaluate to `7`, no matter how long `(F 42)` takes to compute. In exchange, it is "less parallel" than the strict algorithm (we can't reduce all redexes, since we don't know if they're necessary), and it requires global garbage collection (since erasure nodes are ignored).
+The lazy evaluation algorithm is very different from the strict one. It works by traversing the graph, exploring it to find redexes that are "visible" on the normal form of the term, skipping unnecessary branches. It is interesting because it allows avoiding wasting work; for example, `({a b}b (F 42) 7)` would quickly evaluate to `7`, no matter how long `(F 42)` takes to compute. In exchange, it is "less parallel" than the strict algorithm (we can't reduce all redexes since we don't know if they're necessary), and it requires global garbage collection (since erasure nodes are ignored).
 
-To skip unecessary branches, we must walk through the graph from  port to port, using a strategy very similar to the denotational semantics of symmetric interaction combinators. First, we start walking from the root port to its target port. Then, until we get back to root, do as follows:
+To skip unnecessary branches, we must walk through the graph from  port to port, using a strategy very similar to the denotational semantics of symmetric interaction combinators. First, we start walking from the root port to its target port. Then, until we get back to the root, do as follows:
 
 1. If we're walking from an aux port towards an aux port of a node, add the aux we're coming from to a stack, and move towards the main port of that node.
 

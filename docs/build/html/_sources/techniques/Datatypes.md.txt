@@ -12,7 +12,7 @@ The Scott-Encoding represents ADTs as a series of lambdas. It doesn't involve bo
 // ::::::::::
 
 // data Bool = True | False
-// bool_match x true false = case x of { True => true; False => false }
+// bool_match x true false = case x of { True -> true; False -> false }
 
 def True       : {true false} true
 def False      : {true false} false
@@ -23,7 +23,7 @@ def bool_match : {x true false} (x true false)
 // ::::::::::
 
 // data Pair a b = Pair a b
-// pair_match x pair = case x of { Pair a b => pair a b }
+// pair_match x pair = case x of { Pair a b -> pair a b }
 
 def Pair       : {a b pair} (pair a b)
 def pair_match : {x pair} (x {a b} (pair a b))
@@ -33,7 +33,7 @@ def pair_match : {x pair} (x {a b} (pair a b))
 // ::::::::::
 
 // data Tree a = Node (Tree a) (Tree a) | Leaf a
-// tree_match x node leaf = case x of { Node a b => node a b; Leaf val => leaf val }
+// tree_match x node leaf = case x of { Node a b -> node a b; Leaf val -> leaf val }
 
 def Node       : {a b node leaf} (node a b)
 def Leaf       : {val node leaf} (leaf val)
@@ -79,7 +79,7 @@ The Church-Encoding is like a materialization of a Haskell fold. It involves box
 // ::::::::::
 
 // data List a = Cons a (List a) | Nil
-// list_fold x cons nil = case x of { Cons x xs => cons x (list_fold xs succ zero); Nil => nil }
+// list_fold x cons nil = case x of { Cons x xs -> cons x (list_fold xs succ zero); Nil -> nil }
 
 def Nil: {cons nil}
   dup cons = cons
@@ -101,7 +101,7 @@ def fold_list: {x cons nil}
 // ::::::::::
 
 // data Tree a = Node (Tree a) (Tree a) | Leaf a
-// tree_fold x node leaf = case x of { Node a b => node (tree_fold a node leaf) (tree_fold b node leaf); Leaf val => leaf val }
+// tree_fold x node leaf = case x of { Node a b -> node (tree_fold a node leaf) (tree_fold b node leaf); Leaf val -> leaf val }
 
 def Node: {a b node leaf}
   dup node = node
