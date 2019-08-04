@@ -11,7 +11,7 @@ main : Output
 
 Save this as `main.fm` and run it with `fm hello.main`. This will use the interpreter to evaluate `main` and print its result. The first time you do it may take a while, since `fm` will load the base libraries and place them on `fm_modules`. If everything works, you should see "Hello, world!" in your terminal.
 
-Despite the name, `print`, Formality is a pure functional language: it has no notion of state, input, or output. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file, stringify it and output the result. Here, `Output` is just a type defined on the base libraries that tell the CLI to pretty-print a string, and `print` is just a `String -> Output` function defined on the base libraries. `main` doesn't need to be an `Output`, though. It can be anything. For example:
+Despite the name, `print`, Formality is a pure functional language: it has no notion of state, input, or output. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file, stringify it and output the result. Here, `Output : Type` and `print : {str : String} -> Type` are just utilities defined on the base libraries that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example:
 
 ```javascript
 main : String
