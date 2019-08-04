@@ -1,6 +1,6 @@
 ## Datatypes
 
-Formality includes very powerful syntaxes for the creation and inspection of datatypes. They can be defined with the `T` syntax, which is similar o a Haskell's `data` syntax. It creates one definition for the type of the datatype being defined, and one definition for each of its constructors. To pattern-match against the value of a datatype, you must use the `case<T>` syntax.
+Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar o a Haskell's `data`. It creates one definition for the type of the datatype being defined, and one definition for each of its constructors. To pattern-match against the value of a datatype, you must use `case<T>`.
 
 ### Simple datatypes (enums)
 
