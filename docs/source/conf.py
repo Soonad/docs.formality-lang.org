@@ -19,14 +19,14 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'Formality-Core'
+project = u'Formality'
 copyright = u'2019, Ethereum Foundation and Sunshine Cybernetics'
 author = u'Sunshine Cybernetics'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'0.0.2'
+release = u'0.1.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -95,7 +95,7 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_logo = 'fmc-logo.png'
+html_logo = 'formality-logo.png'
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -111,7 +111,7 @@ html_logo = 'fmc-logo.png'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Formality-Coredoc'
+htmlhelp_basename = 'Formalitydoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -138,7 +138,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Formality-Core.tex', u'Formality-Core Documentation',
+    (master_doc, 'Formality.tex', u'Formality Documentation',
      u'Sunshine Cybernetics', 'manual'),
 ]
 
@@ -148,7 +148,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'formality-core', u'Formality-Core Documentation',
+    (master_doc, 'formality', u'Formality Documentation',
      [author], 1)
 ]
 
@@ -159,8 +159,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Formality-Core', u'Formality-Core Documentation',
-     author, 'Formality-Core', 'An optimal compilation target for functional programming languages',
+    (master_doc, 'Formality', u'Formality Documentation',
+     author, 'Formality', 'An optimal functional programming language featuring theorem proving',
      'Miscellaneous'),
 ]
 

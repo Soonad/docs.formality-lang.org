@@ -4,13 +4,11 @@ This tutorial aims to teach how to effectively develop Formality-Core code, assu
 
 ## 1. Core features
 
-Before proceeding, you should have Formality-Core [installed](../language/Installation.md), and be familiar with its core features and syntax. If you're not yet, please read the entire [Language](../Why.md) section of this documentation. 
+Before proceeding, you should have Formality [installed](../language/Installation.md), and be familiar with its core features and syntax. If you're not yet, please read the entire [Language](../Why.md) section of this documentation. 
 
 ## 2. Simple datatypes
 
-Algebraic Datatypes (ADTs) are the building bricks of functional programming languages like Haskell, where all programs are just functions operating on ADTs. Programming in Formality-Core isn't fundamentally different, just somewhat harder, since it demands you to 1. encode datatypes manually (with "Scott-Encodings"), 2. emulate the type system in your head. Once you're used to it, though, Formality-Core can and should be used as a low-levelish Haskell. As such, the best way to learn it is by learning how to translate Haskell code. 
-
-> Note: if you're familiar with Scott-Encodings, feel free to skip to the next section.
+Algebraic Datatypes (ADTs) are the building bricks of functional programming languages like Haskell, where all programs are just functions operating on ADTs. Programming in Formality isn't fundamentally different. As such, the best way to learn it is by learning how to translate Haskell code. 
 
 Let's start with a simple type: booleans. In Haskell, they can be defined with the following declaration:
 
@@ -22,17 +20,15 @@ data Bool
   | False
 ```
 
-This puts 2 constructors, `True` and `False` in scope. In Formality-Core, there is no `data` syntax. Instead, you must define each constructor explicitly with "Scott-Encodings":
+This puts 2 constructors, `True` and `False` in scope. In Formality, there is no `data` syntax, instead we use `T`:
 
 ```javascript
-def True: {True False}
-  True
-
-def False: {True False}
-  False
+T Bool
+| True
+| False
 ```
 
-Here, `True` is a function of two arguments that returns the first, and `False` is a function of two arguments that returns the last. Why it is this way will be clear later. For now, let's attempt to translate a simple function, `not`:
+Let's attempt to translate a simple function, `not`:
 
 ```haskell
 not :: Bool -> Bool
@@ -60,36 +56,31 @@ not = \ a ->
   (case a of { True -> case_True; False -> case_False })
 ```
 
-Once a Haskell program is in this shape, translating it to Formality-Core is straigthforward: we just have to adjust the syntax, and convert the `case_of_` expression to an application of the matched value (`a`) to each case (`case_True`, `case_False`).
+Once a Haskell program is in this shape, translating it to Formality is straigthforward: we just have to adjust the syntax.
 
 ```javascript
-def not: {a}
-  let case_True  = False
-  let case_False = True
-  (a case_True case_False)
+not : {x : Bool} -> Bool
+  case<Bool> x
+  | True  => False
+  | False => True
+  : Bool
 ```
 
-Run the program below with `fmc main`.
+Run the program below with `fm <file_name>.main`.
 
 ```javascript
-def True: {True False}
-  True
+T Bool
+| True
+| False
 
-def False: {True False}
-  False
+not : {x : Bool} -> Bool
+  case<Bool> x
+  | True  => False
+  | False => True
+  : Bool
 
-def not: {a}
-  let case_True  = False
-  let case_False = True
-  (a case_True case_False)
-
-def main: 
-  let bool = (not True)
-
-  // Prints the value of Bool
-  let case_True  = "I'm true!"
-  let case_False = "I'm false!"
-  (bool case_True case_False)
+main : Bool
+  not(False)
 ```
 
 As an exercise, implement `bool_to_nat`, which returns `1` or `0`.
@@ -107,76 +98,23 @@ and True  False = False
 and False False = False
 ```
 
-The first step is to get rid of the equation notation in favor of lambdas and cases:
-
-```haskell
-and :: Bool -> Bool -> Bool
-and = \ a b -> case a of {
-  True -> case b of {
-    True  -> True;
-    False -> False;
-  };
-  False -> case b of {
-    True  -> False;
-    False -> False;
-  };
-}
-```
-
-Then, as a matter of convention, we write the case names with `let`s:
-
-```haskell
-and :: Bool -> Bool -> Bool
-and = \ a b -> 
-  let case_a_True = 
-                     let case_b_True  = True  in
-                     let case_b_False = False in
-                     (case b of { True -> case_b_True; False -> case_b_False }) in
-  let case_a_False =
-                     let case_b_True  = False in
-                     let case_b_False = False in
-                     (case b of { True -> case_b_True; False -> case_b_False }) in
-  (case a of { True -> case_a_True; False -> case_a_False })
-```
-
-And then, we convert the syntax to Formality-Core:
+Converting the syntax to Formality:
 
 ```javascript
-def and: {a b}
-  let case_a_True = 
-    let case_b_True  = True
-    let case_b_False = False
-    (b case_b_True case_b_False)
-  let case_a_False =
-    let case_b_True  = False
-    let case_b_False = False
-    (b case_b_True case_b_False)
-  (a case_a_True case_a_False)
+and : {a : Bool, b: Bool} -> Bool
+  case<Bool> a
+  | True  => b
+  | False => False
+  : Bool
+
+and2 : {|a : Bool, |b: Bool} -> Bool
+| True  | True  = True
+        | False = False
+| False | True  = False
+        | False = False
 ```
 
-This should be done, but `fmc` complains about this program:
-
-```
-Lambda variable `b` used more than once in:
-{b} (a (b True False) (b False False))
-```
-
-The reason is that `b` is used twice, but Formality-Core lambdas are affine and only allow variables to be used once. We could fix this by duplicating `b`. But think about it: do we actually need to copy `b` here? If `a` is `True`, `b` will be used once. If `a` is `False`, `b` will be used once. In both cases, `b` is used only once, so, why do we need a copy? This is a very common situation: we want to use the same variable in two branches without copying it. Fortunately, there is a simple technique to avoid that copy: for each variable that you want to "copy" in many branches, introduce a lambda on each branch, then apply the whole matching expression to each "copied" variable. Like this:
-
-```javascript
-def and: {a b}
-  let case_a_True = {b}
-    let case_b_True  = True
-    let case_b_False = False
-    (b case_b_True case_b_False)
-  let case_a_False = {b}
-    let case_b_True  = False
-    let case_b_False = False
-    (b case_b_True case_b_False)
-  (a case_a_True case_a_False b)
-```
-
-Now this program works and we didn't have to copy `b`! This technique is one of the confusing aspects of Formality-Core, but it isn't complex. Since Formality-Core is so restricted about copying, being comfortable with it absolutely essential to being productive on the language. Here is another example:
+Here is another example:
 
 ```javascript
 let swap    = 0 // Change to 1 to swap
@@ -235,8 +173,8 @@ data Pair a b
 This puts 1 constructor, `NewPair`, in scope. This is the corresponding Formality-Core definitions:
 
 ```javascript
-def NewPair: {a b} {NewPair}
-  (NewPair a b)
+NewPair {a, b} {NewPair}
+  NewPair(a, b)
 ```
 
 Notice that those are mostly similar to `True` and `False`, except now there are two fields, `{a b}`, involved. Let's write the first accessor function in the Formality-ready form:
