@@ -1,31 +1,36 @@
-Welcome to Formality-Core's documentation!
-==========================================
+Welcome to Formality's documentation!
+=====================================
 
-Formality-Core (FMC) is a minimal, efficient functional programming language designed to be a "low-level" compile-target for more feature-rich functional languages. Differently from most functional languages, FMC has amazing computational characteristics such as not requiring a garbage-collector, beta-reduction being a constant-time operation, being able to perform dynamic fusion, being strongly normalizing and massively parallelizable. In other words, FMC is really, really fast, and aims to be the ultimate assembly of resource-aware functional languages.
+Formality is an optimal functional programming language featuring theorem proving. It is similar to Agda and Idris in functionality, but takes a different approach to termination and induction: instead of native datatypes with structural recursion, it uses λ-encodings, self-types and relies on a different underlying logic, "elementary affine", which gives it an elegant halting argument. This gives it some unique properties:
+
+## Optimal substitutions
+
+Formality's substitution algorithm is asymptotically faster than Haskell, Scheme, JavaScript and other other languages featuring closures. This makes it extremelly fast at evaluating programs that rely on many high-order functions. For example, do you know GHC's marvelous foldr/build and stream fusion optimizations? Formality is capable of performing those [at runtime](https://medium.com/@maiavictor/solving-the-mystery-behind-abstract-algorithms-magical-optimizations-144225164b07). This also allows us to explore new ways to develop algorithms, such as this [elegant exp-mod implementation based on billions of tuple rotations](https://gist.github.com/MaiaVictor/e556062185c5863d814980123e03630f), which would be impossible in any other functional language. Who knows if this may lead to new breakthroughs in complexity theory?
+
+## Fast "by design"
+
+While the actual efficiency of a programming language depends on the implementation, some languages are inherently slow, by design. JavaScript, for example, is slower than C: all things equal, its mandatory garbage collector will be an unavoidable extra cost. Formality is, by design, as fast as a language could be. For example, due to linearity (actually, affinity), it doesn't require garbage collector. Due to the confluence of its interaction-combinator runtime, it can be evaluated in massively parallel fashion. Due to Elementary Affine Logic (and unlike [BOHM](https://github.com/cls/bohm)), it doesn't require a bookkeeping machinery for its optimal substitutions. It can be evaluated lazily, just like Haskell. And so on. While Formality is, right now, not as fast as mature languages (after all, those have years of optimizations behind), it will inevitably reach those languages once more mature.
+
+## An elegant underlying theory
+
+Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. This, by the way, is why our core is so simple: our reference implementation only 1000 lines-of-code, and the interaction-net runtime only 400!
 
 .. toctree::
    :caption: Language
    :maxdepth: 2
    :numbered:
    
-   Why
    language/Installation
    language/Hello,-world!
-   language/Numbers-and-Operators
-   language/Pairs
-   language/Lets-and-Defs
-   language/If-and-Cpy
-   language/Dups-and-Boxes
-   language/Lambdas-and-Affinity
-   language/Loops-and-Recursion
-   language/Undefined-Behavior
+   language/Basic-Features
+   language/Datatypes
+   language/Box-System
+   language/Recursion
    
 .. toctree::
     :maxdepth: 2
     :numbered:
     :caption: Techniques
-
-    techniques/Datatypes
 
 .. toctree::
     :maxdepth: 2
