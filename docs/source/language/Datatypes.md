@@ -156,7 +156,7 @@ main : Vector(String, 0n3)
   vnil<String>)))
 ```
 
-Notice how `main` has the type `Vector(String, 0n3)`, showing that it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with pretty much any kind of arbitrary static information, which, in turn, allows us to extremely type-safe programs. For example, here is a `head` function that extracts the first element of a non-empty vector:
+Notice how `main` has the type `Vector(String, 0n3)`, showing that it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with pretty much any kind of arbitrary static information, which, in turn, allows us to develop extremely type-safe programs. For example, here is a `head` function that extracts the first element of a non-empty vector:
 
 ```javascript
 T Vector <T : Type> {len : Nat}
@@ -182,7 +182,7 @@ main : Output
   print(vhead<String>(~0n2, vec))
 ```
 
-Notice how the return-type of the `case` expression is allowed to access `len`, i.e., the length of the matched vector. This allows Formality to specialize the return-type to the length of each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary word. Then, the return type of the case expression since the length of the vector is always positive, Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible because we'd need to call it with an `n` such that `succ(n)` is `zero`, which is impossible. 
+Notice how the return-type of the `case` expression is allowed to access `len`. This allows Formality to specialize the return-type to the vector's length on each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary `Word`. Then, the return type of the case expression itself is computed based on he index of `vector`, which is `succ(n)`. Since that is positive, the return type is always `T`, as Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible because we'd need to call it with an `n` such that `succ(n)` is `zero`, but there is no such natural number. 
 
 Of course, since the length annotation is used only for type-checking purposes, computing it at runtime would be wasteful. That's why we use `~`. This allows the length to be dropped from the compiled output, avoiding any extra runtime cost.
 
