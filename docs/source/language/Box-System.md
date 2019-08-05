@@ -19,7 +19,7 @@ Lambda variable `x` used more than once in:
 
 This can be amended in multiple ways.
 
-1. Avoid making a copy.
+### Avoid making a copy.
 
 Suppose we were trying to implement this function:
 
@@ -49,7 +49,7 @@ main : Word
 
 That is, instead of using `x` inside each case of the pattern-match, we return a function which will then receive `x` and then the desired operation.
 
-2. Make a manual copy.
+### Make a manual copy.
 
 For words in particular, there is a native `cpy` operation that copies it as many times as desired:
 
@@ -76,7 +76,7 @@ and_itself : {b : Bool} -> Bool
   and(b0, b1)
 ```
 
-3. Use boxes
+### Use boxes
 
 Formality has a primitive for deep-copying values, boxes. 
 
