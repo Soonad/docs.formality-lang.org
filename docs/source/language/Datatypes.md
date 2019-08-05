@@ -1,6 +1,6 @@
 ## Datatypes
 
-Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar o a Haskell's `data`. It creates one definition for the type of the datatype being defined, and one definition for each of its constructors. To pattern-match against the value of a datatype, you must use `case<T>`.
+Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar to Haskell's `data`. It creates one definition for the type of the datatype being defined, and one definition for each of its constructors. To pattern-match against the value of a datatype, you must use `case<T>`.
 
 ### Simple datatypes (enums)
 
@@ -44,7 +44,7 @@ main : Word
   : Word
 ```
 
-Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can use either a `let`, or append `^` to the variable name:
+Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can use either a `let` or append `^` to the variable name:
 
 ```javascript
 T Vector3D
@@ -156,7 +156,7 @@ main : Vector(String, 0n3)
   vnil<String>)))
 ```
 
-Notice how `main`  has type `Vector(String, 0n3)`, showing that it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with pretty much any kind of arbitrary static information, which, in turn, allows us to extremelly type-safe programs. For example, here is a `head` function that extracts the first element of a non-emptpy vector:
+Notice how `main` has the type `Vector(String, 0n3)`, showing that it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with pretty much any kind of arbitrary static information, which, in turn, allows us to extremely type-safe programs. For example, here is a `head` function that extracts the first element of a non-empty vector:
 
 ```javascript
 T Vector <T : Type> {len : Nat}
@@ -182,13 +182,13 @@ main : Output
   print(vhead<String>(~0n2, vec))
 ```
 
-Notice how the return-type of the `case` expression is allowed to access `len`, i.e., the length of the matched vector. This allows Formality to specialize the return-type to the length of each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary word. Then, the return type of the case expression since the length of the vector is always positive, Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible, because we'd need to call it with an `n` such that `succ(n)` is `zero`, which is impossible. 
+Notice how the return-type of the `case` expression is allowed to access `len`, i.e., the length of the matched vector. This allows Formality to specialize the return-type to the length of each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary word. Then, the return type of the case expression since the length of the vector is always positive, Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible because we'd need to call it with an `n` such that `succ(n)` is `zero`, which is impossible. 
 
 Of course, since the length annotation is used only for type-checking purposes, computing it at runtime would be wasteful. That's why we use `~`. This allows the length to be dropped from the compiled output, avoiding any extra runtime cost.
 
 ## Self-Encodings
 
-Interestingly, none of the features above are part of Formality's type theory. Instead, they are a lightweight syntax-sugar that elaborates to plain-old lambdas. To be specific, a datatype is encoded as is own inductive hypothesis, using "self-types" to . For example, the Bool datatype desugars to:
+Interestingly, none of the features above are part of Formality's type theory. Instead, they are a lightweight syntax-sugar that elaborates to plain-old lambdas. To be specific, a datatype is encoded as is own inductive hypothesis, using "self-types" to. For example, the Bool datatype desugars to:
 
 ```javascript
 Bool : Type
@@ -208,4 +208,5 @@ case_of : {b : Bool, ~P : {x : Bool} -> Type, t : P(true), f : P(false)} -> P(b)
   (%b)(~P, t, f)
 ```
 
-Here, `$self ...`, `new<T> val` and `%b` are the type, introduction and elimination of self-types, respectivelly. You can see how any datatype is encoded under the hoods by asking `fm` to evaluate its type, as in, `fm any_file.Bool` or `fm any_file.Nat`. While you probably won't need to deal with self-encodings yourself, knowing how they work is valuable, since it allows you to express types not covered by the built-in syntax. TODO: write a brief explanation on how it works.
+Here, `$self ...`, `new<T> val` and `%b` are the type, introduction, and elimination of self-types, respectively. You can see how any datatype is encoded under the hoods by asking `fm` to evaluate its type, as in, `fm any_file.Bool` or `fm any_file.Nat`. While you probably won't need to deal with self-encodings yourself, knowing how they work is valuable, since it allows you to express types not covered by the built-in syntax. 
+**TODO**: write a brief explanation on how it works.

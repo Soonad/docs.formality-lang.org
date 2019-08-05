@@ -22,7 +22,7 @@ In order to perform computations, FM-Net has a set of rewrite rules that are tri
 
 ![](https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-rewrite-rules.png)
 
-Note that, while there are many rules (since we need to know what to do on each combination of a node), most of those have the same "shape" (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only a 5 actually relevant rules:
+Note that, while there are many rules (since we need to know what to do on each combination of a node), most of those have the same "shape" (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only 5 actually relevant rules:
 
 ### Erasure
 
@@ -36,7 +36,7 @@ When two `CON` nodes of equal label collide, and also on the `OP2-OP2` / `ITE-IT
 
 When different nodes collide, they "pass through" each other, duplicating themselves in the process. This allows, for example, `CON` nodes with a label `>1` to be used to perform deep copies of any term, with `dup x = val; ...`. It can copy lambdas and applications because they are represented with `CON` nodes with a label `0`, pairs and pair-accessors, because they are represented with `CON` nodes with a label `1`, and `ITE`, `OP1`, `OP2`, because they are different nodes.
 
-It also allows duplications to duplicate terms that are partially duplicated (i.e., which must duplicate, say, a λ-bound variable), as long as the `CON` labels are different, otherwise, the `CON` nodes would instead fall in the substitution case, destroying each other and connecting neighbors, which isn't correct. That's why FMC's box system is necessary: to prevent concurrent duplication processes to interfere with each-other by ensuring that, whenever you duplicate a term with `dup x = val; ...`, all the duplication `CON` nodes of `val` will have a labels higher than the one used by that `dup`.
+It also allows duplications to duplicate terms that are partially duplicated (i.e., which must duplicate, say, a λ-bound variable), as long as the `CON` labels are different, otherwise, the `CON` nodes would instead fall in the substitution case, destroying each other and connecting neighbors, which isn't correct. That's why FMC's box system is necessary: to prevent concurrent duplication processes to interfere with each other by ensuring that, whenever you duplicate a term with `dup x = val; ...`, all the duplication `CON` nodes of `val` will have a labels higher than the one used by that `dup`.
 
 ### If-Then-Else
 
@@ -44,7 +44,7 @@ When an `ITE` node collides with a `NUM` node, it becomes a `CON` node with one 
 
 ### Num-Operation
 
-When `OP2` collides with a `NUM`, it becomes an `OP1` node and stores the number inside it; i.e., the binary operation becomes an unary operation with `NUM` partially applied. When that `OP1` collides with another `NUM`, then it performs the binary operation on both operands, and return a new `NUM` with the result. Those rules allow us to add, multiply, divide and so on native numbers.
+When `OP2` collides with a `NUM`, it becomes an `OP1` node and stores the number inside it; i.e., the binary operation becomes a unary operation with `NUM` partially applied. When that `OP1` collides with another `NUM`, then it performs the binary operation on both operands, and return a new `NUM` with the result. Those rules allow us to add, multiply, divide and so on native numbers.
 
 ## Compiling FM-Core to FM-Net
 

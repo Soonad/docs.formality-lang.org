@@ -181,9 +181,9 @@ main : !Word
   # fact(6)
 ```
 
-We "emulate" a recursive function by using `ten_times` to "build" the recursion tree of "fact" up to 10 layers deep. As such, it only work for inputs up to 10; after that, it hits the "halt" case and returns 0. The good thing about this way of doing recursion is that we're not limited to recurse on structurally smaller arguments. The bad thing is that it is a little bit verbose, requiring an explicit bound, and a halting case for when the function "runs out of gas". Moreover, since we used `ten_times` to make the funcion, it comes inside a box, on `level 1`. In other words, it is impossible to use it on `level 0`! Instead, we must use the `level 0` to unbox it (with a `dup`), and then use it on `level 1`.
+We "emulate" a recursive function by using `ten_times` to "build" the recursion tree of "fact" up to 10 layers deep. As such, it only works for inputs up to 10; after that, it hits the "halt" case and returns 0. The good thing about this way of doing recursion is that we're not limited to recurse on structurally smaller arguments. The bad thing is that it is a little bit verbose, requiring an explicit bound, and a halting case for when the function "runs out of gas". Moreover, since we used `ten_times` to make the function, it comes inside a box, on `level 1`. In other words, it is impossible to use it on `level 0`! Instead, we must use the `level 0` to unbox it (with a `dup`), and then use it on `level 1`.
 
-Fortunatelly, since bounded recursive functions are so common, Formality has a built-in syntax for them, relying on "boxed definitions". To make a boxed definition, simple annotate it with a `!` instead of a `:`. That has several effects. First, the whole definition is lifted to `level 1`. Second, if it uses any boxed definition inside it, it is automatically unboxed. Third, the definition can call itself recursively; if it does, then Formality will assembling the recursion for you using a `Rec` implementation from the Base library. This is an example usage:
+Fortunately, since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, simply annotate it with a `!` instead of a `:`. That has several effects. First, the whole definition is lifted to `level 1`. Second, if it uses any boxed definition inside it, it is automatically unboxed. Third, the definition can call itself recursively; if it does, then Formality will assembling the recursion for you using a `Rec` implementation from the Base library. This is an example of usage:
 
 ```javascript
 fact ! {i : Word} -> Word
@@ -198,7 +198,7 @@ main ! Word
   fact(12)
 ```
 
-Notice that the halting case was defined with a `&` on the end. If it coincided with one of the function's arguments, you could place a `&` before it instead, i.e., `fact ! {&i : Word} -> Word`. Note also that, since `main` uses a recursive function, it must itself be a boxed definition, annotated with `!`. Alternativelly, you could make it a normal definition and perform the unboxing yourself:
+Notice that the halting case was defined with a `&` on the end. If it coincided with one of the function's arguments, you could place a `&` before it instead, i.e., `fact ! {&i : Word} -> Word`. Note also that, since `main` uses a recursive function, it must itself be a boxed definition, annotated with `!`. Alternatively, you could make it a normal definition and perform the unboxing yourself:
 
 ```javascript
 main : !Word
