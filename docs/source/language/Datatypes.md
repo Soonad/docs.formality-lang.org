@@ -44,7 +44,7 @@ main : Word
   : Word
 ```
 
-Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can use either a `let` or append `^` to the variable name:
+Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can either use a `let` or append `^` to the variable name:
 
 ```javascript
 T Vector3D
