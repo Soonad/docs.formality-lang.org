@@ -27,7 +27,7 @@ main : Output
 
 The program above creates a datatype, `Suit`, with 4 cases (constructors). It then pattern-matches a suit and outputs a different sentence depending on it. Notice that a `case` expression requires a type annotation below it.
 
-### Datatypes with fields
+### Container datatypes
 
 Datatype constructors can have fields:
 
