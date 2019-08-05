@@ -143,7 +143,7 @@ For the same reason.
 
 Boxes aren't very useful for copying data, because information can only flow from lower to higher levels. Since a term triggering a `dup` must be one level below the term copied, it won't be able to read the results of that copy. But they are very useful for implementing things like (bounded) loops and recursion, without causing the language to be non-terminating.
 
-## Loops and Recursion
+### Loops and Recursion
 
 To show how bounded loops and recursion can be implemented with boxes, observe the following program:
 
