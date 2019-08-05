@@ -28,27 +28,27 @@ Formality includes native, unsigned, 32-bit numbers, and many numeric operations
 
 name | syntax | JavaScript equivalent
 --- | --- | ---
-addition | `|x + y|` | `(x + y) >>> 0`
-subtraction | `|x - y|` | `(x - y) >>> 0`
-multiplication | `|x * y|` | `(x * y) >>> 0`
-division | `|x / y|` | `(x / y) >>> 0`
-modulus | `|x % y|` | `(x % y) >>> 0`
-exponentiation | `|x ** y|` | `(x ** y) >>> 0`
-bitwise-and | `|x & y|` | `x & y`
-bitwise-or | `|x | y|` | `x | y`
-bitwise-xor | `|x ^ y|` | `x ^ y`
-bitwise-not | `|x ~ y|` | `~y`
-bitwise-right-shift | `|x >> y|` | `x >>> y`
-bitwise-left-shift | `|x << y|` | `x << y`
-greater-than | `|x > y|` | `x > y ? 1 : 0`
-less-than | `|x < y|` | `x < y ? 1 : 0`
-equals | `|x == y|` | `x === y ? 1 : 0`
+addition | `x + y` | `(x + y) >>> 0`
+subtraction | `x - y` | `(x - y) >>> 0`
+multiplication | `x * y` | `(x * y) >>> 0`
+division | `x / y` | `(x / y) >>> 0`
+modulus | `x % y` | `(x % y) >>> 0`
+exponentiation | `x ** y` | `(x ** y) >>> 0`
+bitwise-and | `x & y` | `x & y`
+bitwise-or | `x | y` | `x | y`
+bitwise-xor | `x ^ y` | `x ^ y`
+bitwise-not | `x ~ y` | `~y`
+bitwise-right-shift | `x >> y` | `x >>> y`
+bitwise-left-shift | `x << y` | `x << y`
+greater-than | `x > y` | `x > y ? 1 : 0`
+less-than | `x < y` | `x < y ? 1 : 0`
+equals | `x === y` | `x === y ? 1 : 0`
 
-The type of a native number is `Word`. Note that there is no operator precedence. Instead, all operations must be wrapped by a `||`. For example, to compute `2 + (3 * 7)`, you must write:
+The type of a native number is `Word`. Note that there is no operator precedence. An expression like `3 * 10 + 1` is always parsed as `3 * (10 + 1)`. You can use parenthesis to change the order.
 
 ```javascript
 main : Word
-  |2 + |3 * 7||
+  (3 * 10) + 1
 ```
 
 ## Pairs
@@ -79,7 +79,7 @@ main : Word
 main : Word
   let pair  = [1, 2]
   get [a,b] = pair
-  |a + b|
+  a + b
 ```
 
 - Nesting
@@ -97,7 +97,7 @@ main : [:Word, Word]
 
 syntax | description
 --- | ---
-`if n p` | If `n == 0`, evaluates to `snd p`, else, evaluates to `fst p`
+`if n p` | If `n === 0`, evaluates to `snd p`, else, evaluates to `fst p`
 `then: a else: b` | Equivalent to `[a, b]`
 
 Usage is straightforward:
@@ -106,7 +106,7 @@ Usage is straightforward:
 main : Output
   let age = 30
 
-  if |age < 18| then:
+  if age < 18 then:
     print("boring teenager")
   else:
     print("respect your elders!")
@@ -117,9 +117,9 @@ main : Output
 Words can be copied with `cpy`:
 
 ```javascript
-main : Word
+main : [:Word, Word]
   cpy x = 42
-  [x, |x + x|]
+  [x, x + x]
 ```
 
 Why this is necessary will become clear later on.
@@ -138,7 +138,7 @@ Formality functions are anonymous expressions, like Haskell's lambdas. It has no
 
 ```javascript
 birth_to_age : {birth : Word} -> Word
-  |2019 - birth|
+  2019 - birth
 
 main : Word
   birth_to_age(1990)

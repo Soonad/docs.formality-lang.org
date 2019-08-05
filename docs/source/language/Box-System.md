@@ -4,7 +4,7 @@ Formality's approach to termination is what makes it different from other proof 
 
 ```javascript
 square : {x : Word} -> Word
-  |x * x|
+  x * x
 
 main : Word
   square(7)
@@ -14,37 +14,38 @@ If we try, we get an error:
 
 ```javascript
 Lambda variable `x` used more than once in:
-{x} => |x * x|
+{x} => (x * x)
 ```
 
 This can be amended in multiple ways.
 
-1. Avoid making a copy. For example:
+1. Avoid making a copy.
+
+Suppose we were trying to implement this function:
 
 ```javascript
 inc_if : {b : Bool, x : Word} -> Word
   case<Bool> b
-  | true  => |x + 1|
-  | false => |x + 0|
+  | true  => x + 1
+  | false => x + 0
   : Word
 
 main : Word
   inc_if(true, 10)
 ```
 
-The `inc_if` function increments a number if a boolean is true. Since `x` is used in different branches, we could avoid copying it with an extra lambda:
+Here, `inc_if` increments a number if a boolean is true. Since `x` is used in different branches, we could avoid copying it with an extra lambda:
 
 ```javascript
 inc_if : {b : Bool, x : Word} -> Word
   (case<Bool> b
-  | true  => {x} |x + 1|
-  | false => {x} |x + 0|
+  | true  => {x} x + 1
+  | false => {x} x + 0
   : {x : Word} -> Word)(x)
 
 main : Word
   inc_if(true, 10)
 ```
-
 
 That is, instead of using `x` inside each case of the pattern-match, we return a function which will then receive `x` and then the desired operation.
 
@@ -55,7 +56,7 @@ For words in particular, there is a native `cpy` operation that copies it as man
 ```javascript
 square : {x : Word} -> Word
   cpy x = x
-  |x * x|
+  x * x
 
 main : Word
   square(7)
@@ -153,26 +154,31 @@ ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
   # f(f(f(f(f(f(f(f(f(f(x))))))))))
 
 main : !Word
-  ten_times<Word>(#{x} |x + 2|, #0)
+  ten_times<Word>(#{x} x + 2, #0)
 ```
 
 Here, we define a function, `ten_times`, which takes a function, `f`, creates 10 copies of it, and applies to an argument, `x`. As the result, we're able to repeat the `+ 2` operation 10 times, adding `20` to `0`. This same technique can be used to implement bounded recursion. For example, here:
 
 ```javascript
+ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
+  dup f = f
+  dup x = x
+  # f(f(f(f(f(f(f(f(f(f(x))))))))))
+
 fact : !{n : Word} -> Word
   let call = {rec, i}
     cpy i = i
-    if |i == 0| then:
+    if i === 0 then:
       1
     else:
-      |i * rec(|i - 1|)|
+      (i * rec(i - 1))
   let halt = {i}
     0
   ten_times<{x : Word} -> Word>(#call, #halt)
 
 main : !Word
   dup fact = fact
-  # fact(13)
+  # fact(6)
 ```
 
 We "emulate" a recursive function by using `ten_times` to "build" the recursion tree of "fact" up to 10 layers deep. As such, it only work for inputs up to 10; after that, it hits the "halt" case and returns 0. The good thing about this way of doing recursion is that we're not limited to recurse on structurally smaller arguments. The bad thing is that it is a little bit verbose, requiring an explicit bound, and a halting case for when the function "runs out of gas". Moreover, since we used `ten_times` to make the funcion, it comes inside a box, on `level 1`. In other words, it is impossible to use it on `level 0`! Instead, we must use the `level 0` to unbox it (with a `dup`), and then use it on `level 1`.
@@ -182,10 +188,10 @@ Fortunatelly, since bounded recursive functions are so common, Formality has a b
 ```javascript
 fact ! {i : Word} -> Word
   cpy i = i
-  if |i == 0| then:
+  if i === 0 then:
     1
   else:
-    |i * fact(|i - 1|)|
+    i * fact(i - 1)
   & 0
   
 main ! Word

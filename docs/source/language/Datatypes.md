@@ -40,9 +40,8 @@ main : Word
   let a = v3(10, 20, 30)
 
   case<Vector3D> a
-  | v3 => |x + |y + z||
+  | v3 => x + y + z
   : Word
-
 ```
 
 Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can use either a `let`, or append `^` to the variable name:
@@ -60,7 +59,7 @@ main : Word
   | v3 =>
     case<Vector3D> b
     |v3 =>
-      |x + x^|
+      x + x^
     : Word
   : Word
 ```
@@ -97,8 +96,15 @@ main : [:Nat, Word]
   let a = v3<Nat>(0n1, 0n2, 0n3)
   let b = v3<Word>(1, 2, 3)
 
-  let ax = case<Vector3D> a | v3 => x : Nat
-  let bx = case<Vector3D> b | v3 => x : Word
+  let ax =
+    case<Vector3D> a
+    | v3 => x
+    : Nat
+
+  let bx =
+    case<Vector3D> b
+    | v3 => x
+    : Word
 
   [ax, bx]
 ```
@@ -198,7 +204,7 @@ true : Bool
 false : Bool
   new<Bool>{~P, true, false} false
 
-case_of : {b : Bool, ~P : {x : Bool} -> Type, t : Bool(true), f : Bool(false)} -> P(b)
+case_of : {b : Bool, ~P : {x : Bool} -> Type, t : P(true), f : P(false)} -> P(b)
   (%b)(~P, t, f)
 ```
 
