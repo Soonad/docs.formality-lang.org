@@ -82,7 +82,7 @@ main : Output
   : Output
 ```
 
-Since `Nat` in so common, there is a syntax-sugar for it: `0n3` expands to `succ(succ(succ(zero)))`.
+Since `Nat` is so common, there is a syntax-sugar for it: `0n3` expands to `succ(succ(succ(zero)))`.
 
 ### Polymorphic datatypes
 
@@ -182,13 +182,13 @@ main : Output
   print(vhead<String>(~0n2, vec))
 ```
 
-Notice how the return-type of the `case` expression is allowed to access `len`. This allows Formality to specialize the return-type to the vector's length on each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary `Word`. Then, the return type of the case expression itself is computed based on he index of `vector`, which is `succ(n)`. Since that is positive, the return type is always `T`, as Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible because we'd need to call it with an `n` such that `succ(n)` is `zero`, but there is no such natural number. 
+Notice how the return-type of the `case` expression is allowed to access `len`. This allows Formality to specialize the return-type to the vector's length on each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary `Word`. Then, the return type of the case expression itself is computed based on he index of `vector`, which is `succ(n)`. Since that is positive, the return type is always `T`, as Formality knows it will never fall on the `vnil` case. Calling `vhead` with a non-empty vector is impossible because we'd need an `n` such that `succ(n)` is `zero`, but there is no such natural number. 
 
 Of course, since the length annotation is used only for type-checking purposes, computing it at runtime would be wasteful. That's why we use `~`. This allows the length to be dropped from the compiled output, avoiding any extra runtime cost.
 
 ### Self-Encodings
 
-Interestingly, none of the features above are part of Formality's type theory. Instead, they are a lightweight syntax-sugar that elaborates to plain-old lambdas. To be specific, a datatype is encoded as is own inductive hypothesis, using "self-types" to. For example, the Bool datatype desugars to:
+Interestingly, none of the features above are part of Formality's type theory. Instead, they are lightweight syntax-sugars that elaborate to plain-old lambdas. To be specific, a datatype is encoded as is own inductive hypothesis, with "self-types". For example, the Bool datatype desugars to:
 
 ```javascript
 Bool : Type
@@ -209,4 +209,5 @@ case_of : {b : Bool, ~P : {x : Bool} -> Type, t : P(true), f : P(false)} -> P(b)
 ```
 
 Here, `$self ...`, `new<T> val` and `%b` are the type, introduction, and elimination of self-types, respectively. You can see how any datatype is encoded under the hoods by asking `fm` to evaluate its type, as in, `fm any_file.Bool` or `fm any_file.Nat`. While you probably won't need to deal with self-encodings yourself, knowing how they work is valuable, since it allows you to express types not covered by the built-in syntax. 
+
 **TODO**: write a brief explanation on how it works.
