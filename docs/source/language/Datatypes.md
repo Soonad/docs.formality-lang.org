@@ -141,7 +141,7 @@ let list = .Word[1, 2, 3]
 
 ### Indexed datatypes
 
-One could say indexed datatypes are the main difference between a proof language and a normal functional language. They are like polymorphic datatypes, except that the type can depend on values, not only other types, which can change as the structure grows. For example, a Vector is like a List, except that its type stores its own length:
+One could say indexed datatypes are the main difference between a proof language and a normal functional language. They are like polymorphic datatypes, except that the type can depend on values, not only other types, and can change as the structure grows. For example, a Vector is like a List, except that its type stores its own length:
 
 
 ```javascript
