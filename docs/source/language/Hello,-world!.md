@@ -11,14 +11,14 @@ main : Output
 
 Save this as `main.fm` and run it with `fm hello.main`. This will use the interpreter to evaluate `main` and print its result. The first time you do it may take a while since `fm` will load the base libraries and place them on `fm_modules`. If everything works, you should see "Hello, world!" in your terminal.
 
-Despite the name, `print`, Formality is a pure functional language: it has no notion of state, input, or output. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file, stringify it and output the result. Here, `Output : Type` and `print : {str : String} -> Output` are just utilities defined on the base libraries that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example:
+Formality is a pure functional language: it has no global state or built-in IO. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file, stringify it and output the result. As such, `Output : Type` and `print : {str : String} -> Output` are really just base-library utilities that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example, if we evaluate this program:
 
 ```javascript
 main : String
   "Hello, world!"
 ```
 
-If you evaluate this program, it will output:
+It will output:
 
 ```
 {cons, nil} => cons(1819043144,
@@ -27,19 +27,17 @@ If you evaluate this program, it will output:
 {cons, nil} => nil)))
 ```
 
-Which is the λ-encoded version of the "Hello, world!" string as a UTF-8 buffer. `{a, b, ...} => ...` is the syntax for a lambda. Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms.
+Which is the λ-encoded version of the "Hello, world!" string (as an UTF-8 buffer). Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms. 
 
-Note that type annotations are optional. For example, this works fine:
+Type annotations are optional. For example, this works fine:
 
 ```
 main
   print("Hello, world!")
 ```
 
-Of course, annotating types is always recommended, and, in order to prove a theorem, every function used in your proof must be well-typed.
+By default, `fm` runs on the debug mode, using an interpreter. To run a program using interaction nets and optimal reductions, use the `-o` flag.
 
-Note that, by default, `fm` runs on the debug mode, using an interpreter. To run a program using interaction nets and optimal reductions, use the `-o` flag.
+## Type-checking
 
-## Type-checking and Theorem Proving
-
-You can execute the type-checker with `fm -t <file>.<term>`. If you use it on the first "Hello, World!", it will print `Output`, which means `main` is a well-typed program of type `Output`. Due to the richness of Formality's type-system, well-typed programs can also be seen as mathematical proofs, so the type-checker can be seen as a formal proof checker. 
+You can execute the type-checker with `fm -t <file>.<term>`. If you use it on the first "Hello, World!", it will display `Output`, which means `main` is a well-typed program of type `Output`. Due to the richness of Formality's type-system, well-typed programs can also be seen as mathematical proofs, so the type-checker can be seen as a formal proof checker. 
