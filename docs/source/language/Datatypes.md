@@ -109,7 +109,7 @@ main : [:Nat, Word]
   [ax, bx]
 ```
 
-The program above creates two 3D vectors, each one storing a different type of numbers: `a` stores `Nat` and `b` stores `Word`. It then extracts the `x` component of each one and makes a pair. In order to avoid defining `Vector3D` twice, a polymorphic variable was introduced and applied with the `<>` syntax. This allows us to create the well-known functional List type:
+The program above creates two 3D vectors, each one storing a different type of number: `a` stores `Nat` and `b` stores `Word`. It then extracts the `x` component of each one and makes a pair. In order to avoid defining `Vector3D` twice, a polymorphic variable was introduced and applied with the `<>` syntax. This allows us to create the well-known functional List type:
 
 ```javascript
 T List <T : Type>
