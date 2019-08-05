@@ -186,7 +186,7 @@ Notice how the return-type of the `case` expression is allowed to access `len`, 
 
 Of course, since the length annotation is used only for type-checking purposes, computing it at runtime would be wasteful. That's why we use `~`. This allows the length to be dropped from the compiled output, avoiding any extra runtime cost.
 
-## Self-Encodings
+### Self-Encodings
 
 Interestingly, none of the features above are part of Formality's type theory. Instead, they are a lightweight syntax-sugar that elaborates to plain-old lambdas. To be specific, a datatype is encoded as is own inductive hypothesis, using "self-types" to. For example, the Bool datatype desugars to:
 
