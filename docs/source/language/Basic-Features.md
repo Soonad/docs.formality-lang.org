@@ -130,11 +130,13 @@ Formality includes primitives for creating and applying functions:
 
 syntax | effect
 --- | ---
-`{x : A, y : B, z : C, ...} -> D` | The type of a function with argumens `x : A`, `y : B`, `z : C`, returning a `D`
-`{x, y, z, ...} body` | A function that receives the arguments `x y z` and returns `body` 
+`{x : A, y : B, z : C, ...} -> D` | Function type with args `x : A`, `y : B`, `z : C`, returning `D`
+`{x, y, z, ...} body` | A function that receives the arguments `x`, `y`, `z` and returns `body` 
 `f(x, y, z, ...)` | Applies the function `f` to the arguments `x`, `y`, `z` (curried)
 
-Formality functions are anonymous expressions, like Haskell's lambdas. It has no multi-argument lambdas; `{x, y, z, ...} body` is just a syntax-sugar for `{x} {y} {z} ... body`. This is the same as JavaScript's `x => y => z => ... body`, or Haskell's `\ x y z ... -> body`. Function calls use the more conventional `f(x, y, z)` syntax, which, since functions are curried, is just a syntax-sugar for `f(x)(y)(z)...`. The type of a function is `{x : A, y : B, z : C ...} -> D`, which is equivalent to Agda's `(x : A) -> (y : B) -> (z : C) -> ... D`. As usual, function types can be shortened as `A -> B` when `x` is unused. When annotating a top-level definition with a functional type, you don't need to write the lambdas, they are added implicity. For example:
+Formality functions are anonymous expressions, like Haskell's lambdas. It has no multi-argument lambdas; `{x, y, z, ...} body` is just a syntax-sugar for `{x} {y} {z} ... body`. This is the same as JavaScript's `x => y => z => ... body`, or Haskell's `\ x y z ... -> body`. Function calls use the more conventional `f(x, y, z)` syntax, which, since functions are curried, is just a syntax-sugar for `f(x)(y)(z)...`.
+
+The type of a function is `{x : A, y : B, z : C ...} -> D`, which is equivalent to Agda's `(x : A) -> (y : B) -> (z : C) -> ... D`. As usual, function types can be shortened as `A -> B` when `x` is unused. When annotating a top-level definition with a functional type, you don't need to write the lambdas, they are added implicity. For example:
 
 ```javascript
 birth_to_age : {birth : Word} -> Word
