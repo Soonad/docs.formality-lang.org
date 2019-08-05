@@ -9,7 +9,7 @@ main : Output
   print("Hello, world!")
 ```
 
-Save this as `main.fm` and run it with `fm hello.main`. This will use the interpreter to evaluate `main` and print its result. The first time you do it may take a while, since `fm` will load the base libraries and place them on `fm_modules`. If everything works, you should see "Hello, world!" in your terminal.
+Save this as `main.fm` and run it with `fm hello.main`. This will use the interpreter to evaluate `main` and print its result. The first time you do it may take a while since `fm` will load the base libraries and place them on `fm_modules`. If everything works, you should see "Hello, world!" in your terminal.
 
 Despite the name, `print`, Formality is a pure functional language: it has no notion of state, input, or output. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file, stringify it and output the result. Here, `Output : Type` and `print : {str : String} -> Type` are just utilities defined on the base libraries that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example:
 
@@ -27,7 +27,7 @@ If you evaluate this program, it will output:
 {cons, nil} => nil)))
 ```
 
-Which is the λ-encoded version of the "Hello, world!" string as an UTF-8 buffer. `{a, b, ...} => ...` is the syntax for a lambda. Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms.
+Which is the λ-encoded version of the "Hello, world!" string as a UTF-8 buffer. `{a, b, ...} => ...` is the syntax for a lambda. Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms.
 
 Note that type annotations are optional. For example, this works fine:
 
