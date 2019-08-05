@@ -1,6 +1,6 @@
 ## Box System
 
-Formality's approach to termination is what makes it different from other proof languages like Agda, Idris and Coq. Instead of having native datatypes, structural recursion and so on, we go deeper and change the underlying logic of the system from intuitionist to elementary affine. This is responsible for all the claimed benefits of Formality: optimal reductions, no garbage-collection, massive parallelism, elegant inductive types and so on. But it comes with a huge tradeoff: our lambdas are affine, i.e., bound variables can't be used more than once. This limits what we can do in multiple ways. For example, we can't write a function that adds a word to itself:
+Formality's approach to termination is what makes it different from other proof languages like Agda, Idris and Coq. Instead of having native datatypes, structural recursion and so on, we go deeper and change the underlying logic of the system from intuitionist to elementary affine. This is responsible for all the claimed benefits of Formality: optimal reductions, no garbage-collection, massive parallelism, elegant inductive types and so on. But it comes with a huge tradeoff: our lambdas are affine, i.e., bound variables can't be used more than once. This limits what we can do in multiple ways. For example, we can't write a function that multiples a word by itself:
 
 ```javascript
 square : {x : Word} -> Word
@@ -49,7 +49,7 @@ main : Word
 
 That is, instead of using `x` inside each case of the pattern-match, we return a function which will then receive `x` and then the desired operation.
 
-2. Make an manual copy.
+2. Make a manual copy.
 
 For words in particular, there is a native `cpy` operation that copies it as many times as desired:
 
