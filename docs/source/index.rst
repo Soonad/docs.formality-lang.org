@@ -26,7 +26,7 @@ Eq : {~A : Type, ~B : Type, ~a : A, ~b : B} -> Type
 // Congruence (`a == b` implies `f(a) == f(b)`)
 cong : {~A : Type, ~B : Type, ~a : A, ~b : A, ~f : A -> B, ~e : a == b} -> f(a) == f(b)
   rewrite<e>{x in f(a) == f(x)}(refl<f(a)>)
-```javascript
+```
 
 
 Optimal substitutions
