@@ -51,7 +51,7 @@ That is, instead of using `x` inside each case of the pattern-match, we return a
 
 ### Make a manual copy.
 
-For words in particular, there is a native `cpy` operation that copies it as many times as desired:
+For `Word`s in particular, there is a native `cpy` operation that copies it as many times as desired:
 
 ```javascript
 square : {x : Word} -> Word
