@@ -3,34 +3,6 @@ Welcome to Formality's documentation!
 
 Formality is an optimal functional programming language featuring theorem proving. It is similar to Agda and Idris in functionality, but takes a different approach to termination and induction: instead of native datatypes with structural recursion, it uses λ-encodings, self-types and relies on a different underlying logic, "elementary affine", which gives it an elegant halting argument. This gives it some unique properties such as optimal substitutions, practical efficiency, and an elegant underlying theory.
 
-```javascript
-
-// Vectors are lists with stactically-known lengths
-T Vector <T : Type> {len : Nat}
-| vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
-| vnil                                                & zero
-
-// A type-safe head that can't be called on non-empty numbers
-vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
-  case<Vector> vector
-  | vcons => head
-  | vnil  => 0
-  : case<Nat> len
-    | succ => T
-    | zero => Word
-    : Type
-
-// The built-in equality type
-Eq : {~A : Type, ~B : Type, ~a : A, ~b : B} -> Type
-  a == b
-
-// Congruence (`a == b` implies `f(a) == f(b)`)
-cong : {~A : Type, ~B : Type, ~a : A, ~b : A, ~f : A -> B, ~e : a == b} -> f(a) == f(b)
-  rewrite<e>{x in f(a) == f(x)}(refl<f(a)>)
-
-```
-
-
 Optimal substitutions
 -------- 
 
