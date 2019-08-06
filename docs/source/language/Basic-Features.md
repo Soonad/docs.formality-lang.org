@@ -89,7 +89,11 @@ main : [:Word, Word]
   let pairs = [[1, 2], [3, 4]]
   fst(pairs)
 ```
-
+- Heterogenic
+```javascript
+main : [:[:Word,Word], String]
+  [[1, 2], "Hello Word!"]
+```
 
 ## If
 
@@ -112,9 +116,17 @@ main : Output
     print("respect your elders!")
 ```
 
+or
+
+```javascript
+main : Output
+  let age = 30
+  if (age < 18) [print("boring teenager"), print("respect your elders!")]
+```
+
 ## Cpy
 
-Words can be copied with `cpy`:
+`Words` can be copied with `cpy`:
 
 ```javascript
 main : [:Word, Word]
