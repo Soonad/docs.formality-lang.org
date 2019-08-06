@@ -1,7 +1,29 @@
-Welcome to Formality's documentation!
-=====================================
+Formality exists to fill a hole in the current market: there aren't many languages featuring *theorem proving* that are also 1. built to be normal, user-friendly programming languages (instead of tools built for mathematicians and PhDs), and 2. to be very efficient at runtime. Right now, Formality isn't *that* user-friendly, but we aim to achieve that by simplifying a lot of the obscure idioms through familiar syntax-sugars that hide its more advanced aspects. Regardnig efficiency, it achieves so by relying on Elementary Affine Logic, which gives it many desirable computational characteristics that make Formality an objectively fast language.
 
-Formality is an optimal functional programming language featuring theorem proving. It is similar to Agda and Idris in functionality, but takes a different approach to termination and induction: instead of native datatypes with structural recursion, it uses λ-encodings, self-types and relies on a different underlying logic, "elementary affine", which gives it an elegant halting argument. This gives it some unique properties such as optimal substitutions, practical efficiency, and an elegant underlying theory.
+```javascript
+// Vectors are lists with stactically-known lengths
+T Vector <T : Type> {len : Nat}
+| vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
+| vnil                                                & zero
+
+// A type-safe head that can't be called on non-empty numbers
+vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
+case<Vector> vector
+| vcons => head
+| vnil  => 0
+: case<Nat> len
+    | succ => T
+    | zero => Word
+    : Type
+
+// The built-in equality type
+Eq : {~A : Type, ~B : Type, ~a : A, ~b : B} -> Type
+  a == b
+
+// Congruence (`a == b` implies `f(a) == f(b)`)
+cong : {~A : Type, ~B : Type, ~a : A, ~b : A, ~f : A -> B, ~e : a == b} -> f(a) == f(b)
+  rewrite<e>{x in f(a) == f(x)}(refl<f(a)>)
+```
 
 Optimal substitutions
 -------- 
@@ -17,37 +39,3 @@ An elegant underlying theory
 -------- 
 
 We conjecture that Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. We're working hard towards proofs of those claims and hope they can be published soon.
-
-Table of contents
-=====================================
-
-.. toctree::
-   :caption: Language
-   :maxdepth: 2
-   :numbered:
-   
-      language
-   language/Motivation
-   language/Installation
-   language/Hello,-world!
-   language/Basic-Features
-   language/Datatypes
-   language/Box-System
-   language/Recursion
-   
-.. toctree::
-    :maxdepth: 2
-    :numbered:
-    :caption: Techniques
-
-.. toctree::
-    :maxdepth: 2
-    :numbered:
-    :caption: Runtime
-
-    runtime/Formality-Net
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Tutorial
-
