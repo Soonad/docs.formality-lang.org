@@ -19,6 +19,31 @@ An elegant underlying theory
 
 We conjecture that Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. We're working hard towards proofs of those claims and hope they can be published soon.
 
+```javascript
+// Vectors are lists with stactically-known lengths
+T Vector <T : Type> {len : Nat}
+| vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
+| vnil & zero
+
+// A type-safe head that can't be called on non-empty numbers
+vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
+  case<Vector> vector
+  | vcons => head
+  | vnil  => 0
+  : case<Nat> len
+    | succ => T
+    | zero => Word
+    : Type
+
+// The built-in equality type
+Eq : {~A : Type, ~B : Type, ~a : A, ~b : B} -> Type
+  a == b
+
+// Congruence (`a == b` implies `f(a) == f(b)`)
+cong : {~A : Type, ~B : Type, ~a : A, ~b : A, ~f : A -> B, ~e : a == b} -> f(a) == f(b)
+  rewrite<e>{x in f(a) == f(x)}(refl<f(a)>)
+```javascript
+
 Table of content
 =====================================
 
