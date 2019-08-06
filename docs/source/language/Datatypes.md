@@ -44,7 +44,7 @@ main : Word
   : Word
 ```
 
-Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can either use a `let` or append `^` to the variable name:
+Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
 
 To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
 
@@ -65,10 +65,11 @@ main : Word
     : Word
   : Word
 ```
+**TODO**: add `let` example
 
 ### Recursive datatypes
 
-A recursive datatype is a data type for values that may contain other values of the same type. For example a Church encoded `Nat`:
+A recursive datatype is a data type for values that may contain other values of the same type. For example a `Nat`:
 
 ```javascript
 T Nat
