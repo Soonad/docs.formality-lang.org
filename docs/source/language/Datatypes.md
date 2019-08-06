@@ -46,6 +46,8 @@ main : Word
 
 Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
 
+To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
+
 ```javascript
 T Vector3D
 | v3 {x : Word, y : Word, z : Word}
