@@ -141,6 +141,25 @@ Moreove, since `List` is so common, there is a built-in syntax-sugar for it, the
 let list = .Word[1, 2, 3]
 ```
 
+When opening a `case` only use `case<List>`, not specifying the type of the list. Remember that the type annotation comes below it.
+
+```javascript
+// Specify the List type for parameter and return type
+tail : {~T : Type, list : List(T)} -> List(T)
+  // Wrong: case<List(T)>
+  case<List> list
+  | cons => tail
+  | nil  => nil(~T)
+  // Type annotation of "case"
+  : List(T)
+
+// T assumes the type of Word. That's why we know that the return will be List(Word) 
+main : List(Word)
+  let list = .Word[3, 2, 1]
+  tail(~Word, list)
+```
+> Obs: `~` will be clarified later
+
 ### Indexed datatypes
 
 One could say indexed datatypes are the main difference between a proof language and a normal functional language. They are like polymorphic datatypes, except that the type can depend on values, not only other types, and can change as the structure grows. For example, a Vector is like a List, except that its type stores its own length:
