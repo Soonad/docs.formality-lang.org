@@ -1,7 +1,7 @@
 Welcome to Formality's documentation!
 =====================================
 
-Formality is an optimal functional programming language featuring theorem proving. It is similar to Agda and Idris in functionality, but takes a different approach to termination and induction: instead of native datatypes with structural recursion, it uses λ-encodings, self-types and relies on a different underlying logic, "elementary affine", which gives it an elegant halting argument. This gives it some unique properties:
+Formality is an optimal functional programming language featuring theorem proving. It is similar to Agda and Idris in functionality, but takes a different approach to termination and induction: instead of native datatypes with structural recursion, it uses λ-encodings, self-types and relies on a different underlying logic, "elementary affine", which gives it an elegant halting argument. This gives it some unique properties such as optimal substitutions, practical efficiency, and an elegant underlying theory. To elaborate,
 
 Optimal substitutions
 -------- 
@@ -17,7 +17,7 @@ While the actual efficiency of a programming language depends on the implementat
 An elegant underlying theory
 -------- 
 
-Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. This, by the way, is why our core is so simple: our reference implementation only 1000 lines-of-code, and the interaction-net runtime only 400!
+We conjecture that Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. We're working hard towards proofs of those claims and hope they can be published soon.
 
 Table of content
 =====================================
@@ -27,6 +27,7 @@ Table of content
    :maxdepth: 2
    :numbered:
    
+      language
    language/Installation
    language/Hello,-world!
    language/Basic-Features
