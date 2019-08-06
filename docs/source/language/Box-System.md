@@ -1,6 +1,6 @@
 ## Box System
 
-Formality's approach to termination is what makes it different from other proof languages like Agda, Idris and Coq. Instead of having native datatypes, structural recursion and so on, we go deeper and change the underlying logic of the system from intuitionist to elementary affine. This is responsible for all the claimed benefits of Formality: optimal reductions, no garbage-collection, massive parallelism, elegant inductive types and so on. But it comes with a huge tradeoff: our lambdas are affine, i.e., bound variables can't be used more than once. This limits what we can do in multiple ways. For example, we can't write a function that multiples a word by itself:
+Formality's approach to termination is what makes it different from other proof languages like Agda, Idris and Coq. Instead of having native datatypes, structural recursion and so on, we go deeper and change the underlying logic of the system from intuitionist to elementary affine. This is responsible for all the claimed benefits of Formality: optimal reductions, no garbage-collection, massive parallelism, elegant inductive types and so on. But it comes with a huge tradeoff: our lambdas are affine, i.e., bound variables can't be used more than once. This limits what we can do in multiple ways. For example, we can't write a function that multiples a `Word` by itself:
 
 ```javascript
 square : {x : Word} -> Word
@@ -34,7 +34,7 @@ main : Word
   inc_if(true, 10)
 ```
 
-Here, `inc_if` increments a number if a boolean is true. Since `x` is used in different branches, we could avoid copying it with an extra lambda:
+Here, `inc_if` increments a number if a boolean is true. Since `x` is used in different branches, we could avoid copying it by adding an extra lambda:
 
 ```javascript
 inc_if : {b : Bool, x : Word} -> Word
@@ -47,7 +47,7 @@ main : Word
   inc_if(true, 10)
 ```
 
-That is, instead of using `x` inside each case of the pattern-match, we return a function which will then receive `x` and then the desired operation.
+That is, instead of using `x` inside each case of the pattern-match, we return a function that receives `x` and use it in the body of the function.
 
 ### Make a manual copy.
 
