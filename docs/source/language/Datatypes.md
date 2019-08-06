@@ -15,13 +15,13 @@ T Suit
 
 main : Output
 
-  let suit = clubs
+  let suit = spades
 
   case<Suit> suit
-  | clubs    => print("Welcome to it!")
-  | diamonds => print("With I had a few.")
+  | clubs    => print("First rule: you do not talk about Fight Club.")
+  | diamonds => print("Queen shines more than diamond.")
   | hearts   => print("You always had mine.")
-  | spades   => print("Is it an ace?")
+  | spades   => print("The only card I need is the Ace of Spades! \m/")
   : Output
 ```
 
@@ -46,6 +46,8 @@ main : Word
 
 Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To avoid name-shadowing and access a field of an outer pattern-match, you can either use a `let` or append `^` to the variable name:
 
+To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
+
 ```javascript
 T Vector3D
 | v3 {x : Word, y : Word, z : Word}
@@ -66,7 +68,7 @@ main : Word
 
 ### Recursive datatypes
 
-A recursive datatype can be defined as expected:
+A recursive datatype is a data type for values that may contain other values of the same type. For example a Church encoded `Nat`:
 
 ```javascript
 T Nat
@@ -82,7 +84,7 @@ main : Output
   : Output
 ```
 
-Since `Nat` is so common, there is a syntax-sugar for it: `0n3` expands to `succ(succ(succ(zero)))`.
+Since `Nat` is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`.
 
 ### Polymorphic datatypes
 
@@ -138,6 +140,25 @@ But, since `List` is so common, there is a built-in syntax-sugar for it, the dot
 ```javascript
 let list = .Word[1, 2, 3]
 ```
+
+When opening a `case` only use `case<List>`, not specifying the type of the list. Remember that the type annotation comes below it.
+
+```javascript
+// Specify the List type for parameter and return type
+tail : {~T : Type, list : List(T)} -> List(T)
+  // Wrong: case<List(T)>
+  case<List> list
+  | cons => tail
+  | nil  => nil(~T)
+  // Type annotation of "case"
+  : List(T)
+
+// T assumes the type of Word. That's why we know that the return will be List(Word) 
+main : List(Word)
+  let list = .Word[3, 2, 1]
+  tail(~Word, list)
+```
+> Obs: `~` will be clarified later
 
 ### Indexed datatypes
 
