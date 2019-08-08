@@ -1,6 +1,6 @@
 # Motivation
 
-Formality exists to fill a hole in the current market: there aren't many languages featuring *theorem proving* that are also 1. built to be normal, user-friendly programming languages (instead of tools built for mathematicians and PhDs), and 2. to be very efficient at runtime. Right now, Formality isn't *that* user-friendly, but we aim to achieve that by simplifying a lot of the obscure idioms through familiar syntax-sugars that hide its more advanced aspects. Regardnig efficiency, it achieves so by relying on Elementary Affine Logic, which gives it many desirable computational characteristics that make Formality an objectively fast language.
+Formality exists to fill a hole in the current market: there aren't many languages featuring *theorem proving* that are also 1. built to be normal, user-friendly programming languages (instead of tools built for mathematicians and PhDs), and 2. to be very efficient at runtime. Right now, Formality isn't *that* user-friendly, but we aim to achieve that by simplifying a lot of the obscure idioms through familiar syntax-sugars that hide its more advanced aspects. Regarding efficiency, it achieves so by relying on Elementary Affine Logic, which gives it many desirable computational characteristics that make Formality an objectively fast language.
 
 ### Optimal substitutions
 
