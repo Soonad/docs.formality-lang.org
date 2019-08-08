@@ -34,12 +34,12 @@ multiplication | `x * y` | `(x * y) >>> 0`
 division | `x / y` | `(x / y) >>> 0`
 modulus | `x % y` | `(x % y) >>> 0`
 exponentiation | `x ** y` | `(x ** y) >>> 0`
-bitwise-and | `x & y` | `x & y`
-bitwise-or | `x | y` | `x | y`
-bitwise-xor | `x ^ y` | `x ^ y`
-bitwise-not | `x ~ y` | `~y`
-bitwise-right-shift | `x >> y` | `x >>> y`
-bitwise-left-shift | `x << y` | `x << y`
+bitwise-and | `x .& y` | `x & y`
+bitwise-or | `x .| y` | `x | y`
+bitwise-xor | `x .^ y` | `x ^ y`
+bitwise-not | `x .! y` | `~y`
+bitwise-right-shift | `x .>> y` | `x >>> y`
+bitwise-left-shift | `x .<< y` | `x << y`
 greater-than | `x > y` | `x > y ? 1 : 0`
 less-than | `x < y` | `x < y ? 1 : 0`
 equals | `x === y` | `x === y ? 1 : 0`
