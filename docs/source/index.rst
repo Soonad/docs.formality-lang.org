@@ -18,7 +18,7 @@ Table of contents
    language/Basic-Features
    language/Datatypes
    language/Box-System
-   language/Recursion
+   language/Theorem-Proving
    
 .. toctree::
     :maxdepth: 2
