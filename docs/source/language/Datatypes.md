@@ -139,7 +139,7 @@ let list = cons(1, cons(2, cons(3, nil)))
 But, since `List` is so common, there is a built-in syntax-sugar for it, the dot-notation:
 
 ```javascript
-let list = .Word[1, 2, 3]
+let list = Word$[1, 2, 3]
 ```
 
 When opening a `case` only use `case<List>`, not specifying the type of the list. Remember that the type annotation comes below it.
@@ -156,10 +156,9 @@ tail : {~T : Type, list : List(T)} -> List(T)
 
 // T assumes the type of Word. That's why we know that the return will be List(Word) 
 main : List(Word)
-  let list = .Word[3, 2, 1]
+  let list = Word$[3, 2, 1]
   tail(~Word, list)
 ```
-> Obs: `~` will be clarified later
 
 ### Indexed datatypes
 
