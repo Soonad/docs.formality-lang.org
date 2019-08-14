@@ -1,3 +1,5 @@
+## Theorem Proving
+
 This article is a draft.
 
 ### Equality
@@ -186,10 +188,10 @@ Now the complaint becomes:
 
 ```javascript
 Type mismatch.
-- Found type... Word
+- Found type... Hole
 - Instead of... bnot(step(n), bnot(step(n), b0(pred))) == b0(pred)
-- When checking 0
-- On expression {bits} => 0
+- When checking ?
+- On expression {bits} => ?
 - With the following context:
 - n    : Ind
 - n    : Ind
@@ -229,10 +231,10 @@ Now the checker complains about the `b1` case:
 
 ```javascript
 Type mismatch.
-- Found type... Word
+- Found type... Hole
 - Instead of... bnot(step(n), bnot(step(n), b1(pred))) == b1(pred)
-- When checking 0
-- On expression {pred} => 0
+- When checking ?
+- On expression {pred} => ?
 - With the following context:
 - n    : Ind
 - n    : Ind
