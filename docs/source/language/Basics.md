@@ -1,4 +1,4 @@
-# Basic Features
+# Basics
 
 ## Let
 
@@ -51,6 +51,27 @@ main : Word
   (3 * 10) + 1
 ```
 
+## If
+
+`if` allows branching with a `Word` condition.
+
+syntax | description
+--- | ---
+`if n: a else: b` | If `n === 0`, evaluates to `a`, else, evaluates to `b`
+
+Usage is straightforward:
+
+```javascript
+main : Output
+  let age = 30
+
+  if age < 18:
+    print("boring teenager")
+  else:
+    print("respect your elders!")
+```
+
+
 ## Pairs
 
 Formality includes native pairs.
@@ -94,47 +115,6 @@ main : [:Word, Word]
 main : [:[:Word,Word], String]
   [[1, 2], "Hello Word!"]
 ```
-
-## If
-
-`if` allows branching with a `Word` condition.
-
-syntax | description
---- | ---
-`if n p` | If `n === 0`, evaluates to `snd p`, else, evaluates to `fst p`
-`then: a else: b` | Equivalent to `[a, b]`
-
-Usage is straightforward:
-
-```javascript
-main : Output
-  let age = 30
-
-  if age < 18 then:
-    print("boring teenager")
-  else:
-    print("respect your elders!")
-```
-
-or
-
-```javascript
-main : Output
-  let age = 30
-  if (age < 18) [print("boring teenager"), print("respect your elders!")]
-```
-
-## Cpy
-
-`Words` can be copied with `cpy`:
-
-```javascript
-main : [:Word, Word]
-  cpy x = 42
-  [x, x + x]
-```
-
-Why this is necessary will become clear later on.
 
 ## Functions
 
