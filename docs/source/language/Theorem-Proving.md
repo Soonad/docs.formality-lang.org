@@ -16,10 +16,9 @@ T Bool
 | false
 
 not : {b : Bool} -> Bool
-  case<Bool> b
+  @ b     ~> Bool
   | true  => false
   | false => true
-  : Bool
 ```
 
 
@@ -46,10 +45,9 @@ Let's pattern-match on `b`.
 
 ```javascript
 main : {b : Bool} -> not(not(b)) == b
-  case<Bool> b
+  @ b     ~> not(not(b)) == b
   | true  => ?
   | false => ?
-  : not(not(b)) == b
 ```
 
 Not helpful:
@@ -68,10 +66,9 @@ Using `self` on the motive:
 
 ```javascript
 main : {b : Bool} -> not(not(b)) == b
-  case<Bool> b
+  @ b     ~> not(not(self)) == self
   | true  => ?
   | false => ?
-  : not(not(self)) == self
 ```
 
 Progress, `bs` is specialized `true` on the expected type of the `true` branch:
@@ -90,10 +87,9 @@ If we reduce both sides, we get the same expression: `{true, false} => true`. In
 
 ```javascript
 main : {b : Bool} -> not(not(b)) == b
-  case<Bool> b
+  @ b     ~> not(not(self)) == self
   | true  => refl<true>
   | false => ?
-  : not(not(self)) == self
 ```
 
 Progress, compiler now complains about the `false` branch:
@@ -112,10 +108,9 @@ We can do the same:
 
 ```javascript
 main : {b : Bool} -> not(not(b)) == b
-  case<Bool> b
+  @ b     ~> not(not(self)) == self
   | true  => refl<true>
   | false => refl<false>
-  : not(not(self)) == self
 ```
 
 No type error. Our proof is complete!
@@ -131,11 +126,10 @@ T Bits
 | be
 
 !bnot*n : !{*bits : Bits} -> Bits
-  ( case<Bits> bits
-  | b0 => {bnot} b1(bnot(pred))
-  | b1 => {bnot} b0(bnot(pred))
-  | be => {bnot} be
-  : {bnot : {bits : Bits} -> Bits} -> Bits)(bnot)
+  (@ bits ~> {bnot : {bits : Bits} -> Bits} -> Bits
+  | b0    => {bnot} b1(bnot(pred))
+  | b1    => {bnot} b0(bnot(pred))
+  | be    => {bnot} be)(bnot)
 ```
 
 Start with the theorem we want to prove:
@@ -176,11 +170,10 @@ Let's match against `bits`, using `self` on the motive:
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  case<Bits> bits
-  | b0 => ?
-  | b1 => ?
-  | be => ?
-  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  | b0   => ?
+  | b1   => ?
+  | be   => ?
   * ?
 ```
 
@@ -217,11 +210,10 @@ All we need is to add `b0` on both sides. We can do it with `cong`, from the bas
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  case<Bits> bits
-  | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
-  | b1 => ?
-  | be => ?
-  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  | b0   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
+  | b1   => ?
+  | be   => ?
   * ?
 ```
 
@@ -247,11 +239,10 @@ We can easily complete this proof now:
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  case<Bits> bits
-  | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
-  | b1 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b1, ~main(pred))
-  | be => refl<be>
-  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
+  | b0   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
+  | b1   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b1, ~main(pred))
+  | be   => refl<be>
   * refl<bits>
 ```
 

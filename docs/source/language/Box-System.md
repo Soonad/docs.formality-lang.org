@@ -25,10 +25,9 @@ Suppose we were trying to implement this function:
 
 ```javascript
 inc_if : {b : Bool, x : Word} -> Word
-  case<Bool> b
+  @Bool b ~> Word
   | true  => x + 1
   | false => x + 0
-  : Word
 
 main : Word
   inc_if(true, 10)
@@ -38,10 +37,9 @@ Here, `inc_if` increments a number if a boolean is true. Since `x` is used in di
 
 ```javascript
 inc_if : {b : Bool, x : Word} -> Word
-  (case<Bool> b
+  (@ b    ~> {x : Word} -> Word
   | true  => {x} x + 1
-  | false => {x} x + 0
-  : {x : Word} -> Word)(x)
+  | false => {x} x + 0)(x)
 
 main : Word
   inc_if(true, 10)
@@ -66,10 +64,9 @@ For everything else, you can write an auxiliary `copy` function:
 
 ```javascript
 copy : {b : Bool} -> [:Bool, Bool]
-  case<Bool> b
+  @ b     => [:Bool, Bool]
   | true  => [true, true]
   | false => [false, false]
-  : [:Bool, Bool]
 
 and_itself : {b : Bool} -> Bool
   get [b0, b1] = copy(b)

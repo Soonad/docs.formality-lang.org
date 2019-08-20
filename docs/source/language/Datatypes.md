@@ -1,6 +1,6 @@
 ## Datatypes
 
-Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar to Haskell's `data`, and creates global definitions for its type and constructors. To pattern-match against a value of a datatype, you must use `case<T>`.
+Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar to Haskell's `data`, and creates global definitions for its type and constructors. To pattern-match against a value of a datatype, you must use `@T`.
 
 ### Simple datatypes (enums)
 
@@ -17,15 +17,14 @@ main : Output
 
   let suit = spades
 
-  case<Suit> suit
+  @Suit suit ~> Output
   | clubs    => print("First rule: you do not talk about Fight Club.")
   | diamonds => print("Queen shines more than diamond.")
   | hearts   => print("You always had mine.")
   | spades   => print("The only card I need is the Ace of Spades! \m/")
-  : Output
 ```
 
-The program above creates a datatype, `Suit`, with 4 cases (constructors). It then pattern-matches a suit and outputs a different sentence depending on it. Notice that a `case` expression requires a type annotation below it.
+The program above creates a datatype, `Suit`, with 4 cases (constructors). It then pattern-matches a suit and outputs a different sentence depending on it. The `@` expression requires he name of the matched datatype, the matched value, the returned type, and then each case provided with a `|`. In some cases, the name of the datatype can be omitted.
 
 ### Record-like datatypes
 
@@ -39,14 +38,11 @@ main : Word
 
   let a = v3(10, 20, 30)
 
-  case<Vector3D> a
+  @Vector3D a ~> Word
   | v3 => x + y + z
-  : Word
 ```
 
-Notice that, inside the `v3` case, the `x`, `y` and `z` fields are automatically available. To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
-
-To deal with this name-shadowing, you should use the variable name for the current scope and use a `let` or append `^` to access a variable in the outer scope.
+Notice that, inside the `v3` case, you can access the `x`, `y` and `z` fields of he matched value. To prevent name-shadowing, you can use a `let`:
 
 ```javascript
 T Vector3D
@@ -57,19 +53,36 @@ main : Word
   let a = v3(10, 20, 30)
   let b = v3(30, 20, 10)
 
-  case<Vector3D> a
+  @Vector3D a ~> Word
   | v3 =>
-    case<Vector3D> b
+    let a.x = x
+    @Vector3D b ~> Word
+    |v3 =>
+      let b.x = x
+      a.x + b.x
+```
+
+You can also use `^` to refer to a variable on the outer scope:
+
+```javascript
+T Vector3D
+| v3 {x : Word, y : Word, z : Word}
+
+main : Word
+
+  let a = v3(10, 20, 30)
+  let b = v3(30, 20, 10)
+
+  @Vector3D a ~> Word
+  | v3 =>
+    @Vector3D b ~> Word
     |v3 =>
       x + x^
-    : Word
-  : Word
 ```
-**TODO**: add `let` example
 
 ### Recursive datatypes
 
-A recursive datatype is a data type for values that may contain other values of the same type. For example a `Nat`:
+A recursive datatype may contain fields of the same type. An example is `Nat`:
 
 ```javascript
 T Nat
@@ -79,13 +92,12 @@ T Nat
 main : Output
   let n = succ(succ(succ(zero)))
 
-  case<Nat> n
+  @ n    ~> Output
   | succ => print("n is positive")
   | zero => print("n is zero")
-  : Output
 ```
 
-Since `Nat` is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`.
+Since it is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`.
 
 ### Polymorphic datatypes
 
@@ -100,14 +112,12 @@ main : [:Nat, Word]
   let b = v3<Word>(1, 2, 3)
 
   let ax =
-    case<Vector3D> a
+    @Vector3D a ~> Na
     | v3 => x
-    : Nat
 
   let bx =
-    case<Vector3D> b
+    @Vector3D b ~> Word
     | v3 => x
-    : Word
 
   [ax, bx]
 ```
@@ -122,10 +132,9 @@ T List <T : Type>
 main : Output
   let list = cons<Word>(1, cons<Word>(2, cons<Word>(3, nil<Word>)))
 
-  case<List> list
-  | cons => print("List has elements")
-  | nil  => print("List is empty")
-  : Output
+  @List list ~> Output
+  | cons     => print("List has elements")
+  | nil      => print("List is empty")
 ```
 
 This is a little verbose, though, since we had to instantiate each use of cons with `<Word>`. You could make it shorter with `let`s:
@@ -142,33 +151,14 @@ But, since `List` is so common, there is a built-in syntax-sugar for it, the dot
 let list = Word$[1, 2, 3]
 ```
 
-When opening a `case` only use `case<List>`, not specifying the type of the list. Remember that the type annotation comes below it.
-
-```javascript
-// Specify the List type for parameter and return type
-tail : {~T : Type, list : List(T)} -> List(T)
-  // Wrong: case<List(T)>
-  case<List> list
-  | cons => tail
-  | nil  => nil(~T)
-  // Type annotation of "case"
-  : List(T)
-
-// T assumes the type of Word. That's why we know that the return will be List(Word) 
-main : List(Word)
-  let list = Word$[3, 2, 1]
-  tail(~Word, list)
-```
-
 ### Indexed datatypes
 
 Indexes are like polymorphic variables, except that they can change as the structure grows. For example, a Vector is like a List, except that its type stores its own length:
 
-
 ```javascript
 T Vector <T : Type> {len : Nat}
 | vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
-| vnil & zero
+| vnil                                                & zero
 
 main : Vector(String, 0n3)
   vcons<String>(~0n2, "ichi",
@@ -185,13 +175,9 @@ T Vector <T : Type> {len : Nat}
 | vnil & zero
 
 vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
-  case<Vector> vector
-  | vcons => head
-  | vnil  => 1337
-  : case<Nat> len
-    | succ => T
-    | zero => Word
-    : Type
+  @ vector ~> @Nat len ~> Type | succ => T | zero => Word
+  | vcons  => head
+  | vnil   => 1337
 
 main : Output
   let vec =
