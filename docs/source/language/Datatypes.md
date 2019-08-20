@@ -92,7 +92,7 @@ T Nat
 main : Output
   let n = succ(succ(succ(zero)))
 
-  @ n    ~> Output
+  @Nat n ~> Output
   | succ => print("n is positive")
   | zero => print("n is zero")
 ```
