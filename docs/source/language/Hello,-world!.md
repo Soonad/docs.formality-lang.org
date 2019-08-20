@@ -11,7 +11,7 @@ main : Output
   print("Hello, world!")
 ```
 
-Save this as `hello.fm` and run it with `fm hello.main`. This will use the interpreter to evaluate `main` and print its result. If everything works, you should see "Hello, world!" in your terminal.
+Save this as `hello.fm` and run it with `fm hello/main`. This will use the interpreter to evaluate `main` and print its result. If everything works, you should see "Hello, world!" in your terminal.
 
 ## Imports
 
@@ -76,7 +76,7 @@ Right now, global imports are uploaded to our servers, but, in a future, they'll
 
 ## Evaluating
 
-Formality is a pure functional language: it has no global state or built-in IO. Instead, when you type `fm <file>.<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file to its "normal form", stringify it and output the result. As such, `Output : Type` and `print : {str : String} -> Output` are really just base-library utilities that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example, if we evaluate this program:
+Formality is a pure functional language: it has no global state or built-in IO. Instead, when you type `fm <file>/<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file to its "normal form", stringify it and output the result. As such, `Output : Type` and `print : {str : String} -> Output` are really just base-library utilities that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example, if we evaluate this program:
 
 ```javascript
 import Base@0 open
