@@ -17,7 +17,7 @@ Table of contents
    language/Hello,-world!
    language/Basics
    language/Datatypes
-   language/Box-System
+   language/Boxes
    language/Theorem-Proving
    
 .. toctree::
