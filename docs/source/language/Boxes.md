@@ -12,7 +12,7 @@ main : Word
 
 If we try, we get an error:
 
-```javascript
+```shell
 Lambda variable `x` used more than once in:
 {x} => (x * x)
 ```
@@ -165,7 +165,7 @@ ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
 fact : !{n : Word} -> Word
   let call = {rec, i}
     cpy i = i
-    if i === 0 then:
+    if i === 0:
       1
     else:
       (i * rec(i - 1))
@@ -183,24 +183,33 @@ We "emulate" a recursive function by using `ten_times` to "build" the recursion 
 Fortunately, since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, simply annotate it with a `!` instead of a `:`. That has several effects. First, the whole definition is lifted to `level 1`. Second, if it uses any boxed definition inside it, it is automatically unboxed. Third, the definition can call itself recursively; if it does, then Formality will assembling the recursion for you using a `Rec` implementation from the Base library. This is an example of usage:
 
 ```javascript
-fact ! {i : Word} -> Word
+!fact*n : ! {i : Word} -> Word
   cpy i = i
-  if i === 0 then:
+  if i === 0:
     1
   else:
     i * fact(i - 1)
-  & 0
+  * 0
   
-main ! Word
-  fact(12)
+!main : !Word
+  fact*100(12)
 ```
 
-Notice that the halting case was defined with a `&` on the end. If it coincided with one of the function's arguments, you could place a `&` before it instead, i.e., `fact ! {&i : Word} -> Word`. Note also that, since `main` uses a recursive function, it must itself be a boxed definition, annotated with `!`. Alternatively, you could make it a normal definition and perform the unboxing yourself:
+**TODO**: add an explanation about `*n` and `Ind` like:
+```
+MD : Ind 
+  *100
+
+!main : !Word
+  fact*MD(12)
+``` 
+
+Notice that the halting case was defined with a `*` on the end. If it coincided with one of the function's arguments, you could place a `*` before it instead, i.e., `fact ! {*i : Word} -> Word`. Note also that, since `main` uses a recursive function, it must itself be a boxed definition, annotated with `!`. Alternatively, you could make it a normal definition and perform the unboxing yourself:
 
 ```javascript
 main : !Word
   dup fact = fact
-  # fact(12)
+  # fact*100(12)
 ```
 
 Both are equivalent.

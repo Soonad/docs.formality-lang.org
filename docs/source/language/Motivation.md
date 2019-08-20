@@ -1,6 +1,6 @@
 # Motivation
 
-Formality exists to fill a hole in the current market: there aren't many languages featuring *theorem proving* that are also built to user-friendly (rather than PhD-targetting tools), and to be very efficient at runtime. In order to achieve those goals, years of research and a lot of hard-thinking were put on the smallest decisions, and we're still making constant progress. Our current design already brings 3 major innovations:
+Formality exists to fill a hole in the current market: there aren't many languages featuring *theorem proving* that are also built to user-friendly (rather than PhD-targeting tools), and to be very efficient at runtime. In order to achieve those goals, years of research and a lot of hard-thinking were put on the smallest decisions, and we're still making constant progress. Our current design already brings 3 major innovations:
 
 ### Optimal substitutions
 
@@ -13,3 +13,6 @@ While the actual efficiency of a programming language depends on the implementat
 ### A powerful type-theory
 
 We conjecture that Formality's unique approach to termination allows its type system to have a bunch of powerful features that would otherwise be impossible without making the proof language inconsistent. As an example, it features `Type : Type`, which is powerful and very convenient. It also features mutual type-level recursion, allowing us to exploit self-types to elegantly represent datatypes as their own induction schemes, without needing a complex native datatype system. We're working hard towards proofs of those claims and hope they can be published soon.
+
+![](https://gitlab.com/moonad/formality/raw/master/docs/images/inet-simulation.gif)
+*Interaction Net (inet) simulation*

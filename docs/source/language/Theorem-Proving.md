@@ -29,9 +29,9 @@ main : {b : Bool} -> not(not(b)) == b
   ?
 ```
 
-The type checker complains:
+Evaluate it using `fm -t <file>/main` and the type checker complains:
 
-```javascript
+```shell
 Type mismatch.
 - Found type... Hole
 - Instead of... (not(not(b)) == b)
@@ -52,7 +52,7 @@ main : {b : Bool} -> not(not(b)) == b
 
 Not helpful:
 
-```javascript
+```shell
 Type mismatch.
 - Found type... Hole
 - Instead of... (not(not(b)) == b)
@@ -71,7 +71,7 @@ main : {b : Bool} -> not(not(b)) == b
   | false => ?
 ```
 
-Progress, `bs` is specialized `true` on the expected type of the `true` branch:
+Progress, `b`s is specialized `true` on the expected type of the `true` branch:
 
 ```javascript
 Type mismatch.
@@ -94,7 +94,7 @@ main : {b : Bool} -> not(not(b)) == b
 
 Progress, compiler now complains about the `false` branch:
 
-```javascript
+```shell
 Type mismatch.
 - Found type... Hole
 - Instead of... (not(not(false)) == false)
@@ -141,7 +141,7 @@ Start with the theorem we want to prove:
 ```
 
 
-Remember `*` is mandatory on recursive definition to provide the base-case. TODO: explain why the `-#`s on the type. 
+Remember that `*` is mandatory on recursive definition to provide the base-case. TODO: explain why the `-#`s on the type. 
 
 The type checker complains:
 
@@ -164,7 +164,7 @@ Notice that:
 
 2. We have, on context, `main`, which gives us `P(n)`.
 
-That's because the body of an recursive is actually the step case of an inductive proof, so all we need to do is, assuming `P(n)`, prove `P(step(n))`!
+That's because the body of a recursion is actually the step case of anT- inductive proof, so all we need to do is, assuming `P(n)`, prove `P(step(n))`!
 
 Let's match against `bits`, using `self` on the motive:
 
@@ -179,7 +179,7 @@ Let's match against `bits`, using `self` on the motive:
 
 Now the complaint becomes:
 
-```javascript
+```shell
 Type mismatch.
 - Found type... Hole
 - Instead of... bnot(step(n), bnot(step(n), b0(pred))) == b0(pred)
@@ -193,20 +193,20 @@ Type mismatch.
 - pred : Bits
 ```
 
-This is better, because now it expects `b0(pred)` instead of just `bits` . This allows the left-side of the equation to be reduced to:
+This is better because now it expects `b0(pred)` instead of just `bits` . This allows the left-side of the equation to be reduced to:
 
 ```javascript
 b0(bnot(n, bnot(n, pred))) == b0(pred)
 ```
 
-This is perfect, because we can use the inductive hypothesis to get this same equation, without the `b0`s. As in, we need to go...
+This is perfect because we can use the inductive hypothesis to get this same equation, without the `b0`s. As in, we need to go...
 
 ```javascript
 from :    bnot(n, bnot(n, bs))  == b0(bs)
 to   : b0(bnot(n, bnot(n, bs))) ==    bs
 ```
 
-All we need is to add `b0` on both sides. We can do it with `cong`, from the base libraries:
+All we need is to add `b0` on both sides. We can do it with `cong`, from the base libraries (`Base@0`):
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
@@ -221,7 +221,7 @@ TODO: should we have a built-in syntax to simplify `cong`?
 
 Now the checker complains about the `b1` case:
 
-```javascript
+```shell
 Type mismatch.
 - Found type... Hole
 - Instead of... bnot(step(n), bnot(step(n), b1(pred))) == b1(pred)
@@ -246,8 +246,8 @@ We can easily complete this proof now:
   * refl<bits>
 ```
 
-Note that the big difference here, with relation to Agda/Coq proofs, is that, in their cases, since recursive functions are defined by structural recursion, inductive proofs are also defined by recursion on the structure. For example, if we wanted to prove this theorem in Agda, we'd just match the bit-string, prove the base case by reflexivity, and prove the recursve case by calling `main` recursively on `pred`.
+Note that the big difference here, with relation to Agda/Coq proofs, is that, in their cases, since recursive functions are defined by structural recursion, inductive proofs are also defined by recursion on the structure. For example, if we wanted to prove this theorem in Agda, we'd just match the bit-string, prove the base case by reflexivity, and prove the recursive case by calling `main` recursively on `pred`.
 
-In Formality, it **looks** like the proof is the same, but there is a subtle, yet important, difference: under the hoods, we're not actually recursing on the `Bits` structure. Instead, we're folding over `n : Ind`, a datatype capturing the inductive hypothesis on natural numbers. As such, in order to prove that `bnot(n, bnot(n, bits)) == bits` hold for any `n`, we first must prove that it is true for `n == 0`, i.e., when `bits` has a maximum recursion depth of `0` (i.e., is "out-of-gas"), which is true by reflexivity since the function returns `bits` itself. We then prove that, assuming this is true for a maximum recursion depth of `n`, then it is also true for `bits(step(n))`. This is the `step` case, which coincides with Agda's proof.
+In Formality, it **looks** like the proof is the same, but there is a subtle, yet important, difference: under the hoods, we're not actually recursing on the `Bits` structure. Instead, we're folding over `n : Ind`, a datatype capturing the inductive hypothesis on natural numbers. As such, in order to prove that `bnot(n, bnot(n, bits)) == bits` hold for any `n`, we first must prove that it is true for `n == 0`, i.e., when `bits` has a maximum recursion depth of `0` (i.e., is "out-of-gas"), which is true by reflexivity since the function returns `bits` itself. We then prove that assuming this is true for a maximum recursion depth of `n`, then it is also true for `bits(step(n))`. This is the `step` case, which coincides with Agda's proof.
 
-Proving that kind of inductive theorem on Formality is a little more verbose than in Agda, since you have to wrap the whole proof inside `Ind`, and always tell the compiler what to do when the function "runs out of gas". In exchange, since termination is guaranteed by EAL, there is no "structural recursion" chhcker, so you're allowed to be more flexible in your recursive definitions.
+Proving that kind of inductive theorem on Formality is a little more verbose than in Agda, since you have to wrap the whole proof inside `Ind`, and always tell the compiler what to do when the function "runs out of gas". In exchange, since termination is guaranteed by EAL, there is no "structural recursion" checker, so you're allowed to be more flexible in your recursive definitions.
