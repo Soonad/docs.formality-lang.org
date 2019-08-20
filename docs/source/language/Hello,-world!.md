@@ -60,7 +60,7 @@ main : Output
 
 ## Global imports
 
-Formality's "package system" is very simple. A file can be saved globally with `fm -s file`. This will give it a unique name with a version, such as `file@7`. Once given an unique name, a file contents will never change, so `file@7` will always refer that exact file. As soon as it is saved globally, you can import it from any other computer. For example, remove `Answers.fm` and change `hello.fm` to:
+Formality's "package system" is very simple. A file can be saved globally with `fm -s file`. This will give it a unique name with a version, such as `file@7`. Once given a unique name, the file contents will never change, so `file@7` will always refer to that exact file. As soon as it is saved globally, you can import it from any other computer. For example, remove `Answers.fm` and change `hello.fm` to:
 
 ```javascript
 import Base@0 open
@@ -72,11 +72,11 @@ main : Output
 
 This will load `Answers@0.fm` inside the `fm_modules` directory and load it as usual.
 
-Right now, global imports are uploaded to our servers, but, in a future, they'll upload files to a decentralized storage such as IPFS/Swarm, and give it an unique name using Ethereum's naming system. Alternatively, you could write a module directly to the blockchain. This will allow its contents to be available permanently, with no downtime.
+Right now, global imports are uploaded to our servers, but, in the future, they'll upload files to a decentralized storage such as IPFS/Swarm, and give it a unique name using Ethereum's naming system. Alternatively, you could write a module directly to the blockchain. This will allow its contents to be available permanently, with no downtime.
 
 ## Evaluating
 
-Formality is a pure functional language: it has no global state or built-in IO. Instead, when you type `fm <file>/<term>`, Formality will just evaluate the `main` definition inside the `hello.fm` file to its "normal form", stringify it and output the result. As such, `Output : Type` and `print : {str : String} -> Output` are really just base-library utilities that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example, if we evaluate this program:
+Formality is a pure functional language: it has no global state or built-in IO. Instead, when you type `fm <file>/<term>`, Formality will just evaluate the `term` definition inside the `file.fm` file to its "normal form", stringify it and output the result. As such, `Output : Type` and `print : {str : String} -> Output` are really just base-library utilities that tell the CLI to pretty-print a string. `main` doesn't need to be an `Output`, though. It can be anything. For example, if we evaluate this program:
 
 ```javascript
 import Base@0 open
@@ -94,7 +94,7 @@ It will output:
 {cons, nil} => nil)))
 ```
 
-Which is the λ-encoded version of the "Hello, world!" string (as an UTF-8 buffer). Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms. 
+Which is the λ-encoded version of the "Hello, world!" string (as a UTF-8 buffer). Formality will fully evaluate terms, even inside lambdas, in order to show their normal forms. 
 
 Type annotations are optional. For example, this works fine:
 
@@ -105,7 +105,7 @@ main
   "Hello, world!"
 ```
 
-By default, `fm` runs on the debug mode, using an interpreter. One of the most interesting aspects of Formality is that its programs can be evaluated optimally, as explained on [this](https://medium.com/@maiavictor/solving-the-mystery-behind-abstract-algorithms-magical-optimizations-144225164b07) post, using an efficent graph-reduction system based on [interaction combinators](https://arxiv.org/abs/0906.0380). To run your program using the optimal reduction algorithm, use the `-o` flag.
+By default, `fm` runs on the debug mode, using an interpreter. One of the most interesting aspects of Formality is that its programs can be evaluated optimally, as explained on [this](https://medium.com/@maiavictor/solving-the-mystery-behind-abstract-algorithms-magical-optimizations-144225164b07) post, using an efficent graph-reduction system based on [interaction combinators](https://arxiv.org/abs/0906.0380). To run your program using the optimal reduction algorithm, use the `-o` flag. To check other flags, just type `fm` on the terminal.
 
 ## Type-checking
 
