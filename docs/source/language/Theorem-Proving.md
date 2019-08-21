@@ -8,23 +8,11 @@ TODO
 
 ### Simple proofs
 
-Let's prove a theorem about the boolean not:
+Let's prove a theorem about the boolean `not`:
 
 ```javascript
-T Bool
-| true
-| false
+import Base@0 open
 
-not : {b : Bool} -> Bool
-  @ b     ~> Bool
-  | true  => false
-  | false => true
-```
-
-
-Start with the theorem we want to prove:
-
-```javascript
 main : {b : Bool} -> not(not(b)) == b
   ?
 ```
@@ -44,10 +32,13 @@ Type mismatch.
 Let's pattern-match on `b`.
 
 ```javascript
+import Base@0 open
+
 main : {b : Bool} -> not(not(b)) == b
-  @ b     ~> not(not(b)) == b
+  case/Bool b
   | true  => ?
   | false => ?
+  : not(not(b)) == b
 ```
 
 Not helpful:
@@ -65,10 +56,13 @@ Type mismatch.
 Using `self` on the motive:
 
 ```javascript
+import Base@0 open
+
 main : {b : Bool} -> not(not(b)) == b
-  @ b     ~> not(not(self)) == self
+  case/Bool b
   | true  => ?
   | false => ?
+  : not(not(self)) == self
 ```
 
 Progress, `b`s is specialized `true` on the expected type of the `true` branch:
@@ -86,10 +80,13 @@ Type mismatch.
 If we reduce both sides, we get the same expression: `{true, false} => true`. In this case, we can use `refl`:
 
 ```javascript
+import Base@0 open
+
 main : {b : Bool} -> not(not(b)) == b
-  @ b     ~> not(not(self)) == self
+  case/Bool b
   | true  => refl<true>
   | false => ?
+  : not(not(self)) == self
 ```
 
 Progress, compiler now complains about the `false` branch:
@@ -107,35 +104,49 @@ Type mismatch.
 We can do the same:
 
 ```javascript
+import Base@0 open
+
 main : {b : Bool} -> not(not(b)) == b
-  @ b     ~> not(not(self)) == self
+  case/Bool b
   | true  => refl<true>
   | false => refl<false>
+  : not(not(self)) == self
 ```
 
-No type error. Our proof is complete!
+No type error. Our proof is complete! Note that, if we used `case`'d args, Formality would fill the `self` on the motive for us. The proof becomes just:
+
+```javascript
+import Base@0 open
+
+main : {case b : Bool} -> not(not(b)) == b
+| true  => refl<true>
+| false => refl<false>
+```
 
 ### Inductive proofs
 
 Let's prove a similar theorem, but for negation on arbitrary-length bit-strings instead of plain booleans:
 
 ```javascript
+import Base@0 open
+
 T Bits
 | b0 {pred : Bits}
 | b1 {pred : Bits}
 | be
 
 !bnot*n : !{*bits : Bits} -> Bits
-  (@ bits ~> {bnot : {bits : Bits} -> Bits} -> Bits
+  (case/Bits bits
   | b0    => {bnot} b1(bnot(pred))
   | b1    => {bnot} b0(bnot(pred))
-  | be    => {bnot} be)(bnot)
+  | be    => {bnot} be
+  : {bnot : {bits : Bits} -> Bits} -> Bits)(bnot)
 ```
 
 Start with the theorem we want to prove:
 
 ```javascript
-!bnot_theo*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
+!main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
   ?
   * ?
 ```
@@ -170,10 +181,11 @@ Let's match against `bits`, using `self` on the motive:
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
-  | b0   => ?
-  | b1   => ?
-  | be   => ?
+  case/Bits bits
+  | b0 => ?
+  | b1 => ?
+  | be => ?
+  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
   * ?
 ```
 
@@ -210,10 +222,11 @@ All we need is to add `b0` on both sides. We can do it with `cong`, from the bas
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
-  | b0   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
-  | b1   => ?
-  | be   => ?
+  case/Bits bits
+  | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
+  | b1 => ?
+  | be => ?
+  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
   * ?
 ```
 
@@ -239,10 +252,11 @@ We can easily complete this proof now:
 
 ```javascript
 !main*n : !{bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
-  @ bits ~> -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
-  | b0   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
-  | b1   => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b1, ~main(pred))
-  | be   => refl<be>
+  case/Bits bits
+  | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
+  | b1 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b1, ~main(pred))
+  | be => refl<be>
+  : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
   * refl<bits>
 ```
 

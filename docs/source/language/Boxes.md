@@ -47,6 +47,36 @@ main : Word
 
 That is, instead of using `x` inside each case of the pattern-match, we return a function that receives `x` and use it in the body of the function.
 
+## Use case'd arguments.
+
+The optimization above is powerful, but it comes at the cost of added code complexity. The case'd argument feature will automatically perform it, allowing you to use an argument more than once, as long as it is in a different branch. For example, this function is not valid:
+
+```javascript
+data Bool
+| true
+| false
+
+// Gets first element if `b` true, otherwise gets the second
+getter : {b : Bool, pair : [:Word, Word]} -> Word
+  case/Bool b
+  | true  => snd(pair)
+  | false => fst(pair)
+  : Bool
+```
+
+Because the `pair` argument is used more than once. With `case`'d arguments, the language moves `pair` to each branch without duplications, allowing you to write just:
+
+```javascript
+data Bool
+| true
+| false
+
+// Gets first element if `b` true, otherwise gets the second
+getter : {case b : Bool, pair : [:Word, Word]} -> Word
+| true  => fst(pair)
+| false => snd(pair)
+```
+
 ### Make a manual copy.
 
 For `Word`s in particular, there is a native `cpy` operation that copies it as many times as desired:

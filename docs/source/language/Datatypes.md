@@ -1,109 +1,151 @@
 ## Datatypes
 
-Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar to Haskell's `data`, and creates global definitions for its type and constructors. To pattern-match against a value of a datatype, you must use `@T`.
+Formality includes a powerful datatype system. A new datatype can be defined with the `T` syntax, which is similar to Haskell's `data`, and creates global definitions for its type and constructors. To pattern-match against a value of a datatype, you must use `case/T`.
 
-### Simple datatypes (enums)
+### Simple datatypes
 
-A simple datatype, or enum, can be defined as:
+A simple datatype is equivalent to an enum. It can be defined and used as:
 
 ```javascript
+import Base@0 open
+
 T Suit
 | clubs
 | diamonds
 | hearts
 | spades
 
-main : Output
-
-  let suit = spades
-
-  @Suit suit ~> Output
+print_suit : {suit : Suit} -> Output
+  case/Suit suit
   | clubs    => print("First rule: you do not talk about Fight Club.")
   | diamonds => print("Queen shines more than diamond.")
   | hearts   => print("You always had mine.")
   | spades   => print("The only card I need is the Ace of Spades! \m/")
+  : Output
+
+main : Output
+  print_suit(spades)
 ```
 
-The program above creates a datatype, `Suit`, with 4 cases (constructors). It then pattern-matches a suit and outputs a different sentence depending on it. The `@` expression requires he name of the matched datatype, the matched value, the returned type, and then each case provided with a `|`. In some cases, the name of the datatype can be omitted.
+The program above creates a datatype, `Suit`, with 4 cases (constructors). It then pattern-matches a suit and outputs a different sentence depending on it. The `case` expression requires he name of the matched datatype, the matched value, each case provided with a `|`. It also requires you to annotate the type returned by the match. This is important for dependent pattern matches. Since here it coincides with the type returned by the function, you can use `case`'d arguments instead:
 
-### Record-like datatypes
+```javascript
+print_suit : {case suit : Suit} -> Output
+| clubs    => print("First rule: you do not talk about Fight Club.")
+| diamonds => print("Queen shines more than diamond.")
+| hearts   => print("You always had mine.")
+| spades   => print("The only card I need is the Ace of Spades! \m/")
+```
+
+Notice the `case` keyword before `suit`. This tells Formality to match `suit` directly, giving `print_suit` a Haskell-like syntax. This feature is actually quite powerful, as it will perform some handy resource management and "motive-filling" under the hoods, allowing you to write much smaller programs/proofs. Use it when possible!
+
+### Container datatypes
 
 Datatype constructors can have fields, allowing them to store values:
 
 ```javascript
 T Vector3D
 | v3 {x : Word, y : Word, z : Word}
-
-main : Word
-
-  let a = v3(10, 20, 30)
-
-  @Vector3D a ~> Word
-  | v3 => x + y + z
 ```
 
-Notice that, inside the `v3` case, you can access the `x`, `y` and `z` fields of he matched value. To prevent name-shadowing, you can use a `let`:
+You can access its fields with a `case` syntax:
 
 ```javascript
-T Vector3D
-| v3 {x : Word, y : Word, z : Word}
-
-main : Word
-
-  let a = v3(10, 20, 30)
-  let b = v3(30, 20, 10)
-
-  @Vector3D a ~> Word
-  | v3 =>
-    let a.x = x
-    @Vector3D b ~> Word
-    |v3 =>
-      let b.x = x
-      a.x + b.x
+get_x : {v : Vector3D} -> Word
+  case/Vector3D v
+  | v3 => x
+  : Word
 ```
 
-You can also use `^` to refer to a variable on the outer scope:
+When you have nested cases, you disambiguate with `^`, wich refers to a outer variable:
 
 ```javascript
-T Vector3D
-| v3 {x : Word, y : Word, z : Word}
-
-main : Word
-
-  let a = v3(10, 20, 30)
-  let b = v3(30, 20, 10)
-
-  @Vector3D a ~> Word
-  | v3 =>
-    @Vector3D b ~> Word
-    |v3 =>
-      x + x^
+sum : {v0 : Vector3D, v1 : Vector3D} -> Vector3D
+  case/Vector3D v0
+  | v3 => case/Vector3D v1
+    | v3 => v3(x + x^, y + y^, z + z^)
+    : Vector3D
+  : Vector3D
 ```
+
+Or you can use `let`:
+
+```javascript
+sum : {a : Vector3D, b : Vector3D} -> Vector3D
+  case/Vector3D a
+  | v3 =>
+    let ax = x
+    let ay = y
+    let az = z
+    case/Vector3D b
+    | v3 =>
+      let bx = x
+      let by = y
+      let bz = z
+      v3(ax + bx, ay + by, az + bz)
+    : Vector3D
+  : Vector3D
+```
+
+Of, preferably, just use case'd arguments. It'll allow you to access the fields with `var.field`, as in:
+
+```javascript
+sum : {case a : Vector3D, case b : Vector3D} -> Vector3D
+| v3 v3 => v3(a.x + b.x, a.y + b.y, a.z + b.z)
+```
+
+As you can see, case'd arguments will often be much terser than case-expressions.
 
 ### Recursive datatypes
 
-A recursive datatype may contain fields of the same type. An example is `Nat`:
+Datatypes can contain fields of the same type. An example is `Nat`:
 
 ```javascript
 T Nat
 | succ {pred : Nat}
 | zero
 
-main : Output
-  let n = succ(succ(succ(zero)))
-
-  @Nat n ~> Output
-  | succ => print("n is positive")
-  | zero => print("n is zero")
+// Returns 1 if n > 0, otherwise returns 0
+signal : {case n : Nat} -> Nat
+| succ => succ(zero)
+| zero => zero
 ```
 
-Since it is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`.
+Since Nat in particular is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`. Of course, recursive datatypes aren't very useful without recursive functions. Since the underlying calculus behind Formality is terminating, you can't write those directly, as in:
+
+```javascript
+mul2 : {case n : Nat} -> Nat
+| succ => succ(succ(mul2(n)))
+| zero => zero
+```
+
+Instead, you must 1. append a `!` to its name and type, to make a "boxed definition", 2. annotate it with an extra variable, `N`, that tracks of the number of calls, 3. add a "halt-case" with `*`, which will be forcedly returned if the function "runs out of gas":
+
+```javascript
+!mul2*N : !{case n : Nat} -> Nat
+| succ => succ(succ(mul2(n)))
+| zero => zero
+* zero
+```
+
+Then you can use it inside other boxed definitions by setting a maximum number of calls with `*`:
+
+```javascript
+!main : !Nat
+  mul2*65536(succ(succ(zero)))
+```
+
+Or you can hide the number and Formality will default to a number so big it can never be reached in practice.
+
+The reason things are this way is that recursive functions are desugared to eliminations of the inductive hypothesis of Church-encoded `Nat`s, which is the closest to recursion that the underlying theory offers, but requires a max number of calls and a "halt-case".  Note that 1. this results in no loss of performance, 2. Formality functions can have bounds so high that they'll never be reached in practice. So, from a practical point of view, Formality is no less powerful than, say, JavaScript, which is limited by the max stack size, your computer's memory/CPU, etc. In any case, you don't need to understand any of that to use the language. Just remember that recursive functions have a slightly different syntax. For the nerds around, we'll explain those interesting details in later sections.
 
 ### Polymorphic datatypes
 
 Polymorphic datatypes allow us to create multiple instances of the same datatype with different contained types.
 
 ```javascript
+import Base@0 open
+
 T Vector3D <T : Type>
 | v3 {x : T, y : T, z : T} 
 
@@ -111,44 +153,43 @@ main : [:Nat, Word]
   let a = v3<Nat>(0n1, 0n2, 0n3)
   let b = v3<Word>(1, 2, 3)
 
-  let ax =
-    @Vector3D a ~> Na
-    | v3 => x
-
-  let bx =
-    @Vector3D b ~> Word
-    | v3 => x
+  let ax = case/Vector3D a | v3 => x : Nat
+  let bx = case/Vector3D b | v3 => x : Word
 
   [ax, bx]
 ```
 
-The program above creates two 3D vectors, the first one storing `Nat`s and the second one storing `Word`s. The polymorphic variable `T`, defined with the `<>` syntax, allowed us to define `Vector3D` only once. With this, we can also create the popular functional List type:
+The program above creates two 3D vectors, the first one storing `Nat`s and the second one storing `Word`s. The polymorphic variable `T`, defined with the `<>` syntax, allowed us to reuse the same definition of `Vector3D` for both contained types. With this, we can also create the popular functional List type:
 
 ```javascript
 T List <T : Type>
 | cons {head : T, tail : List(T)}
 | nil
 
-main : Output
-  let list = cons<Word>(1, cons<Word>(2, cons<Word>(3, nil<Word>)))
+// Returns all but the first element
+tail : {~T : Type, case list : List(T)} -> List(T)
+| cons => list.tail
+| nil  => nil<T>
 
-  @List list ~> Output
-  | cons     => print("List has elements")
-  | nil      => print("List is empty")
+main : List(Word)
+  tail<Word>(cons<Word>(1, cons<Word>(2, cons<Word>(3, nil<Word>))))
 ```
 
-This is a little verbose, though, since we had to instantiate each use of cons with `<Word>`. You could make it shorter with `let`s:
+Notice that, since Formality has no implicict arguments, you need to explicitly instantiate constructors with `<Word>`. To reduce the noise, you can use `let`:
 
 ```javascript
-let cons = cons<Word>
-let nil  = nil<Word>
-let list = cons(1, cons(2, cons(3, nil)))
+main : List(Word)
+  let tail = tail<Word>
+  let cons = cons<Word>
+  let nil  = nil<Word>
+  tail(cons(1, cons(2, cons(3, nil))))
 ```
 
 But, since `List` is so common, there is a built-in syntax-sugar for it, the dollar sign:
 
 ```javascript
-let list = Word$[1, 2, 3]
+main : List(Word)
+  tail<Word>(Word$[1, 2, 3])
 ```
 
 ### Indexed datatypes
@@ -156,6 +197,8 @@ let list = Word$[1, 2, 3]
 Indexes are like polymorphic variables, except that they can change as the structure grows. For example, a Vector is like a List, except that its type stores its own length:
 
 ```javascript
+import Base@0 open
+
 T Vector <T : Type> {len : Nat}
 | vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
 | vnil                                                & zero
@@ -170,14 +213,20 @@ main : Vector(String, 0n3)
 The `&` syntax was used to apply the indexes to the returned type of each constructor. For example, `| vnil & zero` would be equivalent to `vnil : Vector T zero` in Agda. In this example, `main` has the type `Vector(String, 0n3)`, meaning it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with very rich static information, allowing us to prevent a wide range of bugs. For example, here is a `vhead` function that can only be called in non-empty vectors:
 
 ```javascript
+import Base@0 open
+
 T Vector <T : Type> {len : Nat}
 | vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
-| vnil & zero
+| vnil                                                & zero
 
 vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
-  @ vector ~> @Nat len ~> Type | succ => T | zero => Word
+  case/Vector vector
   | vcons  => head
   | vnil   => 1337
+  : case/Nat len
+    | succ => T
+    | zero => Word
+    : Type
 
 main : Output
   let vec =
