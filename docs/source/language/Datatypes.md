@@ -57,6 +57,8 @@ get_x : {v : Vector3D} -> Word
   : Word
 ```
 
+#### Nested cases
+
 When you have nested cases, you disambiguate with `^`, wich refers to a outer variable:
 
 ```javascript
@@ -111,7 +113,11 @@ signal : {case n : Nat} -> Nat
 | zero => zero
 ```
 
-Since Nat in particular is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`. Of course, recursive datatypes aren't very useful without recursive functions. Since the underlying calculus behind Formality is terminating, you can't write those directly, as in:
+Since Nat in particular is so common, there is a syntax-sugar for it: `0n3`, which expands to `succ(succ(succ(zero)))`.
+
+#### Recursive functions
+
+Of course, recursive datatypes aren't very useful without recursive functions. Since the underlying calculus behind Formality is terminating, you can't write those directly, as in:
 
 ```javascript
 mul2 : {case n : Nat} -> Nat
@@ -137,7 +143,9 @@ Then you can use it inside other boxed definitions by setting a maximum number o
 
 Or you can hide the number and Formality will default to a number so big it can never be reached in practice.
 
-The reason things are this way is that recursive functions are desugared to eliminations of the inductive hypothesis of Church-encoded `Nat`s, which is the closest to recursion that the underlying theory offers, but requires a max number of calls and a "halt-case".  Note that 1. this results in no loss of performance, 2. Formality functions can have bounds so high that they'll never be reached in practice. So, from a practical point of view, Formality is no less powerful than, say, JavaScript, which is limited by the max stack size, your computer's memory/CPU, etc. In any case, you don't need to understand any of that to use the language. Just remember that recursive functions have a slightly different syntax. For the nerds around, we'll explain those interesting details in later sections.
+The reason things are this way is that recursive functions are desugared to eliminations of the inductive hypothesis of Church-encoded `Nat`s, which is the closest to recursion that the underlying theory offers, but requires a max number of calls and a "halt-case".  Note that 1. this results in no loss of performance, 2. Formality functions can have bounds so high that they'll never be reached in practice. So, from a practical point of view, Formality is no less powerful than, say, JavaScript, which is limited by the max stack size, your computer's memory/CPU, etc.
+
+In any case, you don't need to understand any of that to use the language. Just remember that recursive functions have a slightly different syntax. For the nerds around, we'll explain those interesting details in later sections.
 
 ### Polymorphic datatypes
 
