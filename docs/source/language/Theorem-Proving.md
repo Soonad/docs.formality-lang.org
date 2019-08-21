@@ -260,6 +260,16 @@ We can easily complete this proof now:
   * refl<bits>
 ```
 
+As usual, it could be simplified with case'd arguments:
+
+```javascript
+!main*n : !{case bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
+| b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(bits.pred)), ~bits.pred, ~b0, ~main(bits.pred))
+| b1 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(bits.pred)), ~bits.pred, ~b1, ~main(bits.pred))
+| be => refl<be>
+* refl<bits>
+```
+
 Note that the big difference here, with relation to Agda/Coq proofs, is that, in their cases, since recursive functions are defined by structural recursion, inductive proofs are also defined by recursion on the structure. For example, if we wanted to prove this theorem in Agda, we'd just match the bit-string, prove the base case by reflexivity, and prove the recursive case by calling `main` recursively on `pred`.
 
 In Formality, it **looks** like the proof is the same, but there is a subtle, yet important, difference: under the hoods, we're not actually recursing on the `Bits` structure. Instead, we're folding over `n : Ind`, a datatype capturing the inductive hypothesis on natural numbers. As such, in order to prove that `bnot(n, bnot(n, bits)) == bits` hold for any `n`, we first must prove that it is true for `n == 0`, i.e., when `bits` has a maximum recursion depth of `0` (i.e., is "out-of-gas"), which is true by reflexivity since the function returns `bits` itself. We then prove that assuming this is true for a maximum recursion depth of `n`, then it is also true for `bits(step(n))`. This is the `step` case, which coincides with Agda's proof.
