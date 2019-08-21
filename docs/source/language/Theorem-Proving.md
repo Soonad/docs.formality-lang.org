@@ -164,7 +164,7 @@ Notice that:
 
 2. We have, on context, `main`, which gives us `P(n)`.
 
-That's because the body of a recursion is actually the step case of anT- inductive proof, so all we need to do is, assuming `P(n)`, prove `P(step(n))`!
+That's because the body of a recursive function is actually the step case of inductive proof, so all we need to do is, assuming `P(n)`, prove `P(step(n))`!
 
 Let's match against `bits`, using `self` on the motive:
 
