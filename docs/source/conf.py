@@ -24,9 +24,9 @@ copyright = u'2019, Ethereum Foundation and Sunshine Cybernetics'
 author = u'Sunshine Cybernetics'
 
 # The short X.Y version
-version = u'3.77'
+version = u'3.88'
 # The full version, including alpha/beta/rc tags
-release = u'0.3.77'
+release = u'0.3.88'
 
 
 # -- General configuration ---------------------------------------------------
