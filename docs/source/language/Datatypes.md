@@ -138,7 +138,7 @@ Then you can use it inside other boxed definitions by setting a maximum number o
 
 ```javascript
 !main : !Nat
-  mul2*65536(succ(succ(zero)))
+  <mul2*65536>(succ(succ(zero)))
 ```
 
 Or you can hide the number and Formality will default to a number so big it can never be reached in practice.
@@ -154,12 +154,12 @@ Polymorphic datatypes allow us to create multiple instances of the same datatype
 ```javascript
 import Base@0 open
 
-T Vector3D <T : Type>
+T Vector3D {T : Type}
 | v3 {x : T, y : T, z : T} 
 
 main : [:Nat, Word]
-  let a = v3<Nat>(0n1, 0n2, 0n3)
-  let b = v3<Word>(1, 2, 3)
+  let a = v3(~Nat, 0n1, 0n2, 0n3)
+  let b = v3(~Word, 1, 2, 3)
 
   let ax = case/Vector3D a | v3 => x : Nat
   let bx = case/Vector3D b | v3 => x : Word
@@ -167,29 +167,29 @@ main : [:Nat, Word]
   [ax, bx]
 ```
 
-The program above creates two 3D vectors, the first one storing `Nat`s and the second one storing `Word`s. The polymorphic variable `T`, defined with the `<>` syntax, allowed us to reuse the same definition of `Vector3D` for both contained types. With this, we can also create the popular functional List type:
+The program above creates two 3D vectors, the first one storing `Nat`s and the second one storing `Word`s. The polymorphic variable `T`, defined with the `{}` syntax, allowed us to reuse the same definition of `Vector3D` for both contained types. With this, we can also create the popular functional List type:
 
 ```javascript
-T List <T : Type>
+T List {T : Type}
 | cons {head : T, tail : List(T)}
 | nil
 
 // Returns all but the first element
 tail : {~T : Type, case list : List(T)} -> List(T)
 | cons => list.tail
-| nil  => nil<T>
+| nil  => nil(~T)
 
 main : List(Word)
-  tail<Word>(cons<Word>(1, cons<Word>(2, cons<Word>(3, nil<Word>))))
+  tail(~Word, cons(~Word, 1, cons(~Word, 2, cons(~Word, 3, nil(~Word)))))
 ```
 
-Notice that, since Formality has no implicict arguments, you need to explicitly instantiate constructors with `<Word>`. To reduce the noise, you can use `let`:
+Notice that, since Formality has no implicict arguments, you need to explicitly instantiate constructors with `(~Word)`. To reduce the noise, you can use `let`:
 
 ```javascript
 main : List(Word)
-  let tail = tail<Word>
-  let cons = cons<Word>
-  let nil  = nil<Word>
+  let tail = tail(~Word)
+  let cons = cons(~Word)
+  let nil  = nil(~Word)
   tail(cons(1, cons(2, cons(3, nil))))
 ```
 
@@ -197,7 +197,7 @@ But, since `List` is so common, there is a built-in syntax-sugar for it, the dol
 
 ```javascript
 main : List(Word)
-  tail<Word>(Word$[1, 2, 3])
+  tail(~Word, Word$[1, 2, 3])
 ```
 
 ### Indexed datatypes
@@ -207,25 +207,25 @@ Indexes are like polymorphic variables, except that they can change as the struc
 ```javascript
 import Base@0 open
 
-T Vector <T : Type> {len : Nat}
-| vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
-| vnil                                                & zero
+T Vector {T : Type} (len : Nat)
+| vcons {~len : Nat, head : T, tail : Vector(T, len)} (succ(len))
+| vnil                                                (zero)
 
 main : Vector(String, 0n3)
-  vcons<String>(~0n2, "ichi",
-  vcons<String>(~0n1, "ni",
-  vcons<String>(~0n0, "san",
-  vnil<String>)))
+  vcons(~String, ~0n2, "ichi",
+  vcons(~String, ~0n1, "ni",
+  vcons(~String, ~0n0, "san",
+  vnil(~String))))
 ```
 
-The `&` syntax was used to apply the indexes to the returned type of each constructor. For example, `| vnil & zero` would be equivalent to `vnil : Vector T zero` in Agda. In this example, `main` has the type `Vector(String, 0n3)`, meaning it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with very rich static information, allowing us to prevent a wide range of bugs. For example, here is a `vhead` function that can only be called in non-empty vectors:
+The `()` syntax was used to apply the indexes to the returned type of each constructor. For example, `| vnil (zero)` would be equivalent to `vnil : Vector(T, zero)` in Agda. In this example, `main` has the type `Vector(String, 0n3)`, meaning it is a vector with exactly 3 strings. If we used `vcons` again, the type would change to `Vector(String, 0n4)`. This feature allows us to annotate our data with very rich static information, allowing us to prevent a wide range of bugs. For example, here is a `vhead` function that can only be called in non-empty vectors:
 
 ```javascript
 import Base@0 open
 
-T Vector <T : Type> {len : Nat}
-| vcons {~len : Nat, head : T, tail : Vector(T, len)} & succ(len)
-| vnil                                                & zero
+T Vector {T : Type} (len : Nat)
+| vcons {~len : Nat, head : T, tail : Vector(T, len)} (succ(len))
+| vnil                                                (zero)
 
 vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
   case/Vector vector
@@ -238,12 +238,12 @@ vhead : {~T : Type, ~n : Nat, vector : Vector(T, succ(n))} -> T
 
 main : Output
   let vec =
-    vcons<String>(~0n2, "uno",
-    vcons<String>(~0n1, "dos",
-    vcons<String>(~0n0, "tres",
-    vnil<String>)))
+    vcons(~String, ~0n2, "uno",
+    vcons(~String, ~0n1, "dos",
+    vcons(~String, ~0n0, "tres",
+    vnil(~String))))
 
-  print(vhead<String>(~0n2, vec))
+  print(vhead(~String, ~0n2, vec))
 ```
 
 To understand how it works, notice that the return-type of the `case` expression is allowed to access `len`. This allows Formality to specialize the expected type of each case. On `vcons`, the length is `succ(...)`, so we must provide an element of type `T`. On `vnil`, the length is `zero`, so we must provide any arbitrary `Word`. Then, the return type of the case expression itself is computed based on the index of the matched `vector`, which is `succ(n)`. Since that is positive, the return type is always `T`, i.e., Formality knows it will never fall on the `vnil` case. Calling `vhead` with an empty vector is impossible because we'd need an `n` such that `succ(n)` is `zero`, but there is no such natural number. 
@@ -263,15 +263,15 @@ Bool : Type
   } -> P(self)
 
 true : Bool
-  new<Bool>{~P, true, false} true
+  new(~Bool){~P, true, false} true
 
 false : Bool
-  new<Bool>{~P, true, false} false
+  new(~Bool){~P, true, false} false
 
 case_of : {b : Bool, ~P : {x : Bool} -> Type, t : P(true), f : P(false)} -> P(b)
   (%b)(~P, t, f)
 ```
 
-Here, `$self ...`, `new<T> val` and `%b` are the type, introduction, and elimination of self-types, respectively. You can see how any datatype is encoded under the hoods by asking `fm` to evaluate its type, as in, `fm any_file.Bool` or `fm any_file.Nat`. While you probably won't need to deal with self-encodings yourself, knowing how they work is valuable, since it allows you to express types not covered by the built-in syntax.
+Here, `$self ...`, `new(~T) val` and `%b` are the type, introduction, and elimination of self-types, respectively. You can see how any datatype is encoded under the hoods by asking `fm` to evaluate its type, as in, `fm any_file.Bool` or `fm any_file.Nat`. While you probably won't need to deal with self-encodings yourself, knowing how they work is valuable, since it allows you to express types not covered by the built-in syntax.
 
 **TODO**: write a brief explanation on how Self-Types work (although I think it should be self-explanatory from this example!).

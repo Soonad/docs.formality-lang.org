@@ -40,9 +40,9 @@ bitwise-xor | `x .^ y` | `x ^ y`
 bitwise-not | `x .! y` | `~y`
 bitwise-right-shift | `x .>> y` | `x >>> y`
 bitwise-left-shift | `x .<< y` | `x << y`
-greater-than | `x > y` | `x > y ? 1 : 0`
-less-than | `x < y` | `x < y ? 1 : 0`
-equals | `x === y` | `x === y ? 1 : 0`
+greater-than | `x .> y` | `x > y ? 1 : 0`
+less-than | `x .< y` | `x < y ? 1 : 0`
+equals | `x .= y` | `x === y ? 1 : 0`
 
 The type of a native number is `Word`. Note that there is no operator precedence. An expression like `3 * 10 + 1` is always parsed as `3 * (10 + 1)`. You can use parenthesis to change the order.
 
@@ -65,7 +65,7 @@ Usage is straightforward:
 main : Output
   let age = 30
 
-  if age < 18:
+  if age .< 18:
     print("boring teenager")
   else:
     print("respect your elders!")

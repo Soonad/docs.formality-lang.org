@@ -181,7 +181,7 @@ ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
   # f(f(f(f(f(f(f(f(f(f(x))))))))))
 
 main : !Word
-  ten_times<Word>(#{x} x + 2, #0)
+  ten_times(~Word, #{x} x + 2, #0)
 ```
 
 Here, we define a function, `ten_times`, which takes a function, `f`, creates 10 copies of it, and applies to an argument, `x`. As the result, we're able to repeat the `+ 2` operation 10 times, adding `20` to `0`. This same technique can be used to implement bounded recursion. For example, here:
@@ -201,7 +201,7 @@ fact : !{n : Word} -> Word
       (i * rec(i - 1))
   let halt = {i}
     0
-  ten_times<{x : Word} -> Word>(#call, #halt)
+  ten_times(~{x : Word} -> Word, #call, #halt)
 
 main : !Word
   dup fact = fact
@@ -210,7 +210,7 @@ main : !Word
 
 We "emulate" a recursive function by using `ten_times` to "build" the recursion tree of "fact" up to 10 layers deep. As such, it only works for inputs up to 10; after that, it hits the "halt" case and returns 0. The good thing about this way of doing recursion is that we're not limited to recurse on structurally smaller arguments. The bad thing is that it is a little bit verbose, requiring an explicit bound, and a halting case for when the function "runs out of gas". Moreover, since we used `ten_times` to make the function, it comes inside a box, on `level 1`. In other words, it is impossible to use it on `level 0`! Instead, we must use the `level 0` to unbox it (with a `dup`), and then use it on `level 1`.
 
-Fortunately, since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, simply annotate it with a `!` instead of a `:`. That has several effects. First, the whole definition is lifted to `level 1`. Second, if it uses any boxed definition inside it, it is automatically unboxed. Third, the definition can call itself recursively; if it does, then Formality will assembling the recursion for you using a `Rec` implementation from the Base library. This is an example of usage:
+Fortunately, since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, simply annotate it with a `!` instead of a `:`. That has several effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>`s: the parser will automatically unbox them for you. Third, the definition can call itself recursively; if it does, then Formality will assembling the recursion for you using a `Ind` implementation from the Base library. This is an example of usage:
 
 ```javascript
 !fact*n : ! {i : Word} -> Word
@@ -222,17 +222,8 @@ Fortunately, since bounded recursive functions are so common, Formality has buil
   * 0
   
 !main : !Word
-  fact*100(12)
+  <fact*100>(12)
 ```
-
-**TODO**: add an explanation about `*n` and `Ind` like:
-```
-MD : Ind 
-  *100
-
-!main : !Word
-  fact*MD(12)
-``` 
 
 Notice that the halting case was defined with a `*` on the end. If it coincided with one of the function's arguments, you could place a `*` before it instead, i.e., `fact ! {*i : Word} -> Word`. Note also that, since `main` uses a recursive function, it must itself be a boxed definition, annotated with `!`. Alternatively, you could make it a normal definition and perform the unboxing yourself:
 
@@ -244,4 +235,4 @@ main : !Word
 
 Both are equivalent.
 
-The maximum recursion depth of the `Rec` defined by the base library is `2^64`. In other words, despite being terminating, in practice, Formality is capable of doing anything a Turing-complete language could do. After all, no language could perform more than `2^64` calls without exhausting your computer resources.
+The maximum recursion depth of the `Ind` defined by the base library is `2^256-1`. In other words, despite being terminating, in practice, Formality is capable of doing anything a Turing-complete language could do. After all, no language could perform more than `2^256-1` calls without exhausting your computer (or this universe's) resources.

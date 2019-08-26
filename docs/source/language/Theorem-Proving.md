@@ -84,7 +84,7 @@ import Base@0 open
 
 main : {b : Bool} -> not(not(b)) == b
   case/Bool b
-  | true  => refl<true>
+  | true  => refl(~true)
   | false => ?
   : not(not(self)) == self
 ```
@@ -96,7 +96,7 @@ Type mismatch.
 - Found type... Hole
 - Instead of... (not(not(false)) == false)
 - When checking ?
-- On expression (%b)(~{self} => (not(not(self)) == self), refl<true>, ?)
+- On expression (%b)(~{self} => (not(not(self)) == self), refl(~true), ?)
 - With the following context:
 - b : Bool
 ```
@@ -108,8 +108,8 @@ import Base@0 open
 
 main : {b : Bool} -> not(not(b)) == b
   case/Bool b
-  | true  => refl<true>
-  | false => refl<false>
+  | true  => refl(~true)
+  | false => refl(~false)
   : not(not(self)) == self
 ```
 
@@ -119,8 +119,8 @@ No type error. Our proof is complete! Note that, if we used `case`'d args, Forma
 import Base@0 open
 
 main : {case b : Bool} -> not(not(b)) == b
-| true  => refl<true>
-| false => refl<false>
+| true  => refl(~true)
+| false => refl(~false)
 ```
 
 ### Inductive proofs
@@ -255,9 +255,9 @@ We can easily complete this proof now:
   case/Bits bits
   | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b0, ~main(pred))
   | b1 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(pred)), ~pred, ~b1, ~main(pred))
-  | be => refl<be>
+  | be => refl(~be)
   : -#(bnot(step(n)))(-#(bnot(step(n)))(self)) == self
-  * refl<bits>
+  * refl(~bits)
 ```
 
 As usual, it could be simplified with case'd arguments:
@@ -266,8 +266,8 @@ As usual, it could be simplified with case'd arguments:
 !main*n : !{case bits : Bits} -> -#(bnot(n))(-#(bnot(n))(bits)) == bits
 | b0 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(bits.pred)), ~bits.pred, ~b0, ~main(bits.pred))
 | b1 => cong(~Bits, ~Bits, ~(-#(bnot(n)))((-#(bnot(n)))(bits.pred)), ~bits.pred, ~b1, ~main(bits.pred))
-| be => refl<be>
-* refl<bits>
+| be => refl(~be)
+* refl(~bits)
 ```
 
 Note that the big difference here, with relation to Agda/Coq proofs, is that, in their cases, since recursive functions are defined by structural recursion, inductive proofs are also defined by recursion on the structure. For example, if we wanted to prove this theorem in Agda, we'd just match the bit-string, prove the base case by reflexivity, and prove the recursive case by calling `main` recursively on `pred`.
