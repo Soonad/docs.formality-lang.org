@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. Formality Net &mdash; Formality 0.3.91 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="8. Theorem Proving" href="../language/8.Theorem-Proving.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #444053" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/formality-logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.91
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../language/1.Motivation.html">1. Motivation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/1.Motivation.html#optimal-substitutions">1.1. Optimal substitutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/1.Motivation.html#a-perfect-execution-model">1.2. A “perfect” execution model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/1.Motivation.html#a-powerful-type-theory">1.3. A powerful type-theory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/2.Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/3.Hello,-world!.html">3. Hello, World!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/3.Hello,-world!.html#running-a-program">3.1. Running a program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/3.Hello,-world!.html#imports">3.2. Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/3.Hello,-world!.html#global-imports">3.3. Global imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/3.Hello,-world!.html#evaluating">3.4. Evaluating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/3.Hello,-world!.html#type-checking">3.5. Type-checking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/4.Basics.html">4. Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/4.Basics.html#let">4.1. Let</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/4.Basics.html#words">4.2. Words</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/4.Basics.html#if">4.3. If</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/4.Basics.html#pairs">4.4. Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/4.Basics.html#functions">4.5. Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/5.Datatypes.html">5. Datatypes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#simple-datatypes">5.1. Simple datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#container-datatypes">5.2. Container datatypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../language/5.Datatypes.html#nested-cases">5.2.1. Nested cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#recursive-datatypes">5.3. Recursive datatypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../language/5.Datatypes.html#recursive-functions">5.3.1. Recursive functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#polymorphic-datatypes">5.4. Polymorphic datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#indexed-datatypes">5.5. Indexed datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/5.Datatypes.html#self-encodings">5.6. Self-Encodings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/6.7.Boxes.html">6. Box System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/6.7.Boxes.html#avoid-making-a-copy">6.1. Avoid making a copy.</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/6.7.Boxes.html#use-case-d-arguments">7. Use case’d arguments.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/6.7.Boxes.html#make-a-manual-copy">7.1. Make a manual copy.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/6.7.Boxes.html#use-boxes">7.2. Use boxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/6.7.Boxes.html#loops-and-recursion">7.3. Loops and Recursion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/8.Theorem-Proving.html">8. Theorem Proving</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../language/8.Theorem-Proving.html#equality">8.1. Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/8.Theorem-Proving.html#simple-proofs">8.2. Simple proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language/8.Theorem-Proving.html#inductive-proofs">8.3. Inductive proofs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Runtime</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Formality Net</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rewrite-rules">1.1. Rewrite rules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#erasure">1.1.1. Erasure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#substitution">1.1.2. Substitution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#duplication">1.1.3. Duplication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#if-then-else">1.1.4. If-Then-Else</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#num-operation">1.1.5. Num-Operation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-fm-core-to-fm-net">1.2. Compiling FM-Core to FM-Net</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation">1.3. Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rewrites">1.3.1. Rewrites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strict-evaluation">1.3.2. Strict evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lazy-evaluation">1.3.3. Lazy evaluation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Formality</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>1. Formality Net</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/runtime/Formality-Net.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="formality-net">
+<h1>1. Formality Net<a class="headerlink" href="#formality-net" title="Permalink to this headline">¶</a></h1>
+<p>Formality terms are compiled to a memory-efficient interaction net system. Interaction nets are just graphs where nodes have labeled ports, one being the main one, plus a list of “rewrite rules” that are activated whenever two nodes are connected by their main ports. Our system includes 6 types of nodes, ERA, CON, OP1, OP2, ITE, NUM.</p>
+<p><img alt="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-node-types.png" src="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-node-types.png" /></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">CON</span></code> has 3 ports and an integer label. It is used to represent lambdas, applications, boxes (implicitly) and duplications. Since FM-Core is based on EAL, there is no book-keeping machinery to keep track of Bruijn indices, just <code class="docutils literal notranslate"><span class="pre">CON</span></code> is enough for beta-reduction.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ERA</span></code> has 1 port and is used to free empty memory, which happens when a function that doesn’t use its bound variable is applied to an argument.</li>
+<li><code class="docutils literal notranslate"><span class="pre">NUM</span></code> has 1 port and stores an integer and is used to represent native numbers.</li>
+<li><code class="docutils literal notranslate"><span class="pre">OP1</span></code> has 2 ports and stores one integer and an operation id. <code class="docutils literal notranslate"><span class="pre">OP2</span></code> has 3 ports and an operation id. They are used for numeric operations such as addition and multiplication.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ITE</span></code> has 3 ports and an integer label. It is used for if-then-else, and is required to enable number-based branching.</li>
+</ul>
+<p>Note that the position of the port matters. The port on top is called the <code class="docutils literal notranslate"><span class="pre">main</span></code> port. The first port counter-clockwise to the main port (i.e., to the left on this drawing) is the <code class="docutils literal notranslate"><span class="pre">aux0</span></code> port, and the first port clockwise to the main port (i.e., to the right on this drawing) is the <code class="docutils literal notranslate"><span class="pre">aux1</span></code> port.</p>
+<div class="section" id="rewrite-rules">
+<h2>1.1. Rewrite rules<a class="headerlink" href="#rewrite-rules" title="Permalink to this headline">¶</a></h2>
+<p>In order to perform computations, FM-Net has a set of rewrite rules that are triggered whenever two nodes are connected by their main ports. This is an extensive list of those rules:</p>
+<p><img alt="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-rewrite-rules.png" src="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-rewrite-rules.png" /></p>
+<p>Note that, while there are many rules (since we need to know what to do on each combination of a node), most of those have the same “shape” (such as OP2-OP2, ITE-ITE), so they can reuse the same code. There are only 5 actually relevant rules:</p>
+<div class="section" id="erasure">
+<h3>1.1.1. Erasure<a class="headerlink" href="#erasure" title="Permalink to this headline">¶</a></h3>
+<p>When an <code class="docutils literal notranslate"><span class="pre">ERA</span></code> or a <code class="docutils literal notranslate"><span class="pre">NUM</span></code> node collides with anything, it “destroys” the other node, and propagates itself to destroy all nodes connected to it.</p>
+</div>
+<div class="section" id="substitution">
+<h3>1.1.2. Substitution<a class="headerlink" href="#substitution" title="Permalink to this headline">¶</a></h3>
+<p>When two <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes of equal label collide, and also on the <code class="docutils literal notranslate"><span class="pre">OP2-OP2</span></code> / <code class="docutils literal notranslate"><span class="pre">ITE-ITE</span></code> cases, both nodes are destroyed, and their neighbors are connected. That’s the rule that performs beta-reduction because it allows connecting the body of a lambda (which is represented with <code class="docutils literal notranslate"><span class="pre">CON</span></code>) to the argument of an application (which is, too, represented with <code class="docutils literal notranslate"><span class="pre">CON</span></code>). Note that on the OP2-OP2 and ITE-ITE cases, that’s just a default rule that doesn’t matter, since those cases can’t happen on valid FM-Core programs.</p>
+</div>
+<div class="section" id="duplication">
+<h3>1.1.3. Duplication<a class="headerlink" href="#duplication" title="Permalink to this headline">¶</a></h3>
+<p>When different nodes collide, they “pass through” each other, duplicating themselves in the process. This allows, for example, <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes with a label <code class="docutils literal notranslate"><span class="pre">&gt;1</span></code> to be used to perform deep copies of any term, with <code class="docutils literal notranslate"><span class="pre">dup</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">val;</span> <span class="pre">...</span></code>. It can copy lambdas and applications because they are represented with <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes with a label <code class="docutils literal notranslate"><span class="pre">0</span></code>, pairs and pair-accessors, because they are represented with <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes with a label <code class="docutils literal notranslate"><span class="pre">1</span></code>, and <code class="docutils literal notranslate"><span class="pre">ITE</span></code>, <code class="docutils literal notranslate"><span class="pre">OP1</span></code>, <code class="docutils literal notranslate"><span class="pre">OP2</span></code>, because they are different nodes.</p>
+<p>It also allows duplications to duplicate terms that are partially duplicated (i.e., which must duplicate, say, a λ-bound variable), as long as the <code class="docutils literal notranslate"><span class="pre">CON</span></code> labels are different, otherwise, the <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes would instead fall in the substitution case, destroying each other and connecting neighbors, which isn’t correct. That’s why FMC’s box system is necessary: to prevent concurrent duplication processes to interfere with each other by ensuring that, whenever you duplicate a term with <code class="docutils literal notranslate"><span class="pre">dup</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">val;</span> <span class="pre">...</span></code>, all the duplication <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes of <code class="docutils literal notranslate"><span class="pre">val</span></code> will have a labels higher than the one used by that <code class="docutils literal notranslate"><span class="pre">dup</span></code>.</p>
+</div>
+<div class="section" id="if-then-else">
+<h3>1.1.4. If-Then-Else<a class="headerlink" href="#if-then-else" title="Permalink to this headline">¶</a></h3>
+<p>When an <code class="docutils literal notranslate"><span class="pre">ITE</span></code> node collides with a <code class="docutils literal notranslate"><span class="pre">NUM</span></code> node, it becomes a <code class="docutils literal notranslate"><span class="pre">CON</span></code> node with one of its ports connected to an <code class="docutils literal notranslate"><span class="pre">ERA</span></code> node. That’s because then/else branches are actually stored in a pair, and this allows you to select either the <code class="docutils literal notranslate"><span class="pre">fst</span></code> or the <code class="docutils literal notranslate"><span class="pre">snd</span></code> value of that pair and discard the other branch.</p>
+</div>
+<div class="section" id="num-operation">
+<h3>1.1.5. Num-Operation<a class="headerlink" href="#num-operation" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">OP2</span></code> collides with a <code class="docutils literal notranslate"><span class="pre">NUM</span></code>, it becomes an <code class="docutils literal notranslate"><span class="pre">OP1</span></code> node and stores the number inside it; i.e., the binary operation becomes a unary operation with <code class="docutils literal notranslate"><span class="pre">NUM</span></code> partially applied. When that <code class="docutils literal notranslate"><span class="pre">OP1</span></code> collides with another <code class="docutils literal notranslate"><span class="pre">NUM</span></code>, then it performs the binary operation on both operands, and return a new <code class="docutils literal notranslate"><span class="pre">NUM</span></code> with the result. Those rules allow us to add, multiply, divide and so on native numbers.</p>
+</div>
+</div>
+<div class="section" id="compiling-fm-core-to-fm-net">
+<h2>1.2. Compiling FM-Core to FM-Net<a class="headerlink" href="#compiling-fm-core-to-fm-net" title="Permalink to this headline">¶</a></h2>
+<p>The process of compiling FM-Core to FM-Net can be defined by the following function <code class="docutils literal notranslate"><span class="pre">k_b(net)</span></code>:</p>
+<p><img alt="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-compilation.png" src="https://gitlab.com/moonad/formality/raw/master/docs/images/fm-net-compilation.png" /></p>
+<p>This function recursively walks through a term, creating nodes and “temporary variables” (<code class="docutils literal notranslate"><span class="pre">x_b</span></code>) in the process. It also keeps track of the number of boxes it passed through, <code class="docutils literal notranslate"><span class="pre">b</span></code>. For example, on the lambda (<code class="docutils literal notranslate"><span class="pre">{x}f</span></code>) case, the procedure creates a <code class="docutils literal notranslate"><span class="pre">CON</span></code> node with a label <code class="docutils literal notranslate"><span class="pre">0</span></code>, creates a “temporary variable” <code class="docutils literal notranslate"><span class="pre">x_b</span></code> on the <code class="docutils literal notranslate"><span class="pre">aux0</span></code> port, recurses towards the body of the function, <code class="docutils literal notranslate"><span class="pre">f</span></code> on the <code class="docutils literal notranslate"><span class="pre">aux1</span></code> port, and then returns the <code class="docutils literal notranslate"><span class="pre">main</span></code> port (because there is a black ball on it). Notice that there isn’t a case for <code class="docutils literal notranslate"><span class="pre">VAR</span></code>. That’s what those “temporary variables” are for. On the <code class="docutils literal notranslate"><span class="pre">VAR</span></code> case, two things can happen:</p>
+<ol class="simple">
+<li>If the corresponding “temporary variable” <code class="docutils literal notranslate"><span class="pre">x_b</span></code> was never used, simply return a pointer to it.</li>
+<li>If the corresponding “temporary variable” <code class="docutils literal notranslate"><span class="pre">x_b</span></code> was used, create a “CON” node with a label <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">+</span> <span class="pre">b</span></code>, connect its main port to the old location of <code class="docutils literal notranslate"><span class="pre">x_b</span></code>, its <code class="docutils literal notranslate"><span class="pre">aux0</span></code> to the port <code class="docutils literal notranslate"><span class="pre">x_b</span></code> pointed to, and return a pointer to its <code class="docutils literal notranslate"><span class="pre">aux1</span></code> port.</li>
+</ol>
+<p>This process allows us to create as many <code class="docutils literal notranslate"><span class="pre">CON</span></code> nodes as needed to duplicate <code class="docutils literal notranslate"><span class="pre">dup</span></code>-bound variables, and labels those nodes with the layer of that <code class="docutils literal notranslate"><span class="pre">dup</span></code> (plus 2, since labels 0 and 1 are used for lambdas/applications and pairs/projections). Note that this process is capable of duplicating λ-bound variables, but this isn’t safe in practice, and won’t happen in well-typed inputs.</p>
+</div>
+<div class="section" id="implementation">
+<h2>1.3. Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>In our implementation, we use a buffer of 32-bit unsigned integers to represent nodes, as follows:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">CON</span></code>: represented by 4 consecutive uints. The first 3 represent the <code class="docutils literal notranslate"><span class="pre">main</span></code>, <code class="docutils literal notranslate"><span class="pre">aux0</span></code> and <code class="docutils literal notranslate"><span class="pre">aux1</span></code> ports. The last one represents the node type (2 bits), whether its ports are pointers or unboxed numbers (3 bits), and the label (27 bits).</li>
+<li><code class="docutils literal notranslate"><span class="pre">OP1</span></code>: represented by 4 consecutive uints. The first 2 represent the <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">aux0</span></code> ports. The third represents the stored number. The last one represents the node type (2 bits), whether its ports are pointers or unboxed numbers (3 bits, 1 unused), and the operation (27 bits).</li>
+<li><code class="docutils literal notranslate"><span class="pre">OP2</span></code>: represented by 4 consecutive uints. The first 2 represent the <code class="docutils literal notranslate"><span class="pre">main</span></code>, <code class="docutils literal notranslate"><span class="pre">aux0</span></code> and <code class="docutils literal notranslate"><span class="pre">aux1</span></code> ports. The third represents the stored number. The last one represents the node type (2 bits), whether its ports are pointers or unboxed numbers (3 bits), and the operation (27 bits).</li>
+<li><code class="docutils literal notranslate"><span class="pre">ITE</span></code>: represented by 4 consecutive uints. The first 2 represent the <code class="docutils literal notranslate"><span class="pre">main</span></code>, <code class="docutils literal notranslate"><span class="pre">aux0</span></code> and <code class="docutils literal notranslate"><span class="pre">aux1</span></code> ports. The third represents the stored number. The last one represents the node type (2 bits), whether its ports are pointers or unboxed numbers (3 bits), and the label (27 bits).</li>
+<li><code class="docutils literal notranslate"><span class="pre">ERA</span></code>: is stored inside other nodes and do not use any extra space. An <code class="docutils literal notranslate"><span class="pre">ERA</span></code> node is represented by a pointer port which points to itself. That’s because <code class="docutils literal notranslate"><span class="pre">ERA</span></code>’s rewrite rules coincide with what we’d get if we allowed ports to point to themselves.</li>
+<li><code class="docutils literal notranslate"><span class="pre">NUM</span></code>: is stored inside other nodes and do not use any extra space. A <code class="docutils literal notranslate"><span class="pre">NUM</span></code> node is represented by a numeric port. In order to know if a port is a number or a pointer, each node reserves 3 bits of its last uint to store that information.</li>
+</ul>
+<div class="section" id="rewrites">
+<h3>1.3.1. Rewrites<a class="headerlink" href="#rewrites" title="Permalink to this headline">¶</a></h3>
+<p>TODO: explain how <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> works, how <code class="docutils literal notranslate"><span class="pre">link_ports</span></code> is used, and why <code class="docutils literal notranslate"><span class="pre">unlink_ports</span></code> is necessary to avoid invalid states.</p>
+</div>
+<div class="section" id="strict-evaluation">
+<h3>1.3.2. Strict evaluation<a class="headerlink" href="#strict-evaluation" title="Permalink to this headline">¶</a></h3>
+<p>The strict evaluation algorithm is very simple. First, we must keep a set of redexes, i.e., nodes connected by their main ports. In order to do that, whenever we link two main ports, we must add the address of the smallest nodes to that set. We then perform a loop to rewrite all redexes. This will give us a new set of redexes, which must then be reduced again, over and over, until there are no redexes left. This is the pseudocode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">redexes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">redex</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">redexes</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">rewrite</span><span class="p">(</span><span class="n">redex</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The strict reduction is interesting because it doesn’t require graph walking nor garbage collection passes, and because the inner <code class="docutils literal notranslate"><span class="pre">for</span></code>-loop can be performed in parallel. That is, every <code class="docutils literal notranslate"><span class="pre">redex</span></code> in <code class="docutils literal notranslate"><span class="pre">net.redexes</span></code> can be rewritten at the same time.</p>
+<p>In order to do that, though, one must be cautious with intersection areas. For example, in the graph below, B-C and D-E are redexes. If we reduce them in parallel, both threads will attempt to read/write from C’s and D’s <code class="docutils literal notranslate"><span class="pre">aux0</span></code> and <code class="docutils literal notranslate"><span class="pre">aux1</span></code> ports, potentially causing synchronization errors.</p>
+<p><img alt="https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_problem_2x.png" src="https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_problem_2x.png" /></p>
+<p>This can be avoided through locks, or by performing rewrites in two steps. On the first step, each thread reads/writes the ports of its own active pair as usual, except that, when it would need to connect a neighbor, it instead turns its own node into a “redirector” which points to where the neighbor was supposed to point. For example, substitution and duplication would be performed as follows:</p>
+<p><img alt="https://github.com/MaiaVictor/absal-ex/blob/master/img/sk_local_rewrites_2x.png?raw=true" src="https://github.com/MaiaVictor/absal-ex/blob/master/img/sk_local_rewrites_2x.png?raw=true" /></p>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">P</span></code>, <code class="docutils literal notranslate"><span class="pre">Q</span></code>, <code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">S</span></code> (neighbor ports) weren’t touched: they keep pointing to the same ports, but now those ports point to where they should point to. Then, a second parallel step is performed. This time, we spawn a thread for each neighbor port and walk through the graph until we find a non-redirector node. We then point that neighbor to it. Here is a full example:</p>
+<p><img alt="https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_local_rewrites_ex_2x.png" src="https://github.com/MaiaVictor/absal-ex/raw/master/img/sk_local_rewrites_ex_2x.png" /></p>
+<p>Notice, for example, the port <code class="docutils literal notranslate"><span class="pre">C</span></code> of the node <code class="docutils literal notranslate"><span class="pre">A</span></code>. It is on the neighborhoods of a redex (<code class="docutils literal notranslate"><span class="pre">B-C</span></code>), but isn’t a redex itself. On the first step, two threads rewrite the nodes <code class="docutils literal notranslate"><span class="pre">B-C</span></code> and <code class="docutils literal notranslate"><span class="pre">D-E</span></code>, turning them into redirectors, and without touching that port. On the second step, a thread starts from port <code class="docutils literal notranslate"><span class="pre">C</span></code> of node <code class="docutils literal notranslate"><span class="pre">A</span></code>, towards port <code class="docutils literal notranslate"><span class="pre">B</span></code> of node <code class="docutils literal notranslate"><span class="pre">B</span></code> (a redirector), towards port <code class="docutils literal notranslate"><span class="pre">C</span></code> of node <code class="docutils literal notranslate"><span class="pre">D</span></code> (a redirector), towards port <code class="docutils literal notranslate"><span class="pre">B</span></code> of node <code class="docutils literal notranslate"> <span class="pre">F</span></code>. Since that isn’t a redirector, the thread will make <code class="docutils literal notranslate"><span class="pre">C</span></code> point to <code class="docutils literal notranslate"><span class="pre">B</span></code>. The same is done for each neighbor port (in parallel), completing the parallel reduction.</p>
+</div>
+<div class="section" id="lazy-evaluation">
+<h3>1.3.3. Lazy evaluation<a class="headerlink" href="#lazy-evaluation" title="Permalink to this headline">¶</a></h3>
+<p>The lazy evaluation algorithm is very different from the strict one. It works by traversing the graph, exploring it to find redexes that are “visible” on the normal form of the term, skipping unnecessary branches. It is interesting because it allows avoiding wasting work; for example, <code class="docutils literal notranslate"><span class="pre">({a</span> <span class="pre">b}b</span> <span class="pre">(F</span> <span class="pre">42)</span> <span class="pre">7)</span></code> would quickly evaluate to <code class="docutils literal notranslate"><span class="pre">7</span></code>, no matter how long <code class="docutils literal notranslate"><span class="pre">(F</span> <span class="pre">42)</span></code> takes to compute. In exchange, it is “less parallel” than the strict algorithm (we can’t reduce all redexes since we don’t know if they’re necessary), and it requires global garbage collection (since erasure nodes are ignored).</p>
+<p>To skip unnecessary branches, we must walk through the graph from  port to port, using a strategy very similar to the denotational semantics of symmetric interaction combinators. First, we start walking from the root port to its target port. Then, until we get back to the root, do as follows:</p>
+<ol class="simple">
+<li>If we’re walking from an aux port towards an aux port of a node, add the aux we’re coming from to a stack, and move towards the main port of that node.</li>
+<li>If we’re walking from a main port to an auxiliary port, then we just found a node that is part of the normal form of the graph! If we’re performing a weak-head normal form reduction, stop. Otherwise, start walking towards each auxiliary port (either recursively, or in parallel).</li>
+<li>If we’re walking towards root, halt.</li>
+</ol>
+<p>This is a rough pseudocode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reduce_lazy</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+  <span class="n">back</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">prev</span> <span class="o">=</span> <span class="n">start</span>
+  <span class="nb">next</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+
+  <span class="k">while</span> <span class="ow">not</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">is_root</span><span class="p">(</span><span class="nb">next</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">slot_of</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">slot_of</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">net</span><span class="o">.</span><span class="n">rewrite</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">slot_of</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">for</span> <span class="n">aux_n</span> <span class="kn">from</span> <span class="mi">0</span> <span class="n">til</span> <span class="n">net</span><span class="o">.</span><span class="n">aux_ports_of</span><span class="p">(</span><span class="nb">next</span><span class="p">):</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">reduce_lazy</span><span class="p">(</span><span class="n">Pointer</span><span class="p">(</span><span class="n">node_of</span><span class="p">(</span><span class="nb">next</span><span class="p">),</span> <span class="n">aux_n</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">back</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+      <span class="n">prev</span> <span class="o">=</span> <span class="n">Pointer</span><span class="p">(</span><span class="n">node_of</span><span class="p">(</span><span class="nb">next</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="nb">next</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>While the lazy algorithm is inherently sequential, there is still an opportunity to explore parallelism whenever we find a node that is part of the normal form of the graph (i.e., case <code class="docutils literal notranslate"><span class="pre">2</span></code>). In that case, we can spawn a thread to walk towards each auxiliary port in parallel; i.e., the <code class="docutils literal notranslate"><span class="pre">for</span></code>-loop of the pseudocode can be executed in parallel like the one on the strict version. This would allow the algorithm to have many threads walking through the graph at the same time. Again, caution must be taken to avoid conflicts.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../language/8.Theorem-Proving.html" class="btn btn-neutral float-left" title="8. Theorem Proving" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ethereum Foundation and Sunshine Cybernetics
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
