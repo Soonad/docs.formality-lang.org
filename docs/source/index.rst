@@ -12,13 +12,13 @@ Table of contents
    :numbered:
    
       language
-   language/Motivation
-   language/Installation
-   language/Hello,-world!
-   language/Basics
-   language/Datatypes
-   language/Boxes
-   language/Theorem-Proving
+   language/1.Motivation
+   language/2.Installation
+   language/3.Hello,-world!
+   language/4.Basics
+   language/5.Datatypes
+   language/6.7.Boxes
+   language/8.Theorem-Proving
    
 .. toctree::
     :maxdepth: 2
