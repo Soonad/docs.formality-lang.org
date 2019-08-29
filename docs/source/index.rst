@@ -17,8 +17,8 @@ Table of contents
    language/3.Hello,-world!
    language/4.Basics
    language/5.Datatypes
-   language/6.7.Boxes
-   language/8.Theorem-Proving
+   language/6.Boxes
+   language/7.Theorem-Proving
    
 .. toctree::
     :maxdepth: 2
