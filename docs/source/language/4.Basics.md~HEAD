@@ -4,7 +4,7 @@
 
 Formality includes `let` expressions, which allow you to give names to expression.
 
-```
+```javascript
 main : String
   let hello = "Hello, world!"
   print(hello)
@@ -12,7 +12,7 @@ main : String
 
 `let` expressions can be infinitely nested.
 
-```
+```javascript
 main : String
   let output = 
     let hello = "Hello, world!"
