@@ -57,7 +57,7 @@ main : Word
 
 syntax | description
 --- | ---
-`if n: a else: b` | If `n === 0`, evaluates to `a`, else, evaluates to `b`
+`if n: a else: b` | If `n === 0`, evaluates to `b`, else, evaluates to `a`
 
 Usage is straightforward:
 
