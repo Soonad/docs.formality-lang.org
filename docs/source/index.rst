@@ -31,15 +31,20 @@ Table of contents
    language/1.Motivation
    language/2.Installation
    language/3.Hello,-world!
-   language/4.Basics
+   language/4.Core-Features
    language/5.Datatypes
-   language/6.Boxes
 
    
 .. toctree::
     :maxdepth: 2
+    :caption: Tutorials
     :numbered:
-    :caption: Techniques
+
+    tutorials/Dependent-Types
+    tutorials/Recursion
+    tutorials/Linearity
+    tutorials/Boxes
+    tutorials/Theorem-Proving
 
 .. toctree::
     :maxdepth: 2
@@ -47,12 +52,4 @@ Table of contents
     :caption: Runtime
 
     runtime/Formality-Net
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Tutorials
-    :numbered:
-
-    tutorials/Theorem-Proving
-    tutorials/TODO
 

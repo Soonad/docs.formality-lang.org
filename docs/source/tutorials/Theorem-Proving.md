@@ -1,10 +1,6 @@
 ## Theorem Proving
 
-**This article is a draft.**
-
-### Equality
-
-TODO
+TODO: review and update with correct error messages (after the `Hole` update). Also talk about `log(x)`.
 
 ### Simple proofs
 
