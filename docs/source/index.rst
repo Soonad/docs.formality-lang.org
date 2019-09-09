@@ -34,7 +34,7 @@ Table of contents
    language/4.Basics
    language/5.Datatypes
    language/6.Boxes
-   language/7.Theorem-Proving
+
    
 .. toctree::
     :maxdepth: 2
@@ -50,5 +50,9 @@ Table of contents
 
 .. toctree::
     :maxdepth: 2
-    :caption: Tutorial
+    :caption: Tutorials
+    :numbered:
+
+    tutorials/Theorem-Proving
+    tutorials/TODO
 
