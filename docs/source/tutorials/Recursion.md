@@ -43,14 +43,24 @@ Formality allows you to turn a boxed definition into a recursive function by app
   else:
     i * fact(i - 1)
 halt: 0
-  
-#main : !Word
-  <fact*100>(12) // 100 is the call limit; write `<fact*>` to use 2^256-1
 ```
 
-This is not much different from the usual `fact` definition, except we explicitly set the "halt-case" to be `0` on the last line. That means that, if the function "runs out of gas", it will stop and return `0` instead. As a shortcut, if your "halt-case" is simply one of the function's argument, you can write the `*` on it instead, as in, `fact*N ! {*i : Word} -> Word`. 
+This is not much different from the usual `fact` definition, except we explicitly set the "halt-case" to be `0` on the last line. That means that, if the function "runs out of gas", it will stop and return `0` instead. As a shortcut, if your "halt-case" is simply one of the function's argument, you can write the `*` on it instead, as in, `fact*N ! {*i : Word} -> Word`. To call it, you must set an explicit max call limit with `*N`:
 
-The maximum recursion depth of the `Ind` defined by the base library is `2^256-1`. In other words, despite being terminating, in practice, Formality is capable of doing anything a Turing-complete language could do. After all, no language could perform more than `2^256-1` calls without getting a stack-overflow, or exhausting your computer's CPU/memory.
+```javascript
+main : !Word
+  dup f = fact*100
+  # f(12)
+```
+
+Or, with boxed definitions:
+
+```javascript 
+#main : !Word
+  <fact*100>(12)
+```
+
+The `f*N` syntax configures the call limit of a recursive function. Here, we used `100`. Note this is actually just a shortcut for a function application: we could have written `fact(*100)` instead. We could also have omitted the number, as in, `<fact*>(x)`, which would default to `2^256-1`. This limit is so absurdly large that, for all practical purposes, our functions are no less powerful than the ones found in other languages. After all, `2^256-1` is so large that no real computer could reach this amount of calls anyway. In fact, the entire observable universe has less particles than that!
 
 ## (TODO)
 
