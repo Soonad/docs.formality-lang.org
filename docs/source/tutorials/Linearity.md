@@ -131,7 +131,7 @@ This is also a very important technique. So, in short, when you need to use a va
 Formality has another primitive for deep-copying values, boxes. When dealing with data, though, you almost never want to use boxes to perform copies, due to the stratification condition, which essentially segregates the language in levels, blocks communication from higher to lower levels. Regardless, they can still be useful sometimes. See, for example, how `map` is defined for lists:
 
 ```javascript
-!map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
+#map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
 | cons => cons(~B, f(list.head), map(list.tail))
 | nil  => nil(~B)
 * nil(~B)

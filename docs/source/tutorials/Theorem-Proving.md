@@ -131,7 +131,7 @@ T Bits
 | b1 {pred : Bits}
 | be
 
-!bnot*n : !{*bits : Bits} -> Bits
+#bnot*n : !{*bits : Bits} -> Bits
   (case/Bits bits
   | b0    => {bnot} b1(bnot(pred))
   | b1    => {bnot} b0(bnot(pred))
@@ -142,7 +142,7 @@ T Bits
 Start with the theorem we want to prove:
 
 ```javascript
-!main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
+#main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   ?
   * ?
 ```
@@ -176,7 +176,7 @@ That's because the body of a recursive function is actually the step case of ind
 Let's match against `bits`, using `self` on the motive:
 
 ```javascript
-!main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
+#main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => ?
   | b1 => ?
@@ -217,7 +217,7 @@ to   : b0(bnot(n, bnot(n, bs))) ==    bs
 All we need is to add `b0` on both sides. We can do it with `cong`, from the base libraries (`Base@0`):
 
 ```javascript
-!main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
+#main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => cong(~Bits, ~Bits, ~(<bnot(n)>)((<bnot(n)>)(pred)), ~pred, ~b0, ~main(pred))
   | b1 => ?
@@ -247,7 +247,7 @@ Type mismatch.
 We can easily complete this proof now:
 
 ```javascript
-!main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
+#main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(pred)), ~pred, ~b0, ~main(pred))
   | b1 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(pred)), ~pred, ~b1, ~main(pred))
@@ -259,7 +259,7 @@ We can easily complete this proof now:
 As usual, it could be simplified with case'd arguments:
 
 ```javascript
-!main*n : !{case bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
+#main*n : !{case bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
 | b0 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b0, ~main(bits.pred))
 | b1 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b1, ~main(bits.pred))
 | be => refl(~be)
