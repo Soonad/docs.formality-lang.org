@@ -34,7 +34,7 @@ Both programs are the same, except the later is shorter.
 
 ## Recursion
 
-Formality allows you to turn a boxed definition into a recursive function by appending `*N` to its name (where `N` is a new variable, which will track how many times the function was called), and adding a "halt-case" with a `* term` on the last line (where `term` is an expression that will be returned if the function hits its call limit). So, for example, a factorial function could be written as:
+Formality allows you to turn a boxed definition into a recursive function by appending `*N` to its name (where `N` is a new variable, which will track how many times the function was called), and adding a "halt-case" with a `halt: term` on the last line (where `term` is an expression that will be returned if the function hits its call limit). So, for example, a factorial function could be written as:
 
 ```javascript
 #fact*N : ! {i : Word} -> Word
@@ -42,7 +42,7 @@ Formality allows you to turn a boxed definition into a recursive function by app
     1
   else:
     i * fact(i - 1)
-  * 0
+halt: 0
   
 #main : !Word
   <fact*100>(12) // 100 is the call limit; write `<fact*>` to use 2^256-1
@@ -59,7 +59,7 @@ Cover things like:
 - Simple recursive functions and boxed definitions
 
     ```javascript
-    #double*N : !{case *n : Nat} -> Nat
+    #double*N : !{case halt n : Nat} -> Nat
     | succ => succ(succ(double(n.pred)))
     | zero => zero
 
@@ -73,7 +73,7 @@ Cover things like:
     #map*N : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
     | cons => cons(~B, f(list.head), map(list.tail))
     | nil  => nil(~B)
-    * nil(~B)
+    halt: nil(~B)
 
     #map.example : !List(Word)
       <map*(~Word, ~Word, #{x} x + 1)>(Word$[1,2,3,4])
@@ -99,7 +99,7 @@ Cover things like:
     r2
   | bound_zero => {e} less_zero(~zero)
   : {e : i == step(N)} -> Less(n, succ(n)))(refl(~step(N)))
-  * absurd(absurd_bound(n, bound), ~Less(n, succ(n)))
+halt: absurd(absurd_bound(n, bound), ~Less(n, succ(n)))
 ```
 
 

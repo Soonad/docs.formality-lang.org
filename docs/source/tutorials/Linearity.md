@@ -134,7 +134,7 @@ Formality has another primitive for deep-copying values, boxes. When dealing wit
 #map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
 | cons => cons(~B, f(list.head), map(list.tail))
 | nil  => nil(~B)
-* nil(~B)
+halt: nil(~B)
 ```
 
 Here, `f` is duplicated on level `0`, allowing it to be used multiple times on level `1`. The tradeoff is that, relative to programs on level `1`, `f` must be seen as static. So, if an user input arrives on level `0`, for example, it can't affect the shape of `f`.
