@@ -1,4 +1,4 @@
-# Boxes and Deep Copies
+# Boxes
 
 As explained previously, Formality includes primitives for performing deep copies of boxed terms:
 

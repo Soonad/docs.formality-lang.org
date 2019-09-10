@@ -4,30 +4,30 @@
 
 Cover things like:
 
-#### Simple recursive functions and boxed definitions
+- Simple recursive functions and boxed definitions
 
-```javascript
-!double*N : !{case *n : Nat} -> Nat
-| succ => succ(succ(double(n.pred)))
-| zero => zero
+    ```javascript
+    !double*N : !{case *n : Nat} -> Nat
+    | succ => succ(succ(double(n.pred)))
+    | zero => zero
 
-!double.example : !Nat
-  <double*>(succ(zero))
-```
+    !double.example : !Nat
+      <double*>(succ(zero))
+    ```
 
-### Polymorphic recursive functions with level-0 parameters
+- Polymorphic recursive functions with level-0 parameters
 
-```javascript
-!map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
-| cons => cons(~B, f(list.head), map(list.tail))
-| nil  => nil(~B)
-* nil(~B)
+    ```javascript
+    !map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
+    | cons => cons(~B, f(list.head), map(list.tail))
+    | nil  => nil(~B)
+    * nil(~B)
 
-!map.example : !List(Word)
-  <map*(~Word, ~Word, #{x} x + 1)>(Word$[1,2,3,4])
-```
+    !map.example : !List(Word)
+      <map*(~Word, ~Word, #{x} x + 1)>(Word$[1,2,3,4])
+    ```
 
-#### Advanced, Agda-like structural recursion with Bounds
+- Advanced, Agda-like structural recursion with Bounds
 
 ```javascript
 // ∀ n . n < n+1
