@@ -53,3 +53,10 @@ Table of contents
 
     runtime/Formality-Net
 
+.. toctree::
+    :maxdepth: 2
+    :numbered:
+    :caption: Theory
+
+    theory/TODO
+
