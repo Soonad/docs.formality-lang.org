@@ -37,7 +37,7 @@ Both programs are the same, except the later is shorter.
 Formality allows you to turn a boxed definition into a recursive function by appending `*N` to its name (where `N` is a new variable, which will track how many times the function was called), and adding a "halt-case" with a `* term` on the last line (where `term` is an expression that will be returned if the function hits its call limit). So, for example, a factorial function could be written as:
 
 ```javascript
-#fact*n : ! {i : Word} -> Word
+#fact*N : ! {i : Word} -> Word
   if i .= 0:
     1
   else:
@@ -48,7 +48,7 @@ Formality allows you to turn a boxed definition into a recursive function by app
   <fact*100>(12) // 100 is the call limit; write `<fact*>` to use 2^256-1
 ```
 
-This is not much different from the usual `fact` definition, except we explicitly set the "halt-case" to be `0` on the last line. That means that, if the function "runs out of gas", it will stop and return `0` instead. As a shortcut, if your "halt-case" is simply one of the function's argument, you can write the `*` on it instead, as in, `fact ! {*i : Word} -> Word`. 
+This is not much different from the usual `fact` definition, except we explicitly set the "halt-case" to be `0` on the last line. That means that, if the function "runs out of gas", it will stop and return `0` instead. As a shortcut, if your "halt-case" is simply one of the function's argument, you can write the `*` on it instead, as in, `fact*N ! {*i : Word} -> Word`. 
 
 The maximum recursion depth of the `Ind` defined by the base library is `2^256-1`. In other words, despite being terminating, in practice, Formality is capable of doing anything a Turing-complete language could do. After all, no language could perform more than `2^256-1` calls without getting a stack-overflow, or exhausting your computer's CPU/memory.
 
