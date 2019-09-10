@@ -8,7 +8,7 @@ syntax | effect
 `!T` | The type of a boxed term
 `dup x = t; u` | Unboxes `t` and copies it as `x` inside `u`
 
-The most important aspect to understand about boxes is how they're limited by the stratification condition. 
+The `dup` primitive is extremally important, because it performs deep copies of terms lazily, in a way that allows optimal sharing of sub-expressions. It is what makes Formality a great closure evaluator. But, in order to use it properly, you must understand how it is limited: the stratification condition.
 
 ## The Stratification Condition
 
