@@ -2,7 +2,7 @@
 
 ## Boxed definitions
 
-Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>` as the parser will automatically unbox them for you. For example, instead of this:
+Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>`'s: the parser will automatically unbox them for you. For example, instead of this:
 
 ```haskell
 foo : !Word
