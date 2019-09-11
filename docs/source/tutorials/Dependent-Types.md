@@ -6,7 +6,7 @@ Cover things like:
 
 - Returning a different type based on the function's input
 
-    ```javascript
+    ```haskell
     make_unit_or_word : {x : Bool} -> iff(x, ~Type, Unit, Word)
       case/Bool x
       | true  => unit
@@ -16,14 +16,14 @@ Cover things like:
 
 - Manipulating equalities
 
-    ```javascript
+    ```haskell
     b_is_true : {a : Bool, b : Bool, b_is_a : b == a, a_is_true : a == true} -> b == true
       b_is_a :: rewrite a in b == a with a_is_true
     ```
 
 - Specifying precise algorithm (for work outsourcing)
 
-    ```javascript
+    ```haskell
     // "I want a function that receives a bool and returns a different bool"
     Specification : Type
       {a : Bool} -> [b : Bool, ~Not(a == b)]
@@ -38,7 +38,7 @@ Cover things like:
 
 - Exploiting impossible cases to improve function's interface
 
-    ```javascript
+    ```haskell
     // If we know that a Maybe isn't none, we can extract its contents
     extract : {~A : Type, x : Maybe(A), not_none : Not(x == none(~A))} -> A
       case/Maybe x

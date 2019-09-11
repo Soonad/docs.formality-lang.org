@@ -2,7 +2,7 @@
 
 Formality's approach to termination is what makes it different from other proof languages like Agda, Idris and Coq. Instead of having native datatypes, structural recursion and so on, we go deeper and change the underlying logic of the system from intuitionist to elementary affine. This is responsible for all the claimed benefits of Formality: optimal reductions, no garbage-collection, massive parallelism, elegant inductive types and so on. But it comes with a huge tradeoff: our lambdas are affine, i.e., bound variables can't be used more than once. This limits what we can do in multiple ways. For example, we can't write a function that `and`s a `Bool` with itself:
 
-```javascript
+```haskell
 import Base@0
 
 self_and : {x : Bool} -> Bool
@@ -25,7 +25,7 @@ There are multiple ways to avoid this situation.
 
 If the "duplicated" variable is used in different branches, as in:
 
-```javascript
+```haskell
 import Base@0
 
 // Negates `b` if `a` is true
@@ -41,7 +41,7 @@ main : Bool
 
 Then, we can avoid copying `b` with a clever trick: return a lambda on each branch. Like this:
 
-```javascript
+```haskell
 import Base@0
 
 // Negates `b` if `a` is true
@@ -61,7 +61,7 @@ Notice that instead of using `b` directly, the `case/Bool` expression returns, i
 
 While the trick above is powerful, it increases code complexity. Fortunatelly, if you use `case`'d arguments instead of `case/T` expressions, Formality will automatically do it for you. For example, this works:
 
-```javascript
+```haskell
 import Base@0
 
 // Negates `b` if `a` is true
@@ -79,7 +79,7 @@ And is much less verbose than the solution above. In practice, this features all
 
 For `Word`s in particular, there is a native `cpy` operation that copies it as many times as desired:
 
-```javascript
+```haskell
 square : {x : Word} -> Word
   cpy x = x
   x * x
@@ -90,7 +90,7 @@ main : Word
 
 When a `Word` is an argument of a top-level function, then you don't even need to add `cpy`. Formality does it for you. I.e., this works:
 
-```javascript
+```haskell
 square : {x : Word} -> Word
   x * x
 
@@ -100,7 +100,7 @@ main : Word
 
 For other types, you can write an auxiliary `copy` function:
 
-```javascript
+```haskell
 import Base@0
 
 // An explicit copying function
@@ -130,7 +130,7 @@ This is also a very important technique. So, in short, when you need to use a va
 
 Formality has another primitive for deep-copying values, boxes. When dealing with data, though, you almost never want to use boxes to perform copies, due to the stratification condition, which essentially segregates the language in levels, blocks communication from higher to lower levels. Regardless, they can still be useful sometimes. See, for example, how `map` is defined for lists:
 
-```javascript
+```haskell
 #map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
 | cons => cons(~B, f(list.head), map(list.tail))
 | nil  => nil(~B)

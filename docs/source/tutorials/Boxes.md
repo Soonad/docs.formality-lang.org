@@ -14,7 +14,7 @@ The `dup` primitive is the one responsible for copying and is extremelly importa
 
 The primitives above, without restriction, would be dangerous. For example, this:
 
-```javascript
+```haskell
 main
   let f = {x}
     dup x = x
@@ -32,7 +32,7 @@ Where the level of a term is the number of boxes "wrapping" it.
 
 To understand the restriction above, you must be able to count the level of a term. Let's do it on the following example:
 
-```javascript
+```haskell
 ["a", #"b", "c", #["d", #"e"], ##"f"]
 ```
 
@@ -50,7 +50,7 @@ To understand the restriction above, you must be able to count the level of a te
 
 The type of the program above is:
 
-```javascript
+```haskell
 [:String, :!String, :String, :![:String, !String], !!String]
 ```
 
@@ -58,14 +58,14 @@ The type of the program above is:
 
 This condition is imposed globally, forbidding certain programs. For example:
 
-```javascript
+```haskell
 box : {x : Word} -> !Word 
   # x
 ```
 
 This isn't allowed because, otherwise, we would be able to increase the level of a word. Similarly, this:
 
-```javascript
+```haskell
 main : [:Word, Word]
   dup x = #42
   [x, x]
@@ -73,7 +73,7 @@ main : [:Word, Word]
 
 Isn't allowed too, because `42` would jump from `level 1` to `level 0` during runtime. But this:
 
-```javascript
+```haskell
 main : ![:Word, Word]
   dup x = #42
   # [x, x]
@@ -81,7 +81,7 @@ main : ![:Word, Word]
 
 Is fine, because `42` remains on `level 1` after being copied. And this:
 
-```javascript
+```haskell
 main : [:!Word, !Word]
   dup x = #42
   [#x, #x]
@@ -95,7 +95,7 @@ Is fine too, for the same reason.
 
 In general of this, boxes aren't very useful for copying data. That's because information can only flow from lower to higher levels. So, for example, if some piece of data is generated on level `2`, you can copy it on level `3`, but you can't use it again on level `2`. Generally, your program's logic should stay on the highest level, with the lower levels being used to copy static data and generate bounded-depth recursive functions. In fact, Formality's syntax sugars and standard libraries are designed to be used with two levels only: the level `0`, where recursive functions are created and static data is duplicated, and the level 1, where everything is used. So, for example, the `Data.List/map` function on `Base` uses level `0` to make multiple copies of `f`, which are used on level `1`:
 
-```javascript
+```haskell
 #map*n : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
 | cons => cons(~B, f(list.head), map(list.tail))
 | nil  => nil(~B)
@@ -106,7 +106,7 @@ halt: nil(~B)
 
 While Formality has a built-in syntax for recursion, it can be insightful to understand how it is implemented under the hoods. Mind the following program:
 
-```javascript
+```haskell
 ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
   dup f = f
   dup x = x
@@ -118,7 +118,7 @@ main : !Word
 
 Here, we define a function, `ten_times`, which takes a function, `f`, creates 10 copies of it, and applies to an argument, `x`. As the result, we're able to repeat the `+ 2` operation 10 times, adding `20` to `0`. This same technique can be used to implement bounded recursion. For example, here:
 
-```javascript
+```haskell
 ten_times : {~T : Type, f : !{x : T} -> T, x : !T} -> !T
   dup f = f
   dup x = x
@@ -142,7 +142,7 @@ main : !Word
 
 We "emulate" a recursive function by using `ten_times` to "build" the recursion tree of "fact" up to 10 layers deep. As such, it only works for inputs up to 10; after that, it hits the "halt" case and returns 0. The good thing about this way of doing recursion is that we're not limited to recurse on structurally smaller arguments. The bad thing is that it is a little bit verbose, requiring an explicit bound, and a halting case for when the function "runs out of gas". Moreover, since we used `ten_times` to make the function, it comes inside a box, on `level 1`. In other words, it is impossible to use it on `level 0`! Instead, we must use the `level 0` to unbox it (with a `dup`), and then use it on `level 1`. As usual, you could simplify it with a boxed definition:
 
-```javascript
+```haskell
 #main : !Word
   <fact>(6)
 ```
@@ -155,7 +155,7 @@ Formality's recursion syntax builds a similar program, except:
 
 So, for example, when you write:
 
-```javascript
+```haskell
 #fact*N : ! {i : Word} -> Word
   if i .= 0:
     1

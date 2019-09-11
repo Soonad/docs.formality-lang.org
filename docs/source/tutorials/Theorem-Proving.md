@@ -6,7 +6,7 @@
 
 Let's prove a theorem about the boolean `not`:
 
-```javascript
+```haskell
 import Base@0
 
 main : {b : Bool} -> not(not(b)) == b
@@ -28,7 +28,7 @@ Hole found.
 
 Let's pattern-match on `b`.
 
-```javascript
+```haskell
 import Base@0
 
 main : {b : Bool} -> not(not(b)) == b
@@ -60,7 +60,7 @@ Hole found.
 
 Using `self` on the motive:
 
-```javascript
+```haskell
 import Base@0
 
 main : {b : Bool} -> not(not(b)) == b
@@ -92,7 +92,7 @@ Hole found.
 
 If we reduce both sides, we get the same expression: `{true, false} => true`. In this case, we can use `refl`:
 
-```javascript
+```haskell
 import Base@0
 
 main : {b : Bool} -> not(not(b)) == b
@@ -117,7 +117,7 @@ Hole found.
 
 We can do the same:
 
-```javascript
+```haskell
 import Base@0
 
 main : {b : Bool} -> not(not(b)) == b
@@ -129,7 +129,7 @@ main : {b : Bool} -> not(not(b)) == b
 
 No type error. Our proof is complete! Note that, if we used `case`'d args, Formality would fill the `self` on the motive for us. The proof becomes just:
 
-```javascript
+```haskell
 import Base@0
 
 main : {case b : Bool} -> not(not(b)) == b
@@ -141,7 +141,7 @@ main : {case b : Bool} -> not(not(b)) == b
 
 Let's prove a similar theorem, but for negation on arbitrary-length bit-strings instead of plain booleans:
 
-```javascript
+```haskell
 import Base@0
 
 // Imported from Base@0
@@ -160,7 +160,7 @@ import Base@0
 
 Start with the theorem we want to prove:
 
-```javascript
+```haskell
 #main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   ?
   * ?
@@ -171,7 +171,7 @@ Remember that `*` is mandatory on recursive definition to provide the base-case.
 
 The type checker complains:
 
-```javascript
+```haskell
 Type mismatch.
 - Found type... Hole
 - Instead of... bnot(step(n), bnot(step(n), bits)) == bits
@@ -194,7 +194,7 @@ That's because the body of a recursive function is actually the step case of ind
 
 Let's match against `bits`, using `self` on the motive:
 
-```javascript
+```haskell
 #main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => ?
@@ -222,20 +222,20 @@ Type mismatch.
 
 This is better because now it expects `b0(pred)` instead of just `bits` . This allows the left-side of the equation to be reduced to:
 
-```javascript
+```haskell
 b0(bnot(n, bnot(n, pred))) == b0(pred)
 ```
 
 This is perfect because we can use the inductive hypothesis to get this same equation, without the `b0`s. As in, we need to go...
 
-```javascript
+```haskell
 from :    bnot(n, bnot(n, bs))  == b0(bs)
 to   : b0(bnot(n, bnot(n, bs))) ==    bs
 ```
 
 All we need is to add `b0` on both sides. We can do it with `cong`, from the base libraries (`Base@0`):
 
-```javascript
+```haskell
 #main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => cong(~Bits, ~Bits, ~(<bnot(n)>)((<bnot(n)>)(pred)), ~pred, ~b0, ~main(pred))
@@ -265,7 +265,7 @@ Type mismatch.
 
 We can easily complete this proof now:
 
-```javascript
+```haskell
 #main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   case/Bits bits
   | b0 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(pred)), ~pred, ~b0, ~main(pred))
@@ -277,7 +277,7 @@ We can easily complete this proof now:
 
 As usual, it could be simplified with case'd arguments:
 
-```javascript
+```haskell
 #main*n : !{case bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
 | b0 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b0, ~main(bits.pred))
 | b1 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b1, ~main(bits.pred))

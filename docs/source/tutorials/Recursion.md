@@ -4,7 +4,7 @@
 
 Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>` as the parser will automatically unbox them for you. For example, instead of this:
 
-```javascript
+```haskell
 foo : !Word
   #40
 
@@ -19,7 +19,7 @@ main : !Word
 
 We could write:
 
-```javascript
+```haskell
 #foo : !Word
   40
 
@@ -36,7 +36,7 @@ Both programs are the same, except the later is shorter.
 
 Formality allows you to turn a boxed definition into a recursive function by appending `*N` to its name (where `N` is a new variable, which will track how many times the function was called), and adding a "halt-case" with a `halt: term` on the last line (where `term` is an expression that will be returned if the function hits its call limit). So, for example, a factorial function could be written as:
 
-```javascript
+```haskell
 #fact*N : ! {i : Word} -> Word
   if i .= 0:
     1
@@ -47,7 +47,7 @@ halt: 0
 
 This is not much different from the usual `fact` definition, except we explicitly set the "halt-case" to be `0` on the last line. That means that, if the function "runs out of gas", it will stop and return `0` instead. As a shortcut, if your "halt-case" is simply one of the function's argument, you can write the `*` on it instead, as in, `fact*N ! {*i : Word} -> Word`. To call it, you must set an explicit max call limit with `*N`:
 
-```javascript
+```haskell
 main : !Word
   dup f = fact*100
   # f(12)
@@ -55,7 +55,7 @@ main : !Word
 
 Or, with boxed definitions:
 
-```javascript 
+```haskell 
 #main : !Word
   <fact*100>(12)
 ```
@@ -68,7 +68,7 @@ Cover things like:
 
 - Simple recursive functions and boxed definitions
 
-    ```javascript
+    ```haskell
     #double*N : !{case halt n : Nat} -> Nat
     | succ => succ(succ(double(n.pred)))
     | zero => zero
@@ -79,7 +79,7 @@ Cover things like:
 
 - Polymorphic recursive functions with level-0 parameters
 
-    ```javascript
+    ```haskell
     #map*N : {~A : Type, ~B : Type, f : !A -> B} -> ! {case list : List(A)} -> List(B)
     | cons => cons(~B, f(list.head), map(list.tail))
     | nil  => nil(~B)
@@ -91,14 +91,14 @@ Cover things like:
 
 - Indexed recursive functions using `N`
 
-```javascript
+```haskell
 ... vector stuff, fin stuff, etc...
 ```
 
 
 - Structural recursive proofs with Bounds
 
-```javascript
+```haskell
 // ∀ n . n < n+1
 #less_than_succ*N : !{n : Nat, bound : Bound(n, N)} -> Less(n, succ(n))
   (case/Bound bound
