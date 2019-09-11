@@ -33,19 +33,7 @@ Table of contents
    language/3.Hello,-world!
    language/4.Core-Features
    language/5.Datatypes
-
    
-.. toctree::
-    :maxdepth: 2
-    :caption: Tutorials
-    :numbered:
-
-    tutorials/Dependent-Types
-    tutorials/Recursion
-    tutorials/Linearity
-    tutorials/Boxes
-    tutorials/Theorem-Proving
-
 .. toctree::
     :maxdepth: 2
     :numbered:
@@ -59,4 +47,16 @@ Table of contents
     :caption: Theory
 
     theory/TODO
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Tutorials
+    :numbered:
+
+    tutorials/Dependent-Types
+    tutorials/Recursion
+    tutorials/Linearity
+    tutorials/Boxes
+    tutorials/Theorem-Proving
+
 
