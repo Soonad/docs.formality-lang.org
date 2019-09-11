@@ -1,6 +1,6 @@
 ## Dependent Types
 
-(TODO)
+**Obs: Work in progress**
 
 Cover things like:
 
@@ -21,7 +21,7 @@ Cover things like:
       b_is_a :: rewrite a in b == a with a_is_true
     ```
 
-- Specifying precise algorithsm (for work outsourcing)
+- Specifying precise algorithm (for work outsourcing)
 
     ```javascript
     // "I want a function that receives a bool and returns a different bool"

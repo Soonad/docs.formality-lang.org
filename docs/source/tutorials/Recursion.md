@@ -2,7 +2,7 @@
 
 ## Boxed definitions
 
-Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>`s: the parser will automatically unbox them for you. For example, instead of this:
+Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>` as the parser will automatically unbox them for you. For example, instead of this:
 
 ```javascript
 foo : !Word
@@ -60,9 +60,9 @@ Or, with boxed definitions:
   <fact*100>(12)
 ```
 
-The `f*N` syntax configures the call limit of a recursive function. Here, we used `100`. Note this is actually just a shortcut for a function application: we could have written `fact(*100)` instead. We could also have omitted the number, as in, `<fact*>(x)`, which would default to `2^256-1`. This limit is so absurdly large that, for all practical purposes, our functions are no less powerful than the ones found in other languages. After all, `2^256-1` is so large that no real computer could reach this amount of calls anyway. In fact, the entire observable universe has less particles than that!
+The `f*N` syntax configures the call limit of a recursive function. Here, we used `100`. Note this is actually just a shortcut for a function application: we could have written `fact(*100)` instead. We could also have omitted the number as in `<fact*>(x)`, which would default to `2^256-1`. This limit is so absurdly large that, for all practical purposes, our functions are no less powerful than the ones found in other languages. After all, `2^256-1` is so large that no real computer could reach this amount of calls anyway. In fact, the entire observable universe has less particles than that!
 
-## (TODO)
+**Obs: Work in progress**
 
 Cover things like:
 
