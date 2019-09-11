@@ -1,6 +1,6 @@
 ## Theorem Proving
 
-TODO: review and update with correct error messages (after the `Hole` update). Also talk about `log(x)`.
+**TODO**: review and update with correct error messages (after the `Hole` update). Also talk about `log(x)`.
 
 ### Simple proofs
 
@@ -16,13 +16,14 @@ main : {b : Bool} -> not(not(b)) == b
 Evaluate it using `fm -t <file>/main` and the type checker complains:
 
 ```shell
-Type mismatch.
-- Found type... Hole
-- Instead of... (not(not(b)) == b)
-- When checking ?
-- On expression {b} => ?
-- With the following context:
+[ERROR]
+Hole found.
+- With goal... not(not(b)) == b
+- Inside of... {b} => ?
+- With context:
 - b : Bool
+
+{b : Bool} -> not(not(b)) == b
 ```
 
 Let's pattern-match on `b`.
@@ -40,13 +41,21 @@ main : {b : Bool} -> not(not(b)) == b
 Not helpful:
 
 ```shell
-Type mismatch.
-- Found type... Hole
-- Instead of... (not(not(b)) == b)
-- When checking ?
-- On expression (%b)(~{self} => (not(not(b)) == b), ?)
-- With the following context:
+[ERROR]
+Hole found.
+- With goal... not(not(b)) == b
+- Inside of... (%b)(~{self} => not(not(b)) == b, ?)
+- With context:
 - b : Bool
+
+[ERROR]
+Hole found.
+- With goal... not(not(b)) == b
+- Inside of... (%b)(~{self} => not(not(b)) == b, ?, ?)
+- With context:
+- b : Bool
+
+{b : Bool} -> not(not(b)) == b
 ```
 
 Using `self` on the motive:
@@ -63,14 +72,22 @@ main : {b : Bool} -> not(not(b)) == b
 
 Progress, `b`s is specialized `true` on the expected type of the `true` branch:
 
-```haskell
-Type mismatch.
-- Found type... Hole
-- Instead of... (not(not(true)) == true)
-- When checking ?
-- On expression (%b)(~{self} => (not(not(self)) == self), ?)
-- With the following context:
+```shell
+[ERROR]
+Hole found.
+- With goal... not(not(true)) == true
+- Inside of... (%b)(~{self} => not(not(self)) == self, ?)
+- With context:
 - b : Bool
+
+[ERROR]
+Hole found.
+- With goal... not(not(false)) == false
+- Inside of... (%b)(~{self} => not(not(self)) == self, ?, ?)
+- With context:
+- b : Bool
+
+{b : Bool} -> not(not(b)) == b
 ```
 
 If we reduce both sides, we get the same expression: `{true, false} => true`. In this case, we can use `refl`:
@@ -88,13 +105,14 @@ main : {b : Bool} -> not(not(b)) == b
 Progress, compiler now complains about the `false` branch:
 
 ```shell
-Type mismatch.
-- Found type... Hole
-- Instead of... (not(not(false)) == false)
-- When checking ?
-- On expression (%b)(~{self} => (not(not(self)) == self), refl(~true), ?)
-- With the following context:
+[ERROR]
+Hole found.
+- With goal... not(not(false)) == false
+- Inside of... (%b)(~{self} => not(not(self)) == self, refl(~true), ?)
+- With context:
 - b : Bool
+
+{b : Bool} -> not(not(b)) == b
 ```
 
 We can do the same:
@@ -126,10 +144,11 @@ Let's prove a similar theorem, but for negation on arbitrary-length bit-strings 
 ```haskell
 import Base@0
 
-T Bits
-| b0 {pred : Bits}
-| b1 {pred : Bits}
-| be
+// Imported from Base@0
+// T Bits
+// | b0 {pred : Bits}
+// | b1 {pred : Bits}
+// | be
 
 #bnot*n : !{*bits : Bits} -> Bits
   (case/Bits bits

@@ -8,7 +8,7 @@ syntax | effect
 `!T` | The type of a boxed term
 `dup x = t; u` | Unboxes `t` and copies it as `x` inside `u`
 
-The `dup` primitive is the one responsible for copying, and is is extremelly important, as it performs those copies lazily, in a way that allows optimal sharing of sub-expressions. It is what makes Formality a great closure evaluator. But, in order to use it properly, you must understand how it is limited: the stratification condition.
+The `dup` primitive is the one responsible for copying and is extremelly important as it performs those copies lazily, in a way that allows optimal sharing of sub-expressions. It is what makes Formality a great closure evaluator. But, in order to use it properly, you must understand how it is limited: the stratification condition.
 
 ## The Stratification Condition
 
@@ -22,7 +22,7 @@ main
   f(#f)
 ```
 
-Would loop forever, which should never happen in a terminating language. To solve that, Formality relies on the **stratification condition**. It, in short, enforces the following invariant:
+Would loop forever, which should never happen in a terminating language. To solve that, Formality relies on the **stratification condition**. In short, it enforces the following invariant:
 
 > The level of a term can never change during the program evaluation.
 
@@ -151,7 +151,7 @@ Formality's recursion syntax builds a similar program, except:
 
 1. Instead of a hard-coded max call limit, it is configurable `*N`.
 
-2. Instead of simple repetition, it uses Nat induction, allowing you to use the call count, `N`, in types.
+2. Instead of simple repetition, it uses `Nat` induction, allowing you to use the call count, `N`, in types.
 
 So, for example, when you write:
 

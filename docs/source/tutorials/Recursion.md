@@ -2,7 +2,7 @@
 
 ## Boxed definitions
 
-Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>`s: the parser will automatically unbox them for you. For example, instead of this:
+Since bounded recursive functions are so common, Formality has built-in syntax for them, relying on "boxed definitions". To make a boxed definition, prepend `#` to its name. That has two effects. First, the whole definition is lifted to `level 1`. Second, it allows you to use boxed definitions inside `<>`'s: the parser will automatically unbox them for you. For example, instead of this:
 
 ```haskell
 foo : !Word
@@ -60,15 +60,15 @@ Or, with boxed definitions:
   <fact*100>(12)
 ```
 
-The `f*N` syntax configures the call limit of a recursive function. Here, we used `100`. Note this is actually just a shortcut for a function application: we could have written `fact(*100)` instead. We could also have omitted the number, as in, `<fact*>(x)`, which would default to `2^256-1`. This limit is so absurdly large that, for all practical purposes, our functions are no less powerful than the ones found in other languages. After all, `2^256-1` is so large that no real computer could reach this amount of calls anyway. In fact, the entire observable universe has less particles than that!
+The `f*N` syntax configures the call limit of a recursive function. Here, we used `100`. Note this is actually just a shortcut for a function application: we could have written `fact(*100)` instead. We could also have omitted the number as in `<fact*>(x)`, which would default to `2^256-1`. This limit is so absurdly large that, for all practical purposes, our functions are no less powerful than the ones found in other languages. After all, `2^256-1` is so large that no real computer could reach this amount of calls anyway. In fact, the entire observable universe has less particles than that!
 
 ## Structural Recursion
 
 When it comes to inductive proofs, the need for a halt-case on Formality's recursive function syntax can be limiting to deal with. For example, you can't easily prove that `add(a,b) = add(b,a)`, since that is not actually true when the `add` function hits its call limit! The more traditional structural recursion that other languages feature is more flexible in tha tsense. There are interesting work-arounds this problem, such as writing `add` in a way that consumes both sizes simultaneously. A general solution, though, is still missing from the language, as we're debating the best way to do it.
 
-We have some great candidates, though. As an example, we could use `Bound`, as detailed on [this commit](https://github.com/moonad/Formality-Base/commit/b777d806c6fa37f2ce306fbe87b3ed267152b90c). It allows us to prove that our arguments are decreasing in size, essentially emulating Coq's structural recursion. This is really cool, as it allows us to avoid writing the (provably unreachable) halt-case! But it still requires a lot of manual boilerplate to do correctly. If you don't want that, we suggest you to avoid writing complex inductive proofs in Formality for now. In a future, we'll probably add syntax sugars for structural recursion (or something equivalen), making those proofs much less cumbersome.
+We have some great candidates, though. As an example, we could use `Bound`, as detailed on [this commit](https://github.com/moonad/Formality-Base/commit/b777d806c6fa37f2ce306fbe87b3ed267152b90c). It allows us to prove that our arguments are decreasing in size, essentially emulating Coq's structural recursion. This is really cool, as it allows us to avoid writing the (provably unreachable) halt-case! But it still requires a lot of manual boilerplate to do correctly. If you don't want that, we suggest you to avoid writing complex inductive proofs in Formality for now. In a future, we'll probably add syntax sugars for structural recursion (or something equivalent), making those proofs much less cumbersome.
 
-## (TODO)
+**Obs: Work in progress**
 
 Cover things like:
 
