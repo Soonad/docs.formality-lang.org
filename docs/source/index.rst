@@ -59,4 +59,9 @@ Table of contents
     tutorials/Boxes
     tutorials/Theorem-Proving
 
+.. toctree::
+    :maxdepth: 2
+    :caption: Articles
+    :numbered:
 
+    tutorials/What-Are-Proofs
