@@ -150,12 +150,10 @@ import Base@0
 // | b1 {pred : Bits}
 // | be
 
-#bnot*n : !{*bits : Bits} -> Bits
-  (case/Bits bits
-  | b0    => {bnot} b1(bnot(pred))
-  | b1    => {bnot} b0(bnot(pred))
-  | be    => {bnot} be
-  : {bnot : {bits : Bits} -> Bits} -> Bits)(bnot)
+#bnot*n : !{case halt bits : Bits} -> Bits
+| b0 => b1(bnot(bits.pred))
+| b1 => b0(bnot(bits.pred))
+| be => be
 ```
 
 Start with the theorem we want to prove:
@@ -163,11 +161,11 @@ Start with the theorem we want to prove:
 ```haskell
 #main*n : !{bits : Bits} -> <bnot(n)>(<bnot(n)>(bits)) == bits
   ?
-  * ?
+  halt: ?
 ```
 
 
-Remember that `*` is mandatory on recursive definition to provide the base-case. TODO: explain why the `-#`s on the type. 
+Remember that `halt:` is mandatory on recursive definition to provide the base-case. TODO: explain why the `-#`s on the type. 
 
 The type checker complains:
 
@@ -201,7 +199,7 @@ Let's match against `bits`, using `self` on the motive:
   | b1 => ?
   | be => ?
   : <bnot(step(n))>(<bnot(step(n))>(self)) == self
-  * ?
+  halt: ?
 ```
 
 Now the complaint becomes:
@@ -242,7 +240,7 @@ All we need is to add `b0` on both sides. We can do it with `cong`, from the bas
   | b1 => ?
   | be => ?
   : <bnot(step(n))>(<bnot(step(n))>(self)) == self
-  * ?
+  halt: ?
 ```
 
 TODO: should we have a built-in syntax to simplify `cong`?
@@ -272,7 +270,7 @@ We can easily complete this proof now:
   | b1 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(pred)), ~pred, ~b1, ~main(pred))
   | be => refl(~be)
   : <bnot(step(n))>(<bnot(step(n))>(self)) == self
-  * refl(~bits)
+  halt: refl(~bits)
 ```
 
 As usual, it could be simplified with case'd arguments:
@@ -282,7 +280,7 @@ As usual, it could be simplified with case'd arguments:
 | b0 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b0, ~main(bits.pred))
 | b1 => cong(~Bits, ~Bits, ~<bnot(n)>(<bnot(n)>(bits.pred)), ~bits.pred, ~b1, ~main(bits.pred))
 | be => refl(~be)
-* refl(~bits)
+halt: refl(~bits)
 ```
 
 Note that the big difference here, with relation to Agda/Coq proofs, is that, in their cases, since recursive functions are defined by structural recursion, inductive proofs are also defined by recursion on the structure. For example, if we wanted to prove this theorem in Agda, we'd just match the bit-string, prove the base case by reflexivity, and prove the recursive case by calling `main` recursively on `pred`.
