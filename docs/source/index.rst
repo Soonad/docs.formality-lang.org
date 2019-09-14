@@ -59,3 +59,4 @@ Table of contents
     :numbered:
 
     articles/What-Are-Proofs
+    articles/Why-Not-X-Instead
