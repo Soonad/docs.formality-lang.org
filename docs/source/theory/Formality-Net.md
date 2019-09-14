@@ -6,7 +6,7 @@ main one, plus a list of "rewrite rules" that are activated whenever two nodes
 are connected by their main ports. Our system includes 6 types of nodes, ERA,
 CON, OP1, OP2, ITE, NUM.
 
-![](https://raw.githubusercontent.com/moonad/Formality/master/docs/images/fm-net-node-types.png)
+![](https://raw.githubusercontent.com/moonad/Formality/master/archive/images/fm-net-node-types.png)
 
 - `CON` has 3 ports and an integer label. It is used to represent lambdas,
   applications, boxes (implicitly) and duplications. Since FM-Core is based on
@@ -37,7 +37,7 @@ In order to perform computations, FM-Net has a set of rewrite rules that are
 triggered whenever two nodes are connected by their main ports. This is an
 extensive list of those rules:
 
-![](https://raw.githubusercontent.com/moonad/Formality/master/docs/images/fm-net-rewrite-rules.png)
+![](https://raw.githubusercontent.com/moonad/Formality/master/archive/images/fm-net-rewrite-rules.png)
 
 Note that, while there are many rules (since we need to know what to do on each
 combination of a node), most of those have the same "shape" (such as OP2-OP2,
@@ -98,7 +98,7 @@ Those rules allow us to add, multiply, divide and so on native numbers.
 The process of compiling FM-Core to FM-Net can be defined by the following
 function `k_b(net)`:
 
-![](https://raw.githubusercontent.com/moonad/Formality/master/docs/images/fm-net-compilation.png)
+![](https://raw.githubusercontent.com/moonad/Formality/master/archive/images/fm-net-compilation.png)
 
 This function recursively walks through a term, creating nodes and "temporary
 variables" (`x_b`) in the process. It also keeps track of the number of boxes it

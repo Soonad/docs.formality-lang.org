@@ -37,16 +37,10 @@ Table of contents
 .. toctree::
     :maxdepth: 2
     :numbered:
-    :caption: Runtime
-
-    runtime/Formality-Net
-
-.. toctree::
-    :maxdepth: 2
-    :numbered:
     :caption: Theory
 
-    theory/TODO
+    theory/Formality-Net
+    theory/Self-Types
 
 .. toctree::
     :maxdepth: 2
@@ -64,4 +58,4 @@ Table of contents
     :caption: Articles
     :numbered:
 
-    tutorials/What-Are-Proofs
+    articles/What-Are-Proofs

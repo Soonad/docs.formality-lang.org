@@ -22,7 +22,7 @@ main : Spec
   negate
 ```
 
-But if you change any of the returned bools, it won't work anymore. It is literally impossible to make anything other than a boolean negation pass! This extreme expressiveness of the type language allows you to specify complex properties about software. For example, this one:
+But if you change any of the returned bools, it won't work anymore. It is literally impossible to make anything other than a boolean negation pass! In other words, a term of type `Spec` **proves** he specification represented by it. That's what theorem proving is; it is nothing but a fancy way to say *"type-checking in a language that has very precise types"*. And Formality types can be arbitrarily expressive. For example, this `Spec`:
 
 ```javascript
 Spec : Type
@@ -33,7 +33,7 @@ Spec : Type
     } -> [x : A ~ At(A,x,len,idx,vec)] // Returns the element `x` that is at index `idx` of that `vec`
 ```
 
-specifies an array accessor that can't have an out-of-bounds error, and that can't return the wrong element! If OpenSSL proved that Spec, we wouldn't have Heartbleed. And the cool thing is that those proofs happen statically, they have zero runtime costs!
+specifies an array accessor that can't have an out-of-bounds error, and that can't return the wrong element! If OpenSSL proved it, we wouldn't have Heartbleed. And the cool thing is that those proofs happen statically, they have zero runtime costs!
 
 In the context of smart-contracts, we could have specs like "this contract's balance satisfies certain invariant", completely preventing things like TheDAO being drained. Of course, proofs can be huge and ugly, but that's ok, developers are paid to work hard and write good software. The point is to have a small list of simple specifications that users can read and be confident the smart-contract behaves as desired, without having to trust its developers.
 
