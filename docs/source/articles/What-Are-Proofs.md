@@ -22,7 +22,7 @@ main : Spec
   negate
 ```
 
-But if you change any of the returned bools, it won't work anymore. It is literally impossible to make anything other than a boolean negation pass! In other words, a term of type `Spec` **proves** he specification represented by it. That's what theorem proving is; it is nothing but a fancy way to say *"type-checking in a language that has very precise types"*. And Formality types can be arbitrarily precise. For example, this `Spec`:
+But if you change any of the returned bools, it won't work anymore. It is literally impossible to make anything other than a boolean negation pass! In other words, a term of type `Spec` **proves** the specification represented by it. That's what theorem proving is; it is nothing but a fancy way to say *"type-checking in a language that has very precise types"*. And Formality types can be arbitrarily precise. For example, this `Spec`:
 
 ```javascript
 Spec : Type
