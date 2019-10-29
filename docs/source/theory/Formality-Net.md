@@ -129,24 +129,24 @@ In our implementation, we use a buffer of 32-bit unsigned integers to represent
 nodes, as follows:
 
 - `CON`: represented by 4 consecutive uints. The first 3 represent the `main`,
-  `aux0` and `aux1` ports. The last one represents the node type (2 bits),
-  whether its ports are pointers or unboxed numbers (3 bits), and the label (27
+  `aux0` and `aux1` ports. The last one represents the node type (3 bits),
+  whether its ports are pointers or unboxed numbers (3 bits), and the label (26
   bits).
 
 - `OP1`: represented by 4 consecutive uints. The first and third represent
   the `main` and `aux0` ports. The second represents the stored number. The
   last one represents the node type (2 bits), whether its ports are pointers
-  or unboxed numbers (3 bits, 1 unused), and the operation (27 bits).
+  or unboxed numbers (3 bits, 1 unused), and the operation (26 bits).
 
 - `OP2`: represented by 4 consecutive uints. The first 3 represent the `main`,
-  `aux0` and `aux1` ports. The last one represents the node type (2 bits),
+  `aux0` and `aux1` ports. The last one represents the node type (3 bits),
   whether its ports are pointers or unboxed numbers (3 bits), and the operation
-  (27 bits).
+  (26 bits).
 
 - `ITE`: represented by 4 consecutive uints. The first 3 represent the `main`,
-  `aux0` and `aux1` ports. The last one represents the node type (2 bits),
+  `aux0` and `aux1` ports. The last one represents the node type (3 bits),
   whether its ports are pointers or unboxed numbers (3 bits), and the label
-  (27 bits).
+  (26 bits).
 
 - `ERA`: is stored inside other nodes and do not use any extra space. An `ERA`
   node is represented by a pointer port which points to itself. That's because
