@@ -144,7 +144,7 @@ We "emulate" a recursive function by using `ten_times` to "build" the recursion 
 
 ```haskell
 #main : !Word
-  <fact>(6)
+  ($fact)(6)
 ```
 
 Formality's recursion syntax builds a similar program, except: 
@@ -164,4 +164,4 @@ So, for example, when you write:
 halt: 0
 ```
 
-It gives you a `fact : {N : Ind} -> !{n : Word} -> Word`, instead of a `fact : !{n : Word} -> Word`. You can call it inside a boxed definition with `<fact*MAX_CALLS>(x)`.
+It gives you a `fact : {N : Ind} -> !{n : Word} -> Word`, instead of a `fact : !{n : Word} -> Word`. You can call it inside a boxed definition with `($fact*MAX_CALLS)(x)`.

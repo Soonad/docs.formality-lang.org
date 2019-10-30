@@ -2,6 +2,8 @@
 
 **TODO**: review and update with correct error messages (after the `Hole` update). Also talk about `log(x)`.
 
+**TODO**: this article is outdated since there isn't an equality primitive anymore. It must be updated to use `Data.Equal` instead.
+
 ### Simple proofs
 
 Let's prove a theorem about the boolean `not`:
