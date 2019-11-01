@@ -6,7 +6,7 @@ Since proofs are, for most devs, the most unusual aspect of Formality, I've put 
 import Base@0
 
 Spec : Type
-  {a : Bool} -> [b : Bool ~ Not(a == b)]
+  {a : Bool} -> [b : Bool ~ Not(Equal(Bool, %a, %b))]
 ```
 
 This code specifies *"a function that receives a Bool `a`, and returns a bool `b`,* ***such that*** `a != b`*"*. Can you see how there is only one `Bool -> Bool` function that satisfies that specification? And the cool thing is that the compiler can verify if a function satisfies it mechanically, without room for error. So, this works:
