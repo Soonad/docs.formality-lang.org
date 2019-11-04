@@ -47,11 +47,11 @@ Table of contents
     :caption: Tutorials
     :numbered:
 
-    tutorials/Dependent-Types
-    tutorials/Recursion
-    tutorials/Linearity
-    tutorials/Boxes
-    tutorials/Theorem-Proving
+    tutorials/1.Dependent-Types
+    tutorials/2.Recursion
+    tutorials/3.Linearity
+    tutorials/4.Boxes
+    tutorials/5.Theorem-Proving
 
 .. toctree::
     :maxdepth: 2
