@@ -19,11 +19,11 @@ how the language looks, please take a look at files such as `Data.Bool.fm
 from `Formality-Base <https://github.com/moonad/Formality-Base>`_, our official
 standard libraries.
 
-NOTE: this documentation is slightly outdated after the syntax changes of
-November 13, 2019 (version 0.1.170). We're going to move docs to a brand new
-site, though, so this will be outdated for the next few days. On the meantime,
-check the base libraries (http://github.com/moonad/formality-base) to see the
-current syntax.
+THIS IS OUTDATED
+================
+
+This documentation is outdated. The official documentation was moved to
+https://github.com/moonad/Formality/blob/master/DOCUMENTATION.md.
 
 Table of contents
 =====================================
